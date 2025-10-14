@@ -1,0 +1,9 @@
+@import './base.css';
+
+:root {
+  --navbar-height: 64px;
+}
+
+body {
+  padding-top: var(--navbar-height);
+}
