@@ -1,15 +1,20 @@
 <template>
-  <button class="primary-button">
+  <button class="primary-button" @click="buttonClick">
     {{ label }}
   </button>
 </template>
 
 <script setup lang="ts">
 
-defineProps<{
-  label: string,
-  icon: String
-}>()
+const props = defineProps({
+  label: String,
+})
+const emit = defineEmits(['emit'])
+
+
+function buttonClick(){
+  emit('emit')
+}
 </script>
 
 <style scoped>
@@ -32,10 +37,5 @@ defineProps<{
 
 .primary-button:active {
   transform: scale(0.96);
-}
-
-.primary-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
 }
 </style>

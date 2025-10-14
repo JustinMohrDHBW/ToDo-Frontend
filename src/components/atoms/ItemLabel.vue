@@ -18,6 +18,7 @@ p {
     white-space: normal;
     overflow-wrap: anywhere;
     margin: 0;
+    color: #333333;
 }
 
 </style>

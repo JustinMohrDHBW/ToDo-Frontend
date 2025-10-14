@@ -4,14 +4,7 @@ import TodoItem from '@/components/molecules/TodoItem.vue';
 import OptionsBar from '@/components/organisms/OptionsBar.vue';
 
 
-fetch('/test.json')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data)
-  })
-  .catch(error => {
-    console.error('Error:', error)
-  })
+// Removed test.json fetch - file doesn't exist
 
 </script>
 
