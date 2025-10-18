@@ -6,7 +6,10 @@
 
       <template #content>
 
-        <AddCategoryItem hint-text="New Category"/>
+        <AddCategoryItem 
+        hint-text="New Category"
+        @add-category="saveNewCategory" 
+        />
 
         <div id="category-item">
             <CategoryItem v-for="(category, index) in store.categories" :key="index"
@@ -18,8 +21,7 @@
       </template>
 
         <template #action-buttons>
-          <ButtonAtom label="Speichern"/>
-          <ButtonAtom label="Abbrechen"/>
+          <ButtonAtom label="Abbrechen" @click="switchDialogShowState"/>
         </template>
 
     </DialogFrame>
@@ -39,6 +41,10 @@ import CategoryItem from './molecules/CategoryItem.vue';
   const store = useTodoStore()
 
   const isDialogShown = ref(false)
+
+  function saveNewCategory(categoryName:string) {
+    console.log('Speichere:', categoryName);
+  }
 
   function switchDialogShowState(){
     isDialogShown.value = !isDialogShown.value;

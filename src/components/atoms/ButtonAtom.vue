@@ -1,5 +1,7 @@
 <template>
-  <button class="primary-button">
+  <button 
+    class="primary-button"
+    :disabled="props.disabled"  >
     {{ label }}
   </button>
 </template>
@@ -8,7 +10,12 @@
 
 const props = defineProps({
   label: String,
+  disabled: {
+    type: Boolean,
+    default: false
+  }
 })
+
 </script>
 
 <style scoped>
@@ -31,5 +38,10 @@ const props = defineProps({
 
 .primary-button:active {
   transform: scale(0.96);
+}
+
+.primary-button:disabled {
+  background-color: #9ca3af;
+  opacity: 0.7;
 }
 </style>

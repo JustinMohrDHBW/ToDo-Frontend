@@ -1,25 +1,32 @@
 <template>
 
 <div id="input-frame">
-    <InputFieldAtom :place-holder="hintText" v-model="input"/>
-    <ButtonAtom label="+" @click="addCategoryItem"/>
+    <InputFieldAtom :place-holder="hintText" v-model="newCategoryName"/>
+    <ButtonAtom 
+    label="+"
+    @click="addCategoryItem"
+    :disabled="newCategoryName.trim() === ''"/>
 </div>
 
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ButtonAtom from '../atoms/ButtonAtom.vue';
 import InputFieldAtom from '../atoms/InputFieldAtom.vue';
+import ButtonAtom from '../atoms/ButtonAtom.vue';
 
-const input = ref()
+const emit = defineEmits(['add-category']);
+
+const newCategoryName = ref('');
 
 const props = defineProps({
     hintText: String
 })
 
 function addCategoryItem() {
-    console.log(`not ready: ${input.value}`)
+
+  emit('add-category', newCategoryName.value);
+
 }
 
 </script>

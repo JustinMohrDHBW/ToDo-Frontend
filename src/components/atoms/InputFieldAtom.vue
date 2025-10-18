@@ -4,14 +4,15 @@
         class="minimal-input" 
         type="text" 
         :placeholder="placeHolder" 
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        v-model="model"
       />
     </div>
 </template>
   
 <script setup lang="ts">
+import { defineModel, ref } from 'vue';
 
-defineEmits(['update:modelValue'])
+const model = defineModel()
 
 const props = defineProps({
     placeHolder: String

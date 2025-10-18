@@ -32,10 +32,6 @@ function closeDialog(){
     emit('closeDialog')
 }
 
-function cancleInput(){
-    emit('closeDialog')
-}
-
 </script>
 
 <style scoped>
