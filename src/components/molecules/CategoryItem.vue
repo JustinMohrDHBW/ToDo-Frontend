@@ -1,8 +1,8 @@
 <template>
 
-<div id="item-frame" @click="selectItem">
+<div id="item-frame" @click.self="selectItem">
     <p>{{ categoryName }}</p>
-    <ButtonAtom label="X"/>
+    <ButtonAtom label="X" @click="deleteCategory"/>
 </div>
 
 </template>
@@ -10,17 +10,19 @@
 <script setup lang="ts">
 import ButtonAtom from '../atoms/ButtonAtom.vue';
 
-const emit = defineEmits(['emit'])
+const emit = defineEmits(['selectCategory', 'deleteCategory'])
 
 const props = defineProps({
     categoryName: String,
-    index: Number
+    categoryId: {type: String, required: true}
 })
 
-const index = props.index
-
 function selectItem(){
-    emit('emit', props.categoryName);
+    emit('selectCategory', props.categoryName);
+}
+
+function deleteCategory() {
+    emit('deleteCategory', props.categoryId)
 }
 
 </script>
@@ -38,7 +40,7 @@ function selectItem(){
 }
 
 #item-frame:hover{
-    background-color: rgb(135, 135, 135);;
+    background-color: rgb(135, 135, 135);
 }
 
 </style>

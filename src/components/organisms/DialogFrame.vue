@@ -6,11 +6,10 @@
             <DialogHeader :title="props.dialogTitle"/>
         </div>
 
-        <slot></slot>
+        <slot name="content"></slot>
 
         <div id="button-div">
-            <ButtonAtom label="Speichern"/>
-            <ButtonAtom @emit="cancleInput" label="Abbrechen"/>
+            <slot name="action-buttons"></slot>
         </div>
 
     </div>
@@ -20,7 +19,6 @@
 
 <script setup lang="ts">
 import DialogHeader from '../atoms/DialogHeader.vue';
-import ButtonAtom from '../atoms/ButtonAtom.vue';
 
 const props = defineProps({
     dialogTitle: String

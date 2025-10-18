@@ -12,6 +12,13 @@ export const useTodoStore = defineStore('todos', () => {
         console.log(categories.value)
     }
 
+    const deleteCategory = (id:String) => {
+        categories.value = categories.value.filter(
+            (item) => id != item.id
+        );
+        console.log(`filtering done`)
+    }
+
 
     const initializeStore = async () => {
         await Promise.all([
@@ -24,7 +31,8 @@ export const useTodoStore = defineStore('todos', () => {
     return{
         categories,
 
-        initializeStore
+        initializeStore,
+        deleteCategory
     }
 
 })

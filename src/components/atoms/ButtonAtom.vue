@@ -1,5 +1,5 @@
 <template>
-  <button class="primary-button" @click="buttonClick">
+  <button class="primary-button">
     {{ label }}
   </button>
 </template>
@@ -9,12 +9,6 @@
 const props = defineProps({
   label: String,
 })
-const emit = defineEmits(['emit'])
-
-
-function buttonClick(){
-  emit('emit')
-}
 </script>
 
 <style scoped>

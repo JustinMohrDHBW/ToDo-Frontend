@@ -2,7 +2,7 @@
 
 <div id="input-frame">
     <InputFieldAtom :place-holder="hintText" v-model="input"/>
-    <ButtonAtom label="+" @emit="addCategoryItem"/>
+    <ButtonAtom label="+" @click="addCategoryItem"/>
 </div>
 
 </template>
@@ -11,8 +11,6 @@
 import { ref } from 'vue';
 import ButtonAtom from '../atoms/ButtonAtom.vue';
 import InputFieldAtom from '../atoms/InputFieldAtom.vue';
-import { postCategory } from '@/composables/fetchApi/post';
-import { useTodoStore } from '@/stores/todoStore';
 
 const input = ref()
 

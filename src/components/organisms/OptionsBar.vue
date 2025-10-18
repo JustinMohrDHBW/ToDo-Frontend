@@ -2,52 +2,36 @@
     <div id="options-bar">
         <div id="stack-container">
             <DropdownAtom :items="['Todo', 'In Progress', 'Done']" modelValue="Filter" />
-            <CheckboxAtom label="Heute zu erledigen" />
+            <CheckBoxAtom label="Heute zu erledigen" />
         </div>
         <div id="button-container">
-            <ButtonAtom label="neues Tdodo" @emit="switchDialogShowState"/>
+            <ButtonAtom label="neues Tdodo" @click="switchDialogShowState"/>
         </div>
     </div>
 
-    <DialogFrame v-if="isDialogShown" @closeDialog="switchDialogShowState" dialogTitle="Select a Category:">
-
-      <AddCategoryItem hintText="New Category"/>
-
-      <div v-if="store.categories.length > 0" id="category-item">
-        <CategoryItem  v-for="(category, index) in store.categories" :key="index" :index="index" :categoryName="String(category.name)" @emit="selectCategory"/>
-      </div>
-      <div v-else>
-      </div>
-
-    </DialogFrame>
-
   </template>
-  
+
 <script setup lang="ts">
-  import DropdownAtom from '../atoms/Dropdown.vue'
-  import CheckboxAtom from '../atoms/CheckBoxAtom.vue'
-  import ButtonAtom from '../atoms/ButtonAtom.vue';
-  import DialogFrame from '../organisms/DialogFrame.vue';
-  import { ref } from 'vue';
-  import { useTodoStore } from '@/stores/todoStore';
-  import CategoryItem from '../molecules/CategoryItem.vue';
-  import AddCategoryItem from '../molecules/AddCategoryItem.vue';
+import ButtonAtom from '../atoms/ButtonAtom.vue';
+import CheckBoxAtom from '../atoms/CheckBoxAtom.vue';
+import DropdownAtom from '../atoms/DropdownAtom.vue';
 
-  const store = useTodoStore()
 
-  const isDialogShown = ref(false)
+const props = defineProps({
 
-  function switchDialogShowState(){
-    isDialogShown.value = !isDialogShown.value;
-  }
+})
 
-  function selectCategory(name:string){
-    console.log(name)
-  }
+const emit = defineEmits(['switchDialogShowState'])
 
-  </script>
+function switchDialogShowState(){
+  emit('switchDialogShowState')
+}
+
+</script>
   
-  <style scoped>
+
+  
+<style scoped>
   #stack-container {
     display: flex;
     flex-direction: column;
@@ -67,11 +51,5 @@
     align-items: center;
   }
 
-  #category-item {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  </style>
+</style>
   

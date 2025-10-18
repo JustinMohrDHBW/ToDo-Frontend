@@ -1,6 +1,7 @@
 [
-    {"name": "red"},
-    {"name": "blue"}, 
-    {"name": "green"},
-    {"name": "yellow"}
+    {"id": 1, "name": "blue"},
+    {"id": 2, "name": "green"},
+    {"id": 3, "name": "yellow"},
+    {"id": 4, "name": "red"},
+    {"id": 5, "name": "pink"}
 ]
