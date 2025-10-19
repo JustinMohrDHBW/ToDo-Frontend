@@ -30,20 +30,58 @@
 
 <script setup lang="ts">
 import { useTodoStore } from '@/stores/todoStore';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import DialogFrame from './organisms/DialogFrame.vue';
 import AddCategoryItem from './molecules/AddCategoryItem.vue';
 import HomePateTemplates from './templates/HomePateTemplates.vue';
 import ButtonAtom from './atoms/ButtonAtom.vue';
 import CategoryItem from './molecules/CategoryItem.vue';
+import { addCategory, getAllCategories, type AddCategoryData, type Category } from '@/api';
 
 
   const store = useTodoStore()
 
   const isDialogShown = ref(false)
 
-  function saveNewCategory(categoryName:string) {
+  onMounted(() => {
+    fetchCategories()
+  })
+
+  async function fetchCategories(){
+
+    const response = await getAllCategories()
+
+    if(response.data){
+
+
+        const categories: Array<Category> = response.data
+        for (const category of categories) {
+          store.categories.push(category);
+        }
+
+        
+        
+  
+
+    }
+
+  }
+
+  async function saveNewCategory(categoryName:string) {
     console.log('Speichere:', categoryName);
+
+    const response = await addCategory({
+      body: {
+        name: categoryName,
+        user_id: 1,
+        buildingBlockIds: [1, 2, 3]
+      }
+    });
+
+    if(!response.response.ok){
+      response.response.status
+    }
+  
   }
 
   function switchDialogShowState(){
@@ -54,10 +92,10 @@ import CategoryItem from './molecules/CategoryItem.vue';
     console.log(`slecet: ${name}`)
   }
 
-  function deleteCategory(id:string){
+  function deleteCategory(id:number){
     console.log(`delete: ${id}`)
     store.deleteCategory(id)
-    console.log('Categories after delete:', store.categories.length);
+    console.log('Categories after delete:', store.getCategoryLength());
   }
 
   </script>

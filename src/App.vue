@@ -10,10 +10,6 @@ import { useTodoStore } from './stores/todoStore'
 
 const todoStore = useTodoStore()
 
-// Load data when app starts
-onMounted(async () => {
-  await todoStore.initializeStore()
-})
 </script>
 <style scoped>
 

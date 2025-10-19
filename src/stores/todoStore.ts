@@ -1,18 +1,21 @@
-import { getCategories } from "@/composables/fetchApi/get";
-import type { Category } from "@/composables/models/Category";
+import type { Category } from "@/api";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useTodoStore = defineStore('todos', () => {
 
+    const areCategoriesLoaded = ref(false)
     const categories = ref<Category[]>([])
 
-    const loadCategories = async () => {
-        categories.value = await getCategories()
-        console.log(categories.value)
+    const getCategoryLength = () => {
+        return categories.value.length
     }
 
-    const deleteCategory = (id:String) => {
+    const addCategory = (category:Category) => {
+        categories.value.push()
+    }
+
+    const deleteCategory = (id:number) => {
         categories.value = categories.value.filter(
             (item) => id != item.id
         );
@@ -20,18 +23,12 @@ export const useTodoStore = defineStore('todos', () => {
     }
 
 
-    const initializeStore = async () => {
-        await Promise.all([
-          loadCategories()
-        ])
-    }
-
-
 
     return{
         categories,
-
-        initializeStore,
+        areCategoriesLoaded,
+        getCategoryLength,
+        addCategory,
         deleteCategory
     }
 
