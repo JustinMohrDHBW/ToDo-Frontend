@@ -1,4 +1,4 @@
-import type { Category } from "@/api";
+import type { BuildingBlock, Category } from "@/api";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -7,12 +7,17 @@ export const useTodoStore = defineStore('todos', () => {
     const areCategoriesLoaded = ref(false)
     const categories = ref<Category[]>([])
 
-    const getCategoryLength = () => {
-        return categories.value.length
-    }
+    const areBuldingBlocksLoaded = ref(false)
+    const buildingBlocks = ref<BuildingBlock[]>([])
 
+
+
+
+    // Category operations
     const addCategory = (category:Category) => {
-        categories.value.push()
+        categories.value.push(category)
+
+        console.log(category)
     }
 
     const deleteCategory = (id:number) => {
@@ -23,13 +28,24 @@ export const useTodoStore = defineStore('todos', () => {
     }
 
 
+    // BuildingBlock operations
+    const addBuildingBlock = (buildingBlock:BuildingBlock) => {
+        buildingBlocks.value.push(buildingBlock)
+
+        console.log(buildingBlock)
+    }
+
+
 
     return{
         categories,
         areCategoriesLoaded,
-        getCategoryLength,
         addCategory,
-        deleteCategory
+        deleteCategory,
+
+        buildingBlocks,
+        areBuldingBlocksLoaded,
+
     }
 
 })

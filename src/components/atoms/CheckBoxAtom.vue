@@ -1,6 +1,6 @@
 <template>
     <label class="checkbox-wrapper">
-      <input type="checkbox" v-model="checked" />
+      <input type="checkbox" v-model="checked" @change="toggleCheckSet"/>
       <span class="checkbox-label">{{ label }}</span>
     </label>
   </template>
@@ -9,11 +9,29 @@
   import { ref } from 'vue'
   
   const props = defineProps<{
+    id?:number
     label: string
+    selectedSet?: Set<number>
     modelValue?: boolean
   }>()
   
-  const checked = ref(props.modelValue ?? false)
+  const checked = ref(props.modelValue)
+
+
+function toggleCheckSet() {
+
+  if(!(props.selectedSet && props.id)){
+    return
+  }
+
+  if (checked.value) {
+    props.selectedSet.add(props.id)
+    console.log(`add ${props.id}`)
+  } else {
+    props.selectedSet.delete(props.id)
+    console.log(`remove ${props.id}`)
+  }
+}
   </script>
   
   <style scoped>

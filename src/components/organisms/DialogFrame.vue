@@ -55,8 +55,8 @@ function closeDialog(){
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   min-width: 400px;
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 25vw;
+  max-height: 80vh;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -66,7 +66,6 @@ function closeDialog(){
 #dialog-content{
     display: flex;
     flex-direction: column;
-    overflow: auto;
 }
 
 #button-div{

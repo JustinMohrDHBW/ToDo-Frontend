@@ -5,9 +5,9 @@ export type ClientOptions = {
 };
 
 export type BuildingBlock = {
-    id?: number;
-    name?: string;
-    dataType?: string;
+    id: number;
+    name: string;
+    dataType: string;
 };
 
 export type CategoryCreationDto = {
@@ -18,9 +18,9 @@ export type CategoryCreationDto = {
 
 export type Category = {
     id?: number;
-    name?: string;
+    name: string;
     userId?: number;
-    buildingBlocks?: Array<BuildingBlock>;
+    buildingBlocks: Array<BuildingBlock>;
 };
 
 export type Void = {

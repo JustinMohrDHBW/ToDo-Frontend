@@ -18,7 +18,7 @@ const props = defineProps({
 })
 
 function selectItem(){
-    emit('selectCategory', props.categoryName);
+    emit('selectCategory', props.categoryId);
 }
 
 function deleteCategory() {
