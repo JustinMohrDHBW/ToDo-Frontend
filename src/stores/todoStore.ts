@@ -28,14 +28,6 @@ export const useTodoStore = defineStore('todos', () => {
     }
 
 
-    // BuildingBlock operations
-    const addBuildingBlock = (buildingBlock:BuildingBlock) => {
-        buildingBlocks.value.push(buildingBlock)
-
-        console.log(buildingBlock)
-    }
-
-
 
     return{
         categories,

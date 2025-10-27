@@ -47,7 +47,6 @@
   <style scoped>
   .dropdown-wrapper {
     position: relative;
-    width: 200px;
     cursor: pointer;
     user-select: none;
     border: 2px solid #2563eb;

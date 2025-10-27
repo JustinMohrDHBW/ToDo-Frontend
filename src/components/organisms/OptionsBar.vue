@@ -5,7 +5,7 @@
             <CheckBoxAtom label="Heute zu erledigen" />
         </div>
         <div id="button-container">
-            <ButtonAtom label="neues Tdodo" @click="switchDialogShowState"/>
+            <ButtonAtom label="neues Tdodo" @click="showDialogCategory"/>
         </div>
     </div>
 
@@ -21,10 +21,10 @@ const props = defineProps({
 
 })
 
-const emit = defineEmits(['switchDialogShowState'])
+const emit = defineEmits(['showDialogCategory'])
 
-function switchDialogShowState(){
-  emit('switchDialogShowState')
+function showDialogCategory(){
+  emit('showDialogCategory')
 }
 
 </script>
@@ -36,7 +36,7 @@ function switchDialogShowState(){
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 250px;
+    width: 200px;
   }
 
   #options-bar{

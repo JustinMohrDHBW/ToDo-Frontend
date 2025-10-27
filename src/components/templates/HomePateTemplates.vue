@@ -1,5 +1,5 @@
 <template>
-    <OptionsBar @switchDialogShowState="switchDialogShoState"/>
+    <OptionsBar @showDialogCategory="switchDialogShoState"/>
     <ItemViewArea>
       <TodoItem/>
       <TodoItem/>
@@ -16,10 +16,10 @@ import ItemViewArea from '@/components/atoms/ItemViewArea.vue';
 import TodoItem from '@/components/molecules/TodoItem.vue';
 import OptionsBar from '../organisms/OptionsBar.vue';
 
-const emits = defineEmits(['switchDialogShowState'])
+const emits = defineEmits(['showDialogCategory'])
 
 function switchDialogShoState() {
-    emits('switchDialogShowState')
+    emits('showDialogCategory')
 }
 
 </script>

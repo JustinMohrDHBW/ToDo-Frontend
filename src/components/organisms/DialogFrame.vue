@@ -4,6 +4,7 @@
     <div id="dialog-frame" @click.stop>
         <div id="dialog-content">
             <DialogHeader :title="props.dialogTitle"/>
+            <p v-if="info">{{ info }}</p>
         </div>
 
         <slot name="content"></slot>
@@ -21,7 +22,8 @@
 import DialogHeader from '../atoms/DialogHeader.vue';
 
 const props = defineProps({
-    dialogTitle: String
+    dialogTitle: String,
+    info: {required: false, type: String}
 })
 
 const emit = defineEmits(['closeDialog'])
@@ -61,6 +63,7 @@ function closeDialog(){
   display: flex;
   flex-direction: column;
   gap: 50px;
+  overflow: auto;
 }
 
 #dialog-content{

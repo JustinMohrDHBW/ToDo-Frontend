@@ -1,37 +1,47 @@
 <template>
     <label class="checkbox-wrapper">
-      <input type="checkbox" v-model="checked" @change="toggleCheckSet"/>
+      <input type="checkbox" v-model="isChecked"/>
       <span class="checkbox-label">{{ label }}</span>
     </label>
   </template>
   
-  <script setup lang="ts">
-  import { ref } from 'vue'
+<script setup lang="ts">
+  import { computed, ref } from 'vue'
   
-  const props = defineProps<{
-    id?:number
-    label: string
-    selectedSet?: Set<number>
-    modelValue?: boolean
-  }>()
-  
-  const checked = ref(props.modelValue)
+ const props = defineProps<{
+    id?: number;
+    label?: string;
+  }>();
+
+  const model = defineModel<boolean>({ default: false })
+  const selectSet = defineModel<Set<number>>('selectSet', {required: true})
+
+    const isChecked = computed({
+      get() {
+        if (selectSet.value && props.id !== undefined) {
+          return selectSet.value?.has(props.id) ?? false
+        }else{
+          return model.value
+        }
+      },
+      set(newValue) {
+
+          if (selectSet.value && props.id !== undefined) {
+
+          if (newValue === true) {
+            selectSet.value.add(props.id)
+          } else {
+            selectSet.value.delete(props.id)
+          }
+
+        } else {
+          model.value = newValue
+        }
+
+      }
+    })
 
 
-function toggleCheckSet() {
-
-  if(!(props.selectedSet && props.id)){
-    return
-  }
-
-  if (checked.value) {
-    props.selectedSet.add(props.id)
-    console.log(`add ${props.id}`)
-  } else {
-    props.selectedSet.delete(props.id)
-    console.log(`remove ${props.id}`)
-  }
-}
   </script>
   
   <style scoped>
@@ -85,6 +95,7 @@ function toggleCheckSet() {
     font-size: 14px;
     color: #1f2937; /* dunkles Grau für Business-Optik */
     font-weight: 500;
+    white-space: nowrap;
   }
   </style>
   

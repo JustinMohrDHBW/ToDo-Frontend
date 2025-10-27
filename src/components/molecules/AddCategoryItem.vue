@@ -4,7 +4,7 @@
     <InputFieldAtom :place-holder="hintText" v-model="newCategoryName"/>
     <ButtonAtom 
     label="+"
-    @click="addCategoryItem"
+    @click="emit('add-category', newCategoryName)"
     :disabled="newCategoryName.trim() === ''"/>
 </div>
 
@@ -22,12 +22,6 @@ const newCategoryName = ref('');
 const props = defineProps({
     hintText: String
 })
-
-function addCategoryItem() {
-
-  emit('add-category', newCategoryName.value);
-
-}
 
 </script>
 

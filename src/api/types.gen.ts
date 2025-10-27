@@ -12,12 +12,12 @@ export type BuildingBlock = {
 
 export type CategoryCreationDto = {
     user_id?: number;
-    name?: string;
-    buildingBlockIds?: Array<number>;
+    name: string;
+    buildingBlockIds: Array<number>;
 };
 
 export type Category = {
-    id?: number;
+    id: number;
     name: string;
     userId?: number;
     buildingBlocks: Array<BuildingBlock>;
