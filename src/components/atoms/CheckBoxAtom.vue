@@ -14,7 +14,7 @@
   }>();
 
   const model = defineModel<boolean>({ default: false })
-  const selectSet = defineModel<Set<number>>('selectSet', {required: true})
+  const selectSet = defineModel<Set<number>>('selectSet')
 
     const isChecked = computed({
       get() {

@@ -43,13 +43,6 @@ import CategoryItem from '../molecules/CategoryItem.vue'
 import DialogFrame from './DialogFrame.vue'
 import ButtonAtom from '../atoms/ButtonAtom.vue'
 import { categoryNameMapper } from '@/composables/Mapper'
-import type { BuildingBlock } from '@/api'
-
-
-// const selectedBuildingBlocks = ref<Set<number>>(new Set())
-// const selectedCategoryName = ref<string>('')
-// const isDialogCategoryShown = ref<boolean>(false)
-// const isDialogBuildingBlocksShown = ref<boolean>(false)
 
 const store = useTodoStore()
 
@@ -72,11 +65,9 @@ const props = defineProps({
 })
 
 const selectedBuildingBlocksSet = ref<Set<number>>(new Set())
-// const selectedBuildingBlocksSet = defineModel<Set<Number>>('selectedBuildingBlockSet', {required: true})
 
 function addCategory(categoryName: string) {
   const buildingBlockIdArray:Array<number> = Array.from(selectedBuildingBlocksSet.value.values())
-  
   emit('add-category', categoryName, buildingBlockIdArray);
 }
 </script>
@@ -85,21 +76,16 @@ function addCategory(categoryName: string) {
 <style scoped>
 
 #category-item {
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    gap: 10px;
-  }
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  gap: 10px;
+}
 
 #buildingBlock-item{
   display: flex;
   flex-direction: row;
   gap: 15px;
   overflow: auto;
-}
-
-#default-props {
-  display: flex;
-  justify-content: space-evenly;
 }
 </style>
