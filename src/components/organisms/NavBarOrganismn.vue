@@ -7,7 +7,7 @@
 
       <nav class="navbar-center" aria-label="Main Navigation">
         <RouterLink class="nav-link" to="/todo">Todo</RouterLink>
-        <RouterLink class="nav-link" to="/done">Erledigt</RouterLink>
+        <RouterLink class="nav-link" to="/done">Done</RouterLink>
       </nav>
 
       <div class="navbar-right"></div>

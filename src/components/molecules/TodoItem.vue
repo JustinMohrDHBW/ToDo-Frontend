@@ -22,7 +22,7 @@ import ItemLabel from '../atoms/ItemLabel.vue';
 
 #item {
     display: flex;
-    background-color: rgb(186, 186, 186);
+    background-color: rgb(235, 235, 235);
     justify-content: space-between;
     align-items: center;
     padding: 10px;

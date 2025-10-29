@@ -82,7 +82,7 @@ async function fetchCategories() {
 
 }
 
-async function saveNewCategory(categoryName: string, buildingBlockIds: Array<number>) {
+async function saveNewCategory(categoryName: string, buildingBlockIds: Array<number>, callback:Function) {
   if (categoryName.trim().length == 0) {
     toastError('Das Eingabefeld darf nicht leer sein.')
     return
@@ -94,6 +94,7 @@ async function saveNewCategory(categoryName: string, buildingBlockIds: Array<num
     store.addCategory(
       toCategoryObject(categoryName, response.data?.buildingBlocks, response.data?.id)
     )
+    callback()
   } else {
     toastError()
   }

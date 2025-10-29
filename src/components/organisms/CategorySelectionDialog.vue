@@ -68,7 +68,12 @@ const selectedBuildingBlocksSet = ref<Set<number>>(new Set())
 
 function addCategory(categoryName: string) {
   const buildingBlockIdArray:Array<number> = Array.from(selectedBuildingBlocksSet.value.values())
-  emit('add-category', categoryName, buildingBlockIdArray);
+
+    const callback = () => {
+        selectedBuildingBlocksSet.value.clear(); 
+    };
+
+  emit('add-category', categoryName, buildingBlockIdArray, callback)
 }
 </script>
 
@@ -86,6 +91,8 @@ function addCategory(categoryName: string) {
   display: flex;
   flex-direction: row;
   gap: 15px;
-  overflow: auto;
+  /* overflow: auto; */
+  flex-wrap: wrap;
+  flex-shrink: 0;
 }
 </style>
