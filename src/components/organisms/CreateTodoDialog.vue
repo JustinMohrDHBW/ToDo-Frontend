@@ -3,32 +3,39 @@
     <DialogFrame :info="'for Category ' + props.category.name" @close-dialog="$emit('reset-state')" dialog-title="Create Todo">
 
     <template #content>
-        <InputFieldAtom place-holder="Todo Name" v-model="todoName"
-        :is-white="true"/>
+        <InputFieldAtom place-holder="Todo Name"
+        v-model="todoName.value"
+        :error="todoName.error"
+        />
 
         <div id="default-props">
             <CheckBoxAtom v-model="isTodoToday" label="Do Today"/>
-            <DropdownAtom/>
+            <DropdownAtom
+            :items="PriorityArray"
+            v-model="priority"/>
         </div>
 
         <div v-for="buildingBlock in buildingBlocks">
 
             <InputFieldAtom 
-            v-if="isBuildingBlockInput(buildingBlock.id, buildingBlocks)" 
-            v-model="buildingBlockFormulaData[buildingBlock.id]"
+            v-if="buildingBlock.dataType === DataTypes.TEXT" 
+            v-model="buildingBlockFormulaData[buildingBlock.id]!.value"
+            :error="buildingBlockFormulaData[buildingBlock.id]!.error"
             :label="`${buildingBlock.name}`"
             />
 
             <DatePicker 
-            v-if="isBuildingBlockDate(buildingBlock.id, buildingBlocks)" 
-            v-model="buildingBlockFormulaData[buildingBlock.id]" 
-            label="Select Deadline"
+            v-if="buildingBlock.dataType === DataTypes.DATE" 
+            v-model="buildingBlockFormulaData[buildingBlock.id]!.value" 
+            :error="buildingBlockFormulaData[buildingBlock.id]!.error"
+            :label="`${buildingBlock.name}`"
             />
 
             <NumberInput 
-            v-if="isBuildingBlockNumber(buildingBlock.id, buildingBlocks)"
-            v-model="buildingBlockFormulaData[buildingBlock.id]"
-            label="Estimated Time in Minutes" 
+            v-if="buildingBlock.dataType === DataTypes.INTEGER"
+            v-model="buildingBlockFormulaData[buildingBlock.id]!.value"
+            :error="buildingBlockFormulaData[buildingBlock.id]!.error"
+            :label="`${buildingBlock.name}`" 
             placeholder="30"
             />
 
@@ -56,8 +63,8 @@ import DatePicker from '../atoms/DatePicker.vue';
 import NumberInput from '../atoms/NumberInput.vue';
 import type { Category } from '@/api';
 import { ref } from 'vue';
-import { isBuildingBlockDate, isBuildingBlockInput, isBuildingBlockNumber } from '@/composables/Mapper';
-
+import type { FormField } from '../../composables/Models';
+import { DataTypes, PriorityArray } from '../../composables/HardLoad';
 
 defineEmits(['reset-state', 'save-todo']);
 
@@ -66,25 +73,82 @@ const props = defineProps<{
     category: Category
 }>();
 
-console.log(props.category)
+const validationWasTriggered = ref(false)
 const buildingBlocks = props.category.buildingBlocks
 
-const todoName = ref("")
-const isTodoToday = ref(false)
+
+const todoName = ref<FormField>({
+    value: "",
+    error: ""
+})
+
+const isTodoToday = ref<boolean>(false)
+const priority = ref<string>("")
+
 
 const initialData = buildingBlocks.reduce((accumulator, currentBlock) => {
-    accumulator[currentBlock.id] = "";
+    accumulator[currentBlock.id] = { value: "", error: "" };
     return accumulator;
-}, {} as Record<number, string>);
+}, {} as Record<number, FormField>);
 
-const buildingBlockFormulaData = ref<Record<number, string>>(initialData)
+const buildingBlockFormulaData = ref<Record<number, FormField>>(initialData)
+
+
+
+
+function validateForm(): boolean {
+
+    let isValid = true;
+
+    todoName.value.error = ""
+    for (const id in buildingBlockFormulaData.value) {
+        buildingBlockFormulaData.value[id]!.error = "";
+    }
+
+    if(!todoName.value.value.trim()){
+        todoName.value.error = 'Ein Name für das Todo ist erforderlich.';
+        isValid = false;
+        console.log("Todo Name empty")
+    }
+
+    for (const block of buildingBlocks) {
+        const field = buildingBlockFormulaData.value[block.id];
+        
+        if (block.dataType === 'INTEGER' && parseInt(field!.value) < 0) {
+            field!.error = `${block.name} muss größer als 0 sein.`;
+            isValid = false;
+            console.log(block.name + " not a number")
+        }
+
+        if (!field!.value.trim()) {
+             field!.error = `${block.name} darf nicht leer sein.`;
+             isValid = false;
+             console.log(block.name + " empty")
+        }
+        
+    }
+
+    return isValid
+}
+
+
 
 
 function saveTodo() {
     for (const [key, value] of Object.entries(buildingBlockFormulaData.value)) {
-        console.log(`Key: ${key}, Value: ${value}`)
-}
+        console.log(`Key: ${key}, Value: ${value.value}`)
+    }
+    console.log("Priority: " +priority.value)
+    console.log(validationWasTriggered)
 
+
+    validationWasTriggered.value = true
+    const isFormValid = validateForm();
+    if (!isFormValid) {
+        return; 
+    }
+
+    console.log("Formular ist gültig. Speichern...");
 }
 
 </script>

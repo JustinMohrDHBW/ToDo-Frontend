@@ -15,11 +15,13 @@
 
 <script setup lang="ts">
 
+
 const model = defineModel();
 
 const props = defineProps<{
   placeHolder?: string,
   label?: string
+  enableValidation?: boolean
 }>();
 
 </script>

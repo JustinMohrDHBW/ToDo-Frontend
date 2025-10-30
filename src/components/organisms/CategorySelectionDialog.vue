@@ -13,7 +13,7 @@
     <CheckBoxAtom v-for="buildingBlock in store.buildingBlocks" :key="buildingBlock.id"
     :id="buildingBlock.id"
     :select-set="selectedBuildingBlocksSet"
-    :label="categoryNameMapper(String(buildingBlock.name))"
+    :label="buildingBlock.name"
     />
   </div>
 

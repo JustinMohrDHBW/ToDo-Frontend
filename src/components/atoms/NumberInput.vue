@@ -40,7 +40,7 @@ function restrictToNumbers(event: KeyboardEvent) {
 
 
 const numericInput = computed({
-  get: () => Number(model.value),
+  get: () => Number(model.value) || undefined,
   set: (value: string) => {
     model.value = String(value);
   }

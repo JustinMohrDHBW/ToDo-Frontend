@@ -1,7 +1,7 @@
 <template>
     <div class="dropdown-wrapper" @click="toggleDropdown" @blur="closeDropdown" tabindex="0">
       <div class="dropdown-selected">
-        {{ selectedLabel }}
+        {{ model }}
         <span class="dropdown-arrow" :class="{ open: isOpen }">▼</span>
       </div>
       <ul v-if="isOpen" class="dropdown-list">
@@ -18,17 +18,19 @@
   </template>
   
   <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { onMounted, ref } from 'vue'
   
   const props = defineProps<{
     items: string[]
-    modelValue?: string
   }>()
+
+  const model = defineModel<string>({})
+
+  model.value = props.items[0]
+
+  console.log(model.value)
   
   const isOpen = ref(false)
-  const selected = ref(props.modelValue ?? '')
-  
-  const selectedLabel = computed(() => selected.value || 'Bitte auswählen')
   
   function toggleDropdown() {
     isOpen.value = !isOpen.value
@@ -39,7 +41,10 @@
   }
   
   function selectItem(item: string) {
-    selected.value = item
+
+    console.log(item)
+
+    model.value = item
     isOpen.value = false
   }
   </script>
