@@ -1,10 +1,6 @@
-export enum Priority {
-    HIGH = "HIGH",
-    MEDIUM = "MEDIUM",
-    LOW = "LOW"
-}
+ export const priorityArray: Array<string> = ["HIGH", "MEDIUM", "LOW"]
 
- export const PriorityArray: Array<string> = [Priority.HIGH, Priority.MEDIUM, Priority.LOW]
+ export const filterMenu: Array<string> = ["Priority", "Name"]
 
 export enum DataTypes {
     INTEGER = "INTEGER",

@@ -5,13 +5,13 @@
     <template #content>
         <InputFieldAtom place-holder="Todo Name"
         v-model="todoName.value"
-        :error="todoName.error"
+        :error-message="todoName.error"
         />
 
         <div id="default-props">
             <CheckBoxAtom v-model="isTodoToday" label="Do Today"/>
             <DropdownAtom
-            :items="PriorityArray"
+            :items="priorityArray"
             v-model="priority"/>
         </div>
 
@@ -20,23 +20,23 @@
             <InputFieldAtom 
             v-if="buildingBlock.dataType === DataTypes.TEXT" 
             v-model="buildingBlockFormulaData[buildingBlock.id]!.value"
-            :error="buildingBlockFormulaData[buildingBlock.id]!.error"
+            :error-message="buildingBlockFormulaData[buildingBlock.id]!.error"
             :label="`${buildingBlock.name}`"
             />
 
             <DatePicker 
             v-if="buildingBlock.dataType === DataTypes.DATE" 
             v-model="buildingBlockFormulaData[buildingBlock.id]!.value" 
-            :error="buildingBlockFormulaData[buildingBlock.id]!.error"
+            :error-message="buildingBlockFormulaData[buildingBlock.id]!.error"
             :label="`${buildingBlock.name}`"
             />
 
             <NumberInput 
             v-if="buildingBlock.dataType === DataTypes.INTEGER"
             v-model="buildingBlockFormulaData[buildingBlock.id]!.value"
-            :error="buildingBlockFormulaData[buildingBlock.id]!.error"
+            :error-message="buildingBlockFormulaData[buildingBlock.id]!.error"
             :label="`${buildingBlock.name}`" 
-            placeholder="30"
+            placeholder="e. g. 30"
             />
 
             
@@ -64,7 +64,7 @@ import NumberInput from '../atoms/NumberInput.vue';
 import type { Category } from '@/api';
 import { ref } from 'vue';
 import type { FormField } from '../../composables/Models';
-import { DataTypes, PriorityArray } from '../../composables/HardLoad';
+import { DataTypes, priorityArray } from '../../composables/HardLoad';
 
 defineEmits(['reset-state', 'save-todo']);
 
@@ -73,7 +73,6 @@ const props = defineProps<{
     category: Category
 }>();
 
-const validationWasTriggered = ref(false)
 const buildingBlocks = props.category.buildingBlocks
 
 
@@ -114,7 +113,7 @@ function validateForm(): boolean {
     for (const block of buildingBlocks) {
         const field = buildingBlockFormulaData.value[block.id];
         
-        if (block.dataType === 'INTEGER' && parseInt(field!.value) < 0) {
+        if (block.dataType === DataTypes.INTEGER && parseInt(field!.value) < 0) {
             field!.error = `${block.name} muss größer als 0 sein.`;
             isValid = false;
             console.log(block.name + " not a number")
@@ -139,16 +138,15 @@ function saveTodo() {
         console.log(`Key: ${key}, Value: ${value.value}`)
     }
     console.log("Priority: " +priority.value)
-    console.log(validationWasTriggered)
 
 
-    validationWasTriggered.value = true
     const isFormValid = validateForm();
     if (!isFormValid) {
         return; 
     }
 
     console.log("Formular ist gültig. Speichern...");
+
 }
 
 </script>

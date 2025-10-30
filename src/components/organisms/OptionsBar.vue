@@ -1,7 +1,7 @@
 <template>
     <div id="options-bar">
         <div id="stack-container">
-            <DropdownAtom :items="['Todo', 'In Progress', 'Done']" modelValue="Filter" />
+            <DropdownAtom :items="filterMenu" />
             <CheckBoxAtom label="Heute zu erledigen" />
         </div>
         <div id="button-container">
@@ -12,6 +12,7 @@
   </template>
 
 <script setup lang="ts">
+import { filterMenu } from '@/composables/HardLoad';
 import ButtonAtom from '../atoms/ButtonAtom.vue';
 import CheckBoxAtom from '../atoms/CheckBoxAtom.vue';
 import DropdownAtom from '../atoms/DropdownAtom.vue';

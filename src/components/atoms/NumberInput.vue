@@ -8,11 +8,17 @@
         type="number"
         v-model="numericInput"
         class="number-input"
+        :class="{ 'input-error': isInvalid }"
         :placeholder="placeholder"
         :aria-label="label || placeholder || 'Numerische Eingabe'"
         min="0"
         @keydown="restrictToNumbers"
     />
+
+    <p v-if="isInvalid" class="error-message">
+      {{ errorMessage }}
+    </p>
+
   </div>
 </template>
 
@@ -24,7 +30,10 @@ const model = defineModel<string>();
 const props = defineProps<{
     label?: string; 
     placeholder?: string;
+    errorMessage?: string;
 }>()
+
+const isInvalid = computed(() => !!props.errorMessage);
 
 
 function restrictToNumbers(event: KeyboardEvent) {
@@ -88,7 +97,20 @@ const numericInput = computed({
     margin: 0;
 }
 
-.number-input[type=number] {
-    -moz-appearance: textfield;
+
+.number-input.input-error {
+  border-color: #ef4444;
+}
+
+.number-input.input-error:focus {
+  border-color: #EF4444;
+  box-shadow: 0 0 0 1px #F87171;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.7rem;
+  margin: 0;
+  padding-top: 0.25rem;
 }
 </style>

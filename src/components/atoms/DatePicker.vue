@@ -9,21 +9,28 @@
           type="date"
           v-model="model" 
           class="date-input"
+          :class="{ 'input-error': isInvalid }"
       />
+
+      <p v-if="isInvalid" class="error-message">
+        {{ errorMessage }}
+      </p>
+
     </div>
   </template>
   
   <script setup lang="ts">
   import { computed } from 'vue';
   
-  interface Props {
+  const props = defineProps<{
     label?: string;
-  }
-  const props = defineProps<Props>();
-  
+    errorMessage?: string;
+  }>();
   const model = defineModel<string>();
   
   const id = computed(() => `date-input-${Math.random().toString(36).substring(2, 9)}`);
+  const isInvalid = computed(() => !!props.errorMessage);
+
   </script>
   
   <style scoped>
@@ -59,4 +66,23 @@
       border-color: transparent; 
       box-shadow: 0 0 0 2px #6366F1;
   }
+
+
+
+.date-input.input-error {
+  border-color: #ef4444;
+}
+
+
+.date-input.input-error:focus {
+  border-color: #EF4444;
+  box-shadow: 0 0 0 1px #F87171;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.7rem;
+  margin: 0;
+  padding-top: 0.25rem;
+}
   </style>

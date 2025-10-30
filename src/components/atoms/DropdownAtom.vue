@@ -18,19 +18,16 @@
   </template>
   
   <script setup lang="ts">
-  import { onMounted, ref } from 'vue'
+  import { ref } from 'vue'
   
   const props = defineProps<{
     items: string[]
   }>()
 
   const model = defineModel<string>({})
+  const isOpen = ref(false)
 
   model.value = props.items[0]
-
-  console.log(model.value)
-  
-  const isOpen = ref(false)
   
   function toggleDropdown() {
     isOpen.value = !isOpen.value
