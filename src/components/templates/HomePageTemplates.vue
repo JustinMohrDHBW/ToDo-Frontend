@@ -12,9 +12,13 @@
         :todo="todo"
         @edit-todo="handleEditTodo"
         @complete-todo="handleCompleteTodo"
+        @toggle-due-today="handleToggleDueToday"
       />
-      <div v-if="filteredTodos.length === 0" class="empty-state">
+      <div v-if="store.areTodosLoaded && filteredTodos.length === 0" class="empty-state">
         <p class="empty-message">Great, no open todos!</p>
+      </div>
+      <div v-else-if="!store.areTodosLoaded" class="loading-state">
+        <p class="loading-message">Loading todos...</p>
       </div>
     </ItemViewArea>
 
@@ -88,7 +92,7 @@ if (sortBy.value === 'Priority') {
   return filtered
 })
 
-const emits = defineEmits(['showDialogCategory', 'edit-todo', 'complete-todo'])
+const emits = defineEmits(['showDialogCategory', 'edit-todo', 'complete-todo', 'toggle-due-today'])
 
 function switchDialogShowState() {
     emits('showDialogCategory')
@@ -103,8 +107,11 @@ function handleCompleteTodo(todo: ToDo) {
     emits('complete-todo', todo)
 }
 
-</script>
+function handleToggleDueToday(todo: ToDo, value: boolean) {
+    emits('toggle-due-today', todo, value)
+}
 
+</script>
 
 <style scoped>
 .empty-state {
@@ -118,4 +125,17 @@ function handleCompleteTodo(todo: ToDo) {
   color: #10b981;
   margin: 0;
 }
+
+.loading-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.loading-message {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0;
+}
+
 </style>

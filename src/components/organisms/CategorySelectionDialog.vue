@@ -10,19 +10,37 @@
   />
 
   <div id="buildingBlock-item">
-    <CheckBoxAtom v-for="buildingBlock in store.buildingBlocks" :key="buildingBlock.id"
-    :id="buildingBlock.id"
-    :select-set="selectedBuildingBlocksSet"
-    :label="buildingBlock.name"
+    <div v-if="!store.areBuldingBlocksLoaded" class="loading-empty-state">
+      <p class="loading-empty-message">Loading building blocks...</p>
+    </div>
+    <CheckBoxAtom 
+      v-else-if="store.buildingBlocks.length > 0"
+      v-for="buildingBlock in store.buildingBlocks" 
+      :key="buildingBlock.id"
+      :id="buildingBlock.id"
+      :select-set="selectedBuildingBlocksSet"
+      :label="buildingBlock.name"
     />
+    <div v-else-if="store.areBuldingBlocksLoaded && store.buildingBlocks.length === 0" class="loading-empty-state">
+      <p class="loading-empty-message">No building blocks available</p>
+    </div>
   </div>
 
   <div id="category-item">
-      <CategoryItem v-for="category in store.categories" :key="category.id"
+    <div v-if="!store.areCategoriesLoaded" class="loading-empty-state">
+      <p class="loading-empty-message">Loading categories...</p>
+    </div>
+    <CategoryItem 
+      v-else-if="store.categories.length > 0"
+      v-for="category in store.categories" 
+      :key="category.id"
       :categoryId="String(category.id)"
       :categoryName="String(category.name)"
       @selectCategory="$emit('selectCategory', category.id)"
       @deleteCategory="$emit('deleteCategory', category.id)"/>
+    <div v-else-if="store.areCategoriesLoaded && store.categories.length === 0" class="loading-empty-state">
+      <p class="loading-empty-message">No categories available</p>
+    </div>
   </div>
 </template>
 
@@ -94,4 +112,19 @@ function addCategory(categoryName: string) {
   flex-wrap: wrap;
   flex-shrink: 0;
 }
+
+.loading-empty-message {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0;
+}
+
+
+.loading-empty-state {
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+}
+
 </style>

@@ -1,9 +1,10 @@
 <template>
 
-  <HomePateTemplates 
+  <HomePageTemplates 
     @show-dialog-category="showDialogCategory"
     @edit-todo="handleEditTodo"
-    @complete-todo="handleCompleteTodo" />
+    @complete-todo="handleCompleteTodo"
+    @toggle-due-today="handleToggleDueToday" />
 
   <CategorySelectionDialog v-if="isDialogCategoryShown"
   :building-blocks="store.buildingBlocks"
@@ -28,8 +29,8 @@
 <script setup lang="ts">
 import { useTodoStore } from '@/stores/todoStore';
 import { onMounted, ref, type Ref } from 'vue';
-import HomePateTemplates from './templates/HomePateTemplates.vue';
-import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, getAllToDos, updateLinkData, setCompleted, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
+import HomePageTemplates from './templates/HomePageTemplates.vue';
+import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, getAllToDos, updateLinkData, setCompleted, setDueToday, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
 import { toCategoryCreationObject, toCategoryObject } from '@/composables/modelGenerator';
 import CategorySelectionDialog from './organisms/CategorySelectionDialog.vue';
 import CreateTodoDialog from './organisms/CreateTodoDialog.vue';
@@ -159,6 +160,31 @@ async function handleCompleteTodo(todo: ToDo) {
   } catch (error) {
     console.error('Error completing todo:', error)
     toast.error('Error marking todo as completed')
+  }
+}
+
+async function handleToggleDueToday(todo: ToDo, value: boolean) {
+  if (!todo.id) {
+    toast.error('Todo ID is missing')
+    return
+  }
+
+  try {
+    const response = await setDueToday({
+      path: {
+        id: todo.id
+      }
+    })
+
+    if (response.response.ok && response.data) {
+      store.updateTodo(todo.id, { dueToday: value })
+      const message = value ? 'Todo marked for today!' : 'Todo unmarked for today!'
+      toast.success(message)
+    } else {
+      toast.error('Error updating todo')
+    }
+  } catch (error) {
+    console.error('Error toggling due today:', error)
   }
 }
 

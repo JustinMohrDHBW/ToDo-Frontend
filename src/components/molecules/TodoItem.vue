@@ -1,10 +1,17 @@
 <template>
 
     <div id="item" v-if="todo" @click="handleClick" class="clickable-item">
-        <ItemLabel :label="getTodoName()" :width-in-percent="40"/>
+        <ItemLabel :label="getTodoName()" :width-in-percent="35"/>
         <ItemLabel :label="getCategoryName()" :width-in-percent="25"/>
-        <ItemLabel :label="formatDate(todo.createdAt)" :width-in-percent="10"/>
-        <ItemLabel :label="todo.priority || 'MEDIUM'" :width-in-percent="10"/>
+        <ItemLabel :label="formatDate(todo.createdAt)" :width-in-percent="20"/>
+        <ItemLabel :label="todo.priority || 'UNKNOWN'" :width-in-percent="10"/>
+        <div class="checkbox-container" @click.stop>
+            <CheckBoxAtom 
+                :model-value="todo.dueToday || false"
+                @update:model-value="handleDueTodayToggle"
+                label="Today"
+            />
+        </div>
         <div>
             <button v-if="showDeleteButton" @click.stop="handleDelete" class="delete-button">delete</button>
             <ButtonAtom v-else label="done" @click.stop="handleDone"/>
@@ -18,6 +25,7 @@
 import type { ToDo } from '@/api'
 import ButtonAtom from '../atoms/ButtonAtom.vue';
 import ItemLabel from '../atoms/ItemLabel.vue';
+import CheckBoxAtom from '../atoms/CheckBoxAtom.vue';
 import { useTodoStore } from '@/stores/todoStore';
 
 const store = useTodoStore()
@@ -27,7 +35,7 @@ const props = defineProps<{
     showDeleteButton?: boolean
 }>()
 
-const emit = defineEmits(['edit-todo', 'complete-todo', 'delete-todo'])
+const emit = defineEmits(['edit-todo', 'complete-todo', 'delete-todo', 'toggle-due-today'])
 
 const handleClick = () => {
     if (props.todo) {
@@ -44,6 +52,12 @@ const handleDone = () => {
 const handleDelete = () => {
     if (props.todo) {
         emit('delete-todo', props.todo)
+    }
+}
+
+const handleDueTodayToggle = (value: boolean) => {
+    if (props.todo) {
+        emit('toggle-due-today', props.todo, value)
     }
 }
 
@@ -118,6 +132,15 @@ const formatDate = (dateString?: string) => {
 
 .delete-button:active {
     transform: scale(0.96);
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    padding-left: 100px;
+    padding-right: 100px;
+    justify-content: center
 }
 
 </style>
