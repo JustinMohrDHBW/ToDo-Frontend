@@ -24,7 +24,7 @@ const router = createRouter({
     {
       path: '/done',
       name: 'done',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/DoneView.vue'),
       meta: { requiresAuth: true }
     },
   ],

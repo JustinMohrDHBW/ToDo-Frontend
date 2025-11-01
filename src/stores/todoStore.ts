@@ -24,7 +24,6 @@ export const useTodoStore = defineStore('todos', () => {
         categories.value = categories.value.filter(
             (item) => id != item.id
         );
-        console.log(`filtering done`)
     }
 
     const getCategoryById = (id:number) : Category | null => {

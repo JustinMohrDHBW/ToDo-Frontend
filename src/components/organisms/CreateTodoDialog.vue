@@ -11,7 +11,7 @@
         <div id="default-props">
             <CheckBoxAtom v-model="isTodoToday" label="Do Today"/>
             <DropdownAtom
-            :items="priorityArray"
+            :items="mappedPriorityArray()"
             v-model="priority"/>
         </div>
 
@@ -63,7 +63,7 @@ import DatePicker from '../atoms/DatePicker.vue';
 import NumberInput from '../atoms/NumberInput.vue';
 import type { Category, ToDo, ToDoCreationDto } from '@/api';
 import { ref, computed, watch } from 'vue';
-import type { FormField } from '../../composables/models';
+import { type FormField } from '../../composables/models';
 import { DataTypes, priorityArray } from '../../composables/hardLoad';
 import { toTodoCreationObject } from '@/composables/modelGenerator';
 
@@ -118,6 +118,10 @@ watch(() => props.todo, (newTodo) => {
     }
 }, { immediate: true })
 
+
+function mappedPriorityArray():Array<string>{
+    return priorityArray.map(item => item.name);
+}
 
 
 

@@ -29,7 +29,7 @@
 import { useTodoStore } from '@/stores/todoStore';
 import { onMounted, ref, type Ref } from 'vue';
 import HomePateTemplates from './templates/HomePateTemplates.vue';
-import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, getAllToDos, updateLinkData, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
+import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, getAllToDos, updateLinkData, setCompleted, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
 import { toCategoryCreationObject, toCategoryObject } from '@/composables/modelGenerator';
 import CategorySelectionDialog from './organisms/CategorySelectionDialog.vue';
 import CreateTodoDialog from './organisms/CreateTodoDialog.vue';
@@ -131,10 +131,29 @@ function handleEditTodo(todo: ToDo) {
   isDialogBuildingBlocksShown.value = true;
 }
 
-function handleCompleteTodo(todo: ToDo) {
-  // TODO: Implement complete functionality
-  console.log('Complete todo:', todo)
-  toast.info('Complete-Funktion noch nicht implementiert')
+async function handleCompleteTodo(todo: ToDo) {
+  if (!todo.id) {
+    toast.error('Todo-ID fehlt')
+    return
+  }
+
+  try {
+    const response = await setCompleted({
+      path: {
+        id: todo.id
+      }
+    })
+
+    if (response.response.ok && response.data) {
+      store.updateTodo(todo.id, response.data)
+      toast.success('Todo als erledigt markiert!')
+    } else {
+      toast.error('Fehler beim Markieren des Todos')
+    }
+  } catch (error) {
+    console.error('Error completing todo:', error)
+    toast.error('Fehler beim Markieren des Todos')
+  }
 }
 
 // Todo operations

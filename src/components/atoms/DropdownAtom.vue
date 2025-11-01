@@ -27,7 +27,9 @@
   const model = defineModel<string>({})
   const isOpen = ref(false)
 
-  model.value = props.items[0]
+  if (!model.value && props.items.length > 0) {
+    model.value = props.items[0]
+  }
   
   function toggleDropdown() {
     isOpen.value = !isOpen.value
