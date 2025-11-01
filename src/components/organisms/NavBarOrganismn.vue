@@ -5,18 +5,44 @@
         <a class="navbar-logo" href="#" aria-label="Homepage">TodoApp</a>
       </div>
 
-      <nav class="navbar-center" aria-label="Main Navigation">
+      <nav v-if="authStore.isAuthenticated" class="navbar-center">
         <RouterLink class="nav-link" to="/todo">Todo</RouterLink>
         <RouterLink class="nav-link" to="/done">Done</RouterLink>
       </nav>
 
-      <div class="navbar-right"></div>
+      <div class="navbar-right">
+        <div class="user-menu">
+          <div class="user-info">
+            <span class="user-email">{{ authStore.user?.email }}</span>
+          </div>
+          <button v-if="authStore.isAuthenticated" class="logout-button" @click="handleLogout">
+            {{ 'Logout' }}
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
+import { useToast } from 'vue-toast-notification'
+
+const router = useRouter()
+const authStore = useAuthStore()
+const toast = useToast()
+
+const handleLogout = async () => {
+  const result = await authStore.signOut()
+  
+  if (result.success) {
+    toast.success('Successfully logged out!')
+    router.push('/login')
+  } else {
+    toast.error(result.error || 'Failed to log out')
+  }
+}
 </script>
 
 <style scoped>
@@ -48,6 +74,54 @@ import { RouterLink } from 'vue-router'
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-email {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.logout-button:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+.logout-button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.logout-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .navbar-logo {

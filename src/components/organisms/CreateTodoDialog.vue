@@ -61,12 +61,13 @@ import CheckBoxAtom from '../atoms/CheckBoxAtom.vue';
 import ButtonAtom from '../atoms/ButtonAtom.vue';
 import DatePicker from '../atoms/DatePicker.vue';
 import NumberInput from '../atoms/NumberInput.vue';
-import type { Category } from '@/api';
+import type { Category, ToDoCreationDto } from '@/api';
 import { ref } from 'vue';
 import type { FormField } from '../../composables/Models';
 import { DataTypes, priorityArray } from '../../composables/HardLoad';
+import { toTodoCreationObject } from '@/composables/ModelGenerator';
 
-defineEmits(['reset-state', 'save-todo']);
+const emit = defineEmits(['reset-state', 'save-todo']);
 
 
 const props = defineProps<{
@@ -147,6 +148,20 @@ function saveTodo() {
 
     console.log("Formular ist gültig. Speichern...");
 
+    const buildingBlockValues: Record<number, string> = {};
+    for (const id in buildingBlockFormulaData.value) {
+        buildingBlockValues[id] = buildingBlockFormulaData.value[id]!.value;
+    }
+
+    const newTodo: ToDoCreationDto = toTodoCreationObject(
+        todoName.value.value,
+        priority.value,
+        isTodoToday.value,
+        props.category,
+        buildingBlockValues
+    );
+
+    emit("save-todo", newTodo);
 }
 
 </script>

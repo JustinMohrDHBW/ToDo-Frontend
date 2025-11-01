@@ -42,7 +42,6 @@ import AddCategoryItem from '../molecules/AddCategoryItem.vue'
 import CategoryItem from '../molecules/CategoryItem.vue'
 import DialogFrame from './DialogFrame.vue'
 import ButtonAtom from '../atoms/ButtonAtom.vue'
-import { categoryNameMapper } from '@/composables/Mapper'
 
 const store = useTodoStore()
 
@@ -91,7 +90,6 @@ function addCategory(categoryName: string) {
   display: flex;
   flex-direction: row;
   gap: 15px;
-  /* overflow: auto; */
   flex-wrap: wrap;
   flex-shrink: 0;
 }

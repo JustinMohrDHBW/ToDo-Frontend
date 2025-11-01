@@ -23,7 +23,7 @@
 import { useTodoStore } from '@/stores/todoStore';
 import { onMounted, ref, type Ref } from 'vue';
 import HomePateTemplates from './templates/HomePateTemplates.vue';
-import { addCategory, deleteCategory, getAllBuildingBlocks, getAllCategories, type BuildingBlock, type Category } from '@/api';
+import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
 import { toCategoryCreationObject, toCategoryObject } from '@/composables/ModelGenerator';
 import { toastError } from '@/composables/Toast';
 import CategorySelectionDialog from './organisms/CategorySelectionDialog.vue';
@@ -56,9 +56,24 @@ function resetState() {
 }
 
 
-function saveTodo() {
-  console.log('Speichere Todo...');
+async function saveTodo(todo:ToDoCreationDto) {
+  console.log('Speichere Todo muss gebaut werden');
+
+
+  const response = await createToDo({
+    body: todo
+  })
+
+  if (response.response.ok && response.data) {
+
+  } else {
+    toastError()
+  }
+  
 }
+
+
+
 
 
 

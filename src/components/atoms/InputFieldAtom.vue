@@ -7,7 +7,7 @@
     <input 
       :class="{ 'input-error': isInvalid }"
       class="minimal-input" 
-      type="text" 
+      :type="type" 
       :placeholder="placeHolder" 
       v-model="model"
     />
@@ -20,17 +20,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, withDefaults } from 'vue';
 
 
 
 const model = defineModel();
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   placeHolder?: string,
   label?: string
   errorMessage?: string
-}>();
+  type?: string
+}>(), {
+  type: 'text'
+});
 
 const isInvalid = computed(() => !!props.errorMessage);
 

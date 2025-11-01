@@ -1,0 +1,339 @@
+openapi: "3.1.0"
+info:
+  title: "ToDo_Backend API"
+  description: "ToDo_Backend API"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /todoApp/categories:
+    post:
+      summary: "POST todoApp/categories"
+      operationId: "addCategory"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryCreationDTO"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Category"
+    get:
+      summary: "GET todoApp/categories"
+      operationId: "getAllCategories"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Category"
+  /todoApp/categories/{id}:
+    delete:
+      summary: "DELETE todoApp/categories/{id}"
+      operationId: "deleteCategory"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Void"
+  /todoApp/buildingBlocks:
+    get:
+      summary: "GET todoApp/buildingBlocks"
+      operationId: "getAllBuildingBlocks"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/BuildingBlock"
+  /todoApp/todo/{id}/data:
+    put:
+      summary: "PUT todoApp/todo/{id}/data"
+      operationId: "updateLinkData"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToDoUpdateLinkDataDTO"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ToDo"
+  /todoApp/todo/{id}/complete:
+    patch:
+      summary: "PATCH todoApp/todo/{id}/complete"
+      operationId: "setCompleted"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ToDo"
+  /todoApp/todo/{id}/due-today:
+    patch:
+      summary: "PATCH todoApp/todo/{id}/due-today"
+      operationId: "setDueToday"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ToDo"
+  /todoApp/todo:
+    post:
+      summary: "POST todoApp/todo"
+      operationId: "createToDo"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToDoCreationDTO"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ToDo"
+    get:
+      summary: "GET todoApp/todo"
+      operationId: "getAllToDos"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ToDo"
+  /todoApp/todo/{id}:
+    delete:
+      summary: "DELETE todoApp/todo/{id}"
+      operationId: "deleteToDo"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Void"
+components:
+  schemas:
+    CategoryCreationDTO:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          nullable: true
+        buildingBlockIds:
+          type: "array"
+          nullable: true
+          items:
+            type: "integer"
+            format: "int64"
+          uniqueItems: true
+    BuildingBlock:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        name:
+          type: "string"
+          nullable: true
+        dataType:
+          type: "string"
+          nullable: true
+    Category:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        name:
+          type: "string"
+          nullable: true
+        userId:
+          type: "string"
+          format: "uuid"
+          nullable: true
+        buildingBlocks:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/BuildingBlock"
+          uniqueItems: true
+    Void:
+      type: "object"
+      properties: { }
+    LinkUpdateDTO:
+      type: "object"
+      properties:
+        buildingBlockId:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        dataValue:
+          type: "string"
+          nullable: true
+    ToDoUpdateLinkDataDTO:
+      type: "object"
+      properties:
+        buildingBlockData:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/LinkUpdateDTO"
+    ToDoBuildingBlockDataLinkId:
+      type: "object"
+      properties:
+        buildingBlockId:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        todoId:
+          type: "integer"
+          format: "int64"
+          nullable: true
+    ToDoBuildingBlockDataLink:
+      type: "object"
+      properties:
+        id:
+          nullable: true
+          $ref: "#/components/schemas/ToDoBuildingBlockDataLinkId"
+        dataValue:
+          type: "string"
+          nullable: true
+    ToDo:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        categoryId:
+          nullable: true
+          $ref: "#/components/schemas/Category"
+        title:
+          type: "string"
+          nullable: true
+        userId:
+          type: "string"
+          format: "uuid"
+          nullable: true
+        createdAt:
+          type: "string"
+          format: "date"
+          nullable: true
+        priority:
+          type: "string"
+          nullable: true
+        dueToday:
+          type: "boolean"
+          nullable: true
+        completed:
+          type: "boolean"
+          nullable: true
+        buildingBlockData:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/ToDoBuildingBlockDataLink"
+          uniqueItems: true
+    ToDoBuildingBlockDataDTO:
+      type: "object"
+      properties:
+        buildingBlockId:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        dataValue:
+          type: "string"
+          nullable: true
+    ToDoCreationDTO:
+      type: "object"
+      properties:
+        categoryId:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        createdAt:
+          type: "string"
+          format: "date"
+          nullable: true
+        priority:
+          type: "string"
+          nullable: true
+        completed:
+          type: "boolean"
+          nullable: true
+        buildingBlockData:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/ToDoBuildingBlockDataDTO"
+          uniqueItems: true
+        dueToday:
+          type: "boolean"
+          nullable: true
+        title:
+          type: "string"
+          nullable: true
