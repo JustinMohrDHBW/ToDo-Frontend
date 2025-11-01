@@ -33,12 +33,12 @@ const router = createRouter({
 // Navigation guard to protect routes
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
-  
+
   // Initialize auth state if not already done
   if (!authStore.session) {
     await authStore.initializeAuth()
   }
-  
+
   // Check if route requires authentication
   if (to.meta.requiresAuth) {
     if (authStore.isAuthenticated) {

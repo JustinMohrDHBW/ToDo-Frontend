@@ -29,5 +29,4 @@ const props = defineProps({
     color: #1f2937;
     letter-spacing: -0.01em;
 }
-
 </style>

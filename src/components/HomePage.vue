@@ -1,28 +1,15 @@
 <template>
 
-  <HomePageTemplates 
-    @show-dialog-category="showDialogCategory"
-    @edit-todo="handleEditTodo"
-    @complete-todo="handleCompleteTodo"
-    @toggle-due-today="handleToggleDueToday" />
+  <HomePageTemplates @show-dialog-category="showDialogCategory" @edit-todo="handleEditTodo"
+    @complete-todo="handleCompleteTodo" @toggle-due-today="handleToggleDueToday" />
 
-  <CategorySelectionDialog v-if="isDialogCategoryShown"
-  :building-blocks="store.buildingBlocks"
-  :categories="store.categories"
-
-  @reset-state="resetState"
-  @add-category="saveNewCategory"
-  @select-category="selectCategory" 
-  @delete-category="removeCategory" />
+  <CategorySelectionDialog v-if="isDialogCategoryShown" :building-blocks="store.buildingBlocks"
+    :categories="store.categories" @reset-state="resetState" @add-category="saveNewCategory"
+    @select-category="selectCategory" @delete-category="removeCategory" />
 
 
-  <CreateTodoDialog 
-    v-if="isDialogBuildingBlocksShown"
-    :category="selectedCategory"
-    :todo="selectedTodo"
-    @reset-state="resetState"
-    @save-todo="saveTodo"
-    @update-todo="updateTodo" />
+  <CreateTodoDialog v-if="isDialogBuildingBlocksShown" :category="selectedCategory" :todo="selectedTodo"
+    @reset-state="resetState" @save-todo="saveTodo" @update-todo="updateTodo" />
 
 </template>
 
@@ -44,9 +31,9 @@ const isDialogCategoryShown = ref(false)
 const isDialogBuildingBlocksShown = ref(false)
 
 const selectedCategory = ref<Category>({
-    id: 0, 
-    name: '', 
-    buildingBlocks: []
+  id: 0,
+  name: '',
+  buildingBlocks: []
 });
 
 const selectedTodo = ref<ToDo | undefined>(undefined)
@@ -68,7 +55,7 @@ function resetState() {
 }
 
 
-async function saveTodo(todo:ToDoCreationDto) {
+async function saveTodo(todo: ToDoCreationDto) {
   console.log('Saving Todo...');
 
 
@@ -85,7 +72,7 @@ async function saveTodo(todo:ToDoCreationDto) {
   } else {
     toast.error('Error saving todo')
   }
-  
+
 }
 
 async function updateTodo(todoId: number, updateData: ToDoCreationDto) {
@@ -123,7 +110,7 @@ function handleEditTodo(todo: ToDo) {
 
   if (!categoryId) {
     toast.error('No category assigned to todo.');
-    return; 
+    return;
   }
 
   const category = store.getCategoryById(categoryId);
@@ -230,7 +217,7 @@ async function fetchCategories() {
 
 }
 
-async function saveNewCategory(categoryName: string, buildingBlockIds: Array<number>, callback:Function) {
+async function saveNewCategory(categoryName: string, buildingBlockIds: Array<number>, callback: Function) {
   if (categoryName.trim().length == 0) {
     toast.error('The input field cannot be empty.')
     return
@@ -243,9 +230,9 @@ async function saveNewCategory(categoryName: string, buildingBlockIds: Array<num
       toCategoryObject(categoryName, response.data?.buildingBlocks!, response.data?.id!)
     )
     callback()
-  } else if(response.response.status === 409) {
+  } else if (response.response.status === 409) {
     toast.info('Category already exists.')
-  }else {
+  } else {
     toast.error('Error saving category')
   }
 }
@@ -260,9 +247,9 @@ async function removeCategory(id: number) {
 
   if (response.response.ok) {
     store.deleteCategory(id)
-  } else if(response.response.status === 500) {
+  } else if (response.response.status === 500) {
     toast.info('Complete and delete all todos in this category.')
-  }else {
+  } else {
     toast.error('Error deleting category')
   }
 

@@ -1,20 +1,20 @@
 <template>
 
-<div id="dialog-overlay" @click="closeDialog">
-    <div id="dialog-frame" @click.stop>
-        <div id="dialog-content">
-            <DialogHeader :title="props.dialogTitle"/>
-            <p v-if="info">{{ info }}</p>
+    <div id="dialog-overlay" @click="closeDialog">
+        <div id="dialog-frame" @click.stop>
+            <div id="dialog-content">
+                <DialogHeader :title="props.dialogTitle" />
+                <p v-if="info">{{ info }}</p>
+            </div>
+
+            <slot name="content"></slot>
+
+            <div id="button-div">
+                <slot name="action-buttons"></slot>
+            </div>
+
         </div>
-
-        <slot name="content"></slot>
-
-        <div id="button-div">
-            <slot name="action-buttons"></slot>
-        </div>
-
     </div>
-</div>
 
 </template>
 
@@ -23,13 +23,13 @@ import DialogHeader from '../atoms/DialogHeader.vue';
 
 const props = defineProps({
     dialogTitle: String,
-    info: {required: false, type: String}
+    info: { required: false, type: String }
 })
 
 const emit = defineEmits(['closeDialog'])
 
 
-function closeDialog(){
+function closeDialog() {
     console.log('click');
     emit('closeDialog')
 }
@@ -37,8 +37,6 @@ function closeDialog(){
 </script>
 
 <style scoped>
-
-
 #dialog-overlay {
 
     position: fixed;
@@ -53,27 +51,26 @@ function closeDialog(){
 }
 
 #dialog-frame {
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  min-width: 400px;
-  max-width: 25vw;
-  max-height: 80vh;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  overflow: auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 400px;
+    max-width: 25vw;
+    max-height: 80vh;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    overflow: auto;
 }
 
-#dialog-content{
+#dialog-content {
     display: flex;
     flex-direction: column;
 }
 
-#button-div{
+#button-div {
     display: flex;
-    justify-content: space-evenly;    
+    justify-content: space-evenly;
 }
-
 </style>

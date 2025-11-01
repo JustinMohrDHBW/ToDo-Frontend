@@ -1,16 +1,16 @@
 <template>
-    <div id="options-bar">
-        <div id="stack-container">
-            <DropdownAtom :items="filterMenu" v-model="sortBy" label="Sort by" />
-            <DropdownAtom :items="categoryFilterItems" v-model="selectedCategoryId" label="Category" />
-            <CheckBoxAtom label="Tasks for Today" v-model="filterDueToday" />
-        </div>
-        <div id="button-container">
-            <ButtonAtom label="New Todo" @click="showDialogCategory"/>
-        </div>
+  <div id="options-bar">
+    <div id="stack-container">
+      <DropdownAtom :items="filterMenu" v-model="sortBy" label="Sort by" />
+      <DropdownAtom :items="categoryFilterItems" v-model="selectedCategoryId" label="Category" />
+      <CheckBoxAtom label="Tasks for Today" v-model="filterDueToday" />
     </div>
+    <div id="button-container">
+      <ButtonAtom label="New Todo" @click="showDialogCategory" />
+    </div>
+  </div>
 
-  </template>
+</template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -37,55 +37,53 @@ const categoryFilterItems = computed(() => {
   return items
 })
 
-function showDialogCategory(){
+function showDialogCategory() {
   emit('showDialogCategory')
 }
 
 </script>
-  
 
-  
+
+
 <style scoped>
-  #stack-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
+#stack-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
 
-  .filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 150px;
-  }
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 150px;
+}
 
-  .checkbox-group {
-    align-self: flex-end;
-    padding-bottom: 4px;
-  }
+.checkbox-group {
+  align-self: flex-end;
+  padding-bottom: 4px;
+}
 
-  .filter-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+.filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-  #options-bar{
-    display: flex;
-    padding-inline: 60px;
-    padding-block: 30px;
-    justify-content: space-between;
-    align-items: center;
-  }
+#options-bar {
+  display: flex;
+  padding-inline: 60px;
+  padding-block: 30px;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  #button-container{
-    display: flex;
-    align-items: center;
-  }
-
+#button-container {
+  display: flex;
+  align-items: center;
+}
 </style>
-  

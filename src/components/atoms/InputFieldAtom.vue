@@ -3,14 +3,9 @@
     <label v-if="label" class="input-label">
       {{ label }}
     </label>
-    
-    <input 
-      :class="{ 'input-error': isInvalid }"
-      class="minimal-input" 
-      :type="type" 
-      :placeholder="placeHolder" 
-      v-model="model"
-    />
+
+    <input :class="{ 'input-error': isInvalid }" class="minimal-input" :type="type" :placeholder="placeHolder"
+      v-model="model" />
 
     <p v-if="isInvalid" class="error-message">
       {{ errorMessage }}
@@ -47,8 +42,8 @@ const isInvalid = computed(() => !!props.errorMessage);
 }
 
 .minimal-input:focus {
-  border-color: transparent; 
-  box-shadow: 0 0 0 2px #6366F1; 
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #6366F1;
 }
 
 .minimal-input.input-error:focus {
@@ -59,7 +54,7 @@ const isInvalid = computed(() => !!props.errorMessage);
 .input-label {
   display: block;
   margin-bottom: 0.25rem;
-  font-size: 0.875rem; 
+  font-size: 0.875rem;
   color: #6B7280;
   font-weight: 500;
 }
@@ -67,17 +62,17 @@ const isInvalid = computed(() => !!props.errorMessage);
 .minimal-input {
   width: 100%;
 
-  padding: 0.75rem 1rem; 
+  padding: 0.75rem 1rem;
   box-sizing: border-box;
 
   font-size: 1rem;
   font-family: inherit;
 
-  color: #111827; 
+  color: #111827;
 
-  background-color: #F9FAFB; 
+  background-color: #F9FAFB;
   border: 1px solid #d1d5db;
-  border-radius: 10px; 
+  border-radius: 10px;
   outline: none;
 }
 
@@ -96,6 +91,4 @@ const isInvalid = computed(() => !!props.errorMessage);
   margin: 0;
   padding-top: 0.25rem;
 }
-
-
 </style>

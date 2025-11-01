@@ -1,6 +1,6 @@
 import type { BuildingBlock, Category, CategoryCreationDto, ToDo, ToDoBuildingBlockDataDto, ToDoCreationDto } from "@/api"
 
-export const toCategoryCreationObject = (name:string, buildingBlockIds:Array<number>):CategoryCreationDto => {
+export const toCategoryCreationObject = (name: string, buildingBlockIds: Array<number>): CategoryCreationDto => {
 
     return {
         name: name,
@@ -8,7 +8,7 @@ export const toCategoryCreationObject = (name:string, buildingBlockIds:Array<num
     }
 }
 
-export const toCategoryObject = (name:string, buildingBlocks:Array<BuildingBlock>, id:number):Category => {
+export const toCategoryObject = (name: string, buildingBlocks: Array<BuildingBlock>, id: number): Category => {
 
     return {
         id: id,
@@ -30,7 +30,7 @@ export const toTodoCreationObject = (
         return {
             buildingBlockId: Number(id),
             dataValue: val
-        } as ToDoBuildingBlockDataDto; 
+        } as ToDoBuildingBlockDataDto;
     });
 
     const newTodo: ToDoCreationDto = {

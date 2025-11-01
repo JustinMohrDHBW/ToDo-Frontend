@@ -14,19 +14,19 @@ export const useTodoStore = defineStore('todos', () => {
     const todos = ref<ToDo[]>([])
 
     // Category operations
-    const addCategory = (category:Category) => {
+    const addCategory = (category: Category) => {
         categories.value.push(category)
 
         console.log(category)
     }
 
-    const deleteCategory = (id:number) => {
+    const deleteCategory = (id: number) => {
         categories.value = categories.value.filter(
             (item) => id != item.id
         );
     }
 
-    const getCategoryById = (id:number) : Category | null => {
+    const getCategoryById = (id: number): Category | null => {
         return categories.value.find(category => category.id == id) || null
     }
 
@@ -48,7 +48,7 @@ export const useTodoStore = defineStore('todos', () => {
         }
     }
 
-    return{
+    return {
         categories,
         areCategoriesLoaded,
         addCategory,

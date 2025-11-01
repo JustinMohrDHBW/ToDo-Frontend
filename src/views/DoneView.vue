@@ -2,19 +2,9 @@
   <div class="done-page">
     <h1 class="page-title">Completed Todos</h1>
     <ItemViewArea>
-      <TodoItem 
-        v-for="todo in completedTodos" 
-        :key="todo.id"
-        :todo="todo"
-        :show-delete-button="true"
-        @edit-todo="handleEditTodo"
-        @delete-todo="handleDeleteTodo"
-      />
-      <State 
-        v-if="completedTodos.length === 0" 
-        variant="bigScreen"
-        message="No completed todos available."
-      />
+      <TodoItem v-for="todo in completedTodos" :key="todo.id" :todo="todo" :show-delete-button="true"
+        @edit-todo="handleEditTodo" @delete-todo="handleDeleteTodo" />
+      <State v-if="completedTodos.length === 0" variant="bigScreen" message="No completed todos available." />
     </ItemViewArea>
   </div>
 </template>
@@ -82,7 +72,7 @@ async function fetchTodos() {
   }
 
   const response = await getAllToDos()
-  
+
   if (response.data) {
     const todos: Array<ToDo> = response.data
     for (const todo of todos) {
@@ -109,6 +99,4 @@ async function fetchTodos() {
   color: #111827;
   margin: 0 0 24px 0;
 }
-
 </style>
-

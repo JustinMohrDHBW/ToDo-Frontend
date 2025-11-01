@@ -1,6 +1,6 @@
 <template>
 
-    <div id="container" :style="{ flexBasis: width + '%', width: width + '%'}">
+    <div id="container" :style="{ flexBasis: width + '%', width: width + '%' }">
         <p>{{ props.label }}</p>
     </div>
 
@@ -13,12 +13,10 @@ const width = props.widthInPercent ?? 100;
 </script>
 
 <style scoped>
-
 p {
     white-space: normal;
     overflow-wrap: anywhere;
     margin: 0;
     color: #333333;
 }
-
 </style>

@@ -1,19 +1,12 @@
 <template>
-<div class="number-input-wrapper">
+  <div class="number-input-wrapper">
     <label v-if="label" class="number-input-label">
       {{ label }}
     </label>
 
-    <input 
-        type="number"
-        v-model="numericInput"
-        class="number-input"
-        :class="{ 'input-error': isInvalid }"
-        :placeholder="placeholder"
-        :aria-label="label || placeholder || 'Numerische Eingabe'"
-        min="0"
-        @keydown="restrictToNumbers"
-    />
+    <input type="number" v-model="numericInput" class="number-input" :class="{ 'input-error': isInvalid }"
+      :placeholder="placeholder" :aria-label="label || placeholder || 'Numerische Eingabe'" min="0"
+      @keydown="restrictToNumbers" />
 
     <p v-if="isInvalid" class="error-message">
       {{ errorMessage }}
@@ -28,9 +21,9 @@ import { computed, ref } from 'vue';
 const model = defineModel<string>();
 
 const props = defineProps<{
-    label?: string; 
-    placeholder?: string;
-    errorMessage?: string;
+  label?: string;
+  placeholder?: string;
+  errorMessage?: string;
 }>()
 
 const isInvalid = computed(() => !!props.errorMessage);
@@ -59,42 +52,41 @@ const numericInput = computed({
 </script>
 
 <style scoped>
-
 .number-input-wrapper {
-    width: 100%;
+  width: 100%;
 }
 
 .number-input-label {
-    display: block;
-    margin-bottom: 0.25rem; 
-    font-size: 0.875rem; 
-    color: #6B7280; 
-    font-weight: 500; 
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  color: #6B7280;
+  font-weight: 500;
 }
 
 .number-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-family: inherit;
-    font-size: 1rem;
-    box-sizing: border-box; 
-    
-    color: #111827; 
-    background-color: #F9FAFB; 
-    border: 1px solid #D1D5DB; 
-    border-radius: 10px;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+
+  color: #111827;
+  background-color: #F9FAFB;
+  border: 1px solid #D1D5DB;
+  border-radius: 10px;
 }
 
 .number-input:focus {
-    outline: none;
-    border-color: transparent;
-    box-shadow: 0 0 0 2px #6366F1;
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #6366F1;
 }
 
 .number-input::-webkit-outer-spin-button,
 .number-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 

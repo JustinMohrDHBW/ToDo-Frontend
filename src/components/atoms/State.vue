@@ -1,24 +1,23 @@
 <template>
-    <div :class="wrapperClass">
-      <p :class="messageClass">{{ props.message }}</p>
-    </div>
-  </template>
-  
-  <script setup lang="ts">
-  import { computed } from 'vue'
-  
-  const props = defineProps<{
-    message: string
-    variant: 'bigScreenCongratulations' | 'bigScreen' | 'popup'
-  }>()
-  
-  const wrapperClass = computed(() => `wrapper-${props.variant}`)
-  const messageClass = computed(() => `message-${props.variant}`)
-  
-  </script>
-  
-  <style scoped>
+  <div :class="wrapperClass">
+    <p :class="messageClass">{{ props.message }}</p>
+  </div>
+</template>
 
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  message: string
+  variant: 'bigScreenCongratulations' | 'bigScreen' | 'popup'
+}>()
+
+const wrapperClass = computed(() => `wrapper-${props.variant}`)
+const messageClass = computed(() => `message-${props.variant}`)
+
+</script>
+
+<style scoped>
 .wrapper-bigScreen,
 .wrapper-bigScreenCongratulations {
   text-align: center;
@@ -52,6 +51,4 @@
   color: #6b7280;
   margin: 0;
 }
-  
-
-  </style>
+</style>

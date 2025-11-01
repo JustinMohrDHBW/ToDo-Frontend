@@ -1,30 +1,13 @@
 <template>
-    <OptionsBar 
-      @showDialogCategory="switchDialogShowState"
-      v-model:sortBy="sortBy"
-      v-model:filterDueToday="filterDueToday"
-      v-model:selectedCategoryId="selectedCategoryId"
-    />
-    <ItemViewArea>
-      <TodoItem 
-        v-for="todo in filteredTodos" 
-        :key="todo.id"
-        :todo="todo"
-        @edit-todo="handleEditTodo"
-        @complete-todo="handleCompleteTodo"
-        @toggle-due-today="handleToggleDueToday"
-      />
-      <State 
-        v-if="store.areTodosLoaded && filteredTodos.length === 0" 
-        variant="bigScreenCongratulations"
-        message="Great, no open todos!"
-      />
-      <State 
-        v-else-if="!store.areTodosLoaded" 
-        variant="bigScreen"
-        message="Loading todos..."
-      />
-    </ItemViewArea>
+  <OptionsBar @showDialogCategory="switchDialogShowState" v-model:sortBy="sortBy"
+    v-model:filterDueToday="filterDueToday" v-model:selectedCategoryId="selectedCategoryId" />
+  <ItemViewArea>
+    <TodoItem v-for="todo in filteredTodos" :key="todo.id" :todo="todo" @edit-todo="handleEditTodo"
+      @complete-todo="handleCompleteTodo" @toggle-due-today="handleToggleDueToday" />
+    <State v-if="store.areTodosLoaded && filteredTodos.length === 0" variant="bigScreenCongratulations"
+      message="Great, no open todos!" />
+    <State v-else-if="!store.areTodosLoaded" variant="bigScreen" message="Loading todos..." />
+  </ItemViewArea>
 
 </template>
 
@@ -51,24 +34,24 @@ const activeTodos = computed(() => {
 
 const filteredTodos = computed(() => {
   let filtered = [...activeTodos.value]
-  
+
   // Filter by category
   if (selectedCategoryId.value !== 'All') {
     filtered = filtered.filter(todo => {
       if (!todo.categoryId) return false
-      
+
       const categoryId = store.getCategoryById(todo.categoryId.id!)
       return categoryId?.name === selectedCategoryId.value
     })
   }
-  
+
   // Filter by dueToday if checkbox is checked
   if (filterDueToday.value) {
     filtered = filtered.filter(todo => todo.dueToday === true)
   }
-  
-// Sort by selected option
-if (sortBy.value === 'Priority') {
+
+  // Sort by selected option
+  if (sortBy.value === 'Priority') {
 
     const getPriorityValue = (priorityName: string): number => {
       const priorityObj = priorityArray.find(p => p.name === priorityName);
@@ -81,10 +64,10 @@ if (sortBy.value === 'Priority') {
 
       return bValue - aValue;
     });
-    
+
   } else if (sortBy.value === 'Name') {
     filtered.sort((a, b) => {
-      const aName = typeof a.categoryId === 'object' 
+      const aName = typeof a.categoryId === 'object'
         ? (a.categoryId?.name || '')
         : ''
       const bName = typeof b.categoryId === 'object'
@@ -93,30 +76,29 @@ if (sortBy.value === 'Priority') {
       return aName.localeCompare(bName)
     })
   }
-  
+
   return filtered
 })
 
 const emits = defineEmits(['showDialogCategory', 'edit-todo', 'complete-todo', 'toggle-due-today'])
 
 function switchDialogShowState() {
-    emits('showDialogCategory')
+  emits('showDialogCategory')
 }
 
 function handleEditTodo(todo: ToDo) {
   console.log('todo:', JSON.stringify(todo))
-    emits('edit-todo', todo)
+  emits('edit-todo', todo)
 }
 
 function handleCompleteTodo(todo: ToDo) {
-    emits('complete-todo', todo)
+  emits('complete-todo', todo)
 }
 
 function handleToggleDueToday(todo: ToDo, value: boolean) {
-    emits('toggle-due-today', todo, value)
+  emits('toggle-due-today', todo, value)
 }
 
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -1,12 +1,10 @@
 <template>
-    <NavBarOrganismn/>
-    <RouterView/>
+    <NavBarOrganismn />
+    <RouterView />
 </template>
-  
+
 <script setup lang="ts">
 import NavBarOrganismn from './components/organisms/NavBarOrganismn.vue'
 
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

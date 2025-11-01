@@ -1,20 +1,17 @@
 <template>
 
     <div id="item" v-if="todo" @click="handleClick" class="clickable-item">
-        <ItemLabel :label="getTodoName()" :width-in-percent="35"/>
-        <ItemLabel :label="getCategoryName()" :width-in-percent="25"/>
-        <ItemLabel :label="formatDate(todo.createdAt)" :width-in-percent="20"/>
-        <ItemLabel :label="todo.priority || 'UNKNOWN'" :width-in-percent="10"/>
+        <ItemLabel :label="getTodoName()" :width-in-percent="35" />
+        <ItemLabel :label="getCategoryName()" :width-in-percent="25" />
+        <ItemLabel :label="formatDate(todo.createdAt)" :width-in-percent="20" />
+        <ItemLabel :label="todo.priority || 'UNKNOWN'" :width-in-percent="10" />
         <div class="checkbox-container" @click.stop>
-            <CheckBoxAtom 
-                :model-value="todo.dueToday || false"
-                @update:model-value="handleDueTodayToggle"
-                label="Today"
-            />
+            <CheckBoxAtom :model-value="todo.dueToday || false" @update:model-value="handleDueTodayToggle"
+                label="Today" />
         </div>
         <div>
-            <ButtonAtom v-if="showDeleteButton" @click.stop="handleDelete" label="Delete" variant="danger"/>
-            <ButtonAtom v-else label="done" @click.stop="handleDone"/>
+            <ButtonAtom v-if="showDeleteButton" @click.stop="handleDelete" label="Delete" variant="danger" />
+            <ButtonAtom v-else label="done" @click.stop="handleDone" />
         </div>
     </div>
 
@@ -80,7 +77,7 @@ const getCategoryName = () => {
 
 const formatDate = (dateString?: string) => {
     if (!dateString) return 'Not set'
-    
+
     try {
         const date = new Date(dateString)
         const day = String(date.getDate()).padStart(2, '0')
@@ -94,7 +91,6 @@ const formatDate = (dateString?: string) => {
 </script>
 
 <style scoped>
-
 #item {
     display: flex;
     background-color: var(--bg-gray-light);
@@ -121,5 +117,4 @@ const formatDate = (dateString?: string) => {
     padding-right: 100px;
     justify-content: center
 }
-
 </style>

@@ -1,7 +1,5 @@
 <template>
-  <button 
-    :class="buttonClass"
-    :disabled="props.disabled"  >
+  <button :class="buttonClass" :disabled="props.disabled">
     {{ label }}
   </button>
 </template>

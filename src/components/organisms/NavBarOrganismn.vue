@@ -15,7 +15,7 @@
           <div class="user-info">
             <span class="user-email">{{ authStore.user?.email }}</span>
           </div>
-          <ButtonAtom v-if="authStore.isAuthenticated" @click="handleLogout" variant="outline-danger" label="Logout"/>
+          <ButtonAtom v-if="authStore.isAuthenticated" @click="handleLogout" variant="outline-danger" label="Logout" />
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@ const toast = useToast()
 
 const handleLogout = async () => {
   const result = await authStore.signOut()
-  
+
   if (result.success) {
     toast.success('Successfully logged out!')
     router.push('/login')
@@ -179,4 +179,3 @@ const handleLogout = async () => {
   }
 }
 </style>
-

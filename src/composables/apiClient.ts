@@ -4,7 +4,7 @@ import type { Client } from '@/api/client'
 
 export const updateClientAuthToken = () => {
   const authStore = useAuthStore()
-  
+
   // Setup auth token as Authorization header in client configuration
   client.setConfig({
     headers: {

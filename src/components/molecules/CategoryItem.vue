@@ -1,9 +1,9 @@
 <template>
 
-<div id="item-frame" @click.self="selectItem">
-    <p>{{ categoryName }}</p>
-    <ButtonAtom label="X" @click="deleteCategory"/>
-</div>
+    <div id="item-frame" @click.self="selectItem">
+        <p>{{ categoryName }}</p>
+        <ButtonAtom label="X" @click="deleteCategory" />
+    </div>
 
 </template>
 
@@ -14,10 +14,10 @@ const emit = defineEmits(['selectCategory', 'deleteCategory'])
 
 const props = defineProps({
     categoryName: String,
-    categoryId: {type: String, required: true}
+    categoryId: { type: String, required: true }
 })
 
-function selectItem(){
+function selectItem() {
     emit('selectCategory', props.categoryId);
 }
 
@@ -28,8 +28,7 @@ function deleteCategory() {
 </script>
 
 <style scoped>
-
-#item-frame{
+#item-frame {
     display: flex;
     background-color: var(--bg-gray-medium);
     justify-content: space-between;
@@ -39,8 +38,7 @@ function deleteCategory() {
     font-size: 0.9rem;
 }
 
-#item-frame:hover{
+#item-frame:hover {
     background-color: var(--bg-gray-medium-hover);
 }
-
 </style>

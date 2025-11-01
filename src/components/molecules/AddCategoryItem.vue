@@ -1,12 +1,10 @@
 <template>
 
-<div id="input-frame">
-    <InputFieldAtom :place-holder="hintText" v-model="newCategoryName"/>
-    <ButtonAtom 
-    label="+"
-    @click="emit('add-category', newCategoryName)"
-    :disabled="newCategoryName.trim() === ''"/>
-</div>
+    <div id="input-frame">
+        <InputFieldAtom :place-holder="hintText" v-model="newCategoryName" />
+        <ButtonAtom label="+" @click="emit('add-category', newCategoryName)"
+            :disabled="newCategoryName.trim() === ''" />
+    </div>
 
 </template>
 
@@ -26,11 +24,9 @@ const props = defineProps({
 </script>
 
 <style scoped>
-
-#input-frame{
+#input-frame {
     display: flex;
     justify-content: space-between;
     gap: 30px;
 }
-
 </style>
