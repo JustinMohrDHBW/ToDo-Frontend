@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ label: string; widthInPercent: number }>();
-const width = props.widthInPercent;
+const props = defineProps<{ label: string; widthInPercent?: number }>();
+const width = props.widthInPercent ?? 100;
 
 </script>
 

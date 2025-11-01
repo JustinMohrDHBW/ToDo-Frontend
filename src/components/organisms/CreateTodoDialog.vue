@@ -63,9 +63,9 @@ import DatePicker from '../atoms/DatePicker.vue';
 import NumberInput from '../atoms/NumberInput.vue';
 import type { Category, ToDoCreationDto } from '@/api';
 import { ref } from 'vue';
-import type { FormField } from '../../composables/Models';
-import { DataTypes, priorityArray } from '../../composables/HardLoad';
-import { toTodoCreationObject } from '@/composables/ModelGenerator';
+import type { FormField } from '../../composables/models';
+import { DataTypes, priorityArray } from '../../composables/hardLoad';
+import { toTodoCreationObject } from '@/composables/modelGenerator';
 
 const emit = defineEmits(['reset-state', 'save-todo']);
 

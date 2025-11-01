@@ -1,4 +1,4 @@
-import type { BuildingBlock, Category } from "@/api";
+import type { BuildingBlock, Category, ToDo } from "@/api";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -10,8 +10,8 @@ export const useTodoStore = defineStore('todos', () => {
     const areBuldingBlocksLoaded = ref(false)
     const buildingBlocks = ref<BuildingBlock[]>([])
 
-
-
+    const areTodosLoaded = ref(false)
+    const todos = ref<ToDo[]>([])
 
     // Category operations
     const addCategory = (category:Category) => {
@@ -27,7 +27,23 @@ export const useTodoStore = defineStore('todos', () => {
         console.log(`filtering done`)
     }
 
+    // Todo operations
+    const addTodo = (todo: ToDo) => {
+        todos.value.push(todo)
+    }
 
+    const deleteTodo = (id: number) => {
+        todos.value = todos.value.filter(
+            (item) => id != item.id
+        )
+    }
+
+    const updateTodo = (id: number, updatedTodo: Partial<ToDo>) => {
+        const index = todos.value.findIndex(todo => todo.id === id)
+        if (index !== -1) {
+            todos.value[index] = { ...todos.value[index], ...updatedTodo }
+        }
+    }
 
     return{
         categories,
@@ -37,6 +53,12 @@ export const useTodoStore = defineStore('todos', () => {
 
         buildingBlocks,
         areBuldingBlocksLoaded,
+
+        todos,
+        areTodosLoaded,
+        addTodo,
+        deleteTodo,
+        updateTodo,
 
     }
 

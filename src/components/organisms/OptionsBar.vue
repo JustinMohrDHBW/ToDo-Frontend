@@ -12,7 +12,7 @@
   </template>
 
 <script setup lang="ts">
-import { filterMenu } from '@/composables/HardLoad';
+import { filterMenu } from '@/composables/hardLoad';
 import ButtonAtom from '../atoms/ButtonAtom.vue';
 import CheckBoxAtom from '../atoms/CheckBoxAtom.vue';
 import DropdownAtom from '../atoms/DropdownAtom.vue';

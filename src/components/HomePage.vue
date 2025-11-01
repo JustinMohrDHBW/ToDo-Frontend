@@ -23,14 +23,15 @@
 import { useTodoStore } from '@/stores/todoStore';
 import { onMounted, ref, type Ref } from 'vue';
 import HomePateTemplates from './templates/HomePateTemplates.vue';
-import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
-import { toCategoryCreationObject, toCategoryObject } from '@/composables/ModelGenerator';
-import { toastError } from '@/composables/Toast';
+import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, getAllToDos, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
+import { toCategoryCreationObject, toCategoryObject } from '@/composables/modelGenerator';
 import CategorySelectionDialog from './organisms/CategorySelectionDialog.vue';
 import CreateTodoDialog from './organisms/CreateTodoDialog.vue';
+import { useToast } from 'vue-toast-notification';
 
 
 const store = useTodoStore()
+const toast = useToast()
 
 const isDialogCategoryShown = ref(false)
 const isDialogBuildingBlocksShown = ref(false)
@@ -44,6 +45,7 @@ const selectedCategory = ref<Category>({
 onMounted(() => {
   fetchCategories()
   fetchBuildingBlocks()
+  fetchTodos()
 })
 
 function showDialogCategory() {
@@ -59,17 +61,34 @@ function resetState() {
 async function saveTodo(todo:ToDoCreationDto) {
   console.log('Speichere Todo muss gebaut werden');
 
-
   const response = await createToDo({
     body: todo
   })
 
   if (response.response.ok && response.data) {
-
+    store.addTodo(response.data)
+    toast.success('Todo erfolgreich erstellt!')
   } else {
-    toastError()
+    toast.error('Fehler beim Speichern des Todos')
   }
   
+}
+
+// Todo operations
+async function fetchTodos() {
+  if (store.areTodosLoaded) {
+    return
+  }
+
+  const response = await getAllToDos()
+
+  if (response.data) {
+    const todos: Array<ToDo> = response.data
+    for (const todo of todos) {
+      store.todos.push(todo)
+    }
+    store.areTodosLoaded = true
+  }
 }
 
 
@@ -99,7 +118,7 @@ async function fetchCategories() {
 
 async function saveNewCategory(categoryName: string, buildingBlockIds: Array<number>, callback:Function) {
   if (categoryName.trim().length == 0) {
-    toastError('Das Eingabefeld darf nicht leer sein.')
+    toast.error('Das Eingabefeld darf nicht leer sein.')
     return
   }
   const response = await addCategory({
@@ -111,7 +130,7 @@ async function saveNewCategory(categoryName: string, buildingBlockIds: Array<num
     )
     callback()
   } else {
-    toastError()
+    toast.error('Fehler beim Speichern der Kategorie')
   }
 }
 
@@ -126,7 +145,7 @@ async function removeCategory(id: number) {
   if (response.response.ok) {
     store.deleteCategory(id)
   } else {
-    toastError()
+    toast.error('Fehler beim Löschen der Kategorie')
   }
 
 }

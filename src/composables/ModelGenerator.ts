@@ -28,8 +28,8 @@ export const toTodoCreationObject = (
 
     const buildingBlockData = Object.entries(buildingBlockValues).map(([id, val]) => {
         return {
-            id: Number(id),
-            value: val
+            buildingBlockId: Number(id),
+            dataValue: val
         } as ToDoBuildingBlockDataDto; 
     });
 
