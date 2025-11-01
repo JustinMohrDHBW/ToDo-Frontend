@@ -1,7 +1,8 @@
 <template>
 
     <div id="item" v-if="todo" @click="handleClick" class="clickable-item">
-        <ItemLabel :label="getCategoryName()" :width-in-percent="60"/>
+        <ItemLabel :label="getTodoName()" :width-in-percent="40"/>
+        <ItemLabel :label="getCategoryName()" :width-in-percent="25"/>
         <ItemLabel :label="formatDate(todo.createdAt)" :width-in-percent="10"/>
         <ItemLabel :label="todo.priority || 'MEDIUM'" :width-in-percent="10"/>
         <div>
@@ -17,6 +18,9 @@
 import type { ToDo } from '@/api'
 import ButtonAtom from '../atoms/ButtonAtom.vue';
 import ItemLabel from '../atoms/ItemLabel.vue';
+import { useTodoStore } from '@/stores/todoStore';
+
+const store = useTodoStore()
 
 const props = defineProps<{
     todo?: ToDo
@@ -43,18 +47,25 @@ const handleDelete = () => {
     }
 }
 
-const getCategoryName = () => {
-    if (!props.todo?.categoryId) return 'Unbekannt'
-    
-    if (typeof props.todo.categoryId === 'object' && 'name' in props.todo.categoryId) {
-        return props.todo.categoryId.name || 'Unbekannt'
+const getTodoName = () => {
+    if (props.todo?.title) {
+        return props.todo.title
     }
-    
-    return 'Unbekannt'
+    if (props.todo?.buildingBlockData && props.todo.buildingBlockData.length > 0) {
+        const firstData = props.todo.buildingBlockData[0]?.dataValue
+        if (firstData) {
+            return firstData
+        }
+    }
+    return 'Unknown Todo'
+}
+
+const getCategoryName = () => {
+    return store.getCategoryById(props.todo?.categoryId?.id!)?.name || 'Unknown'
 }
 
 const formatDate = (dateString?: string) => {
-    if (!dateString) return 'Noch nicht gesetzt'
+    if (!dateString) return 'Not set'
     
     try {
         const date = new Date(dateString)
@@ -63,7 +74,7 @@ const formatDate = (dateString?: string) => {
         const year = date.getFullYear()
         return `${day}.${month}.${year}`
     } catch (error) {
-        return 'Ungültiges Datum'
+        return 'Invalid date'
     }
 }
 </script>

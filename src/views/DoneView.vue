@@ -1,6 +1,6 @@
 <template>
   <div class="done-page">
-    <h1 class="page-title">Erledigte Todos</h1>
+    <h1 class="page-title">Completed Todos</h1>
     <ItemViewArea>
       <TodoItem 
         v-for="todo in completedTodos" 
@@ -11,7 +11,7 @@
         @delete-todo="handleDeleteTodo"
       />
       <div v-if="completedTodos.length === 0" class="empty-state">
-        <p>Keine erledigten Todos vorhanden.</p>
+        <p>No completed todos available.</p>
       </div>
     </ItemViewArea>
   </div>
@@ -43,7 +43,7 @@ const handleEditTodo = (todo: ToDo) => {
 
 const handleDeleteTodo = async (todo: ToDo) => {
   if (!todo.id) {
-    toast.error('Todo-ID fehlt')
+    toast.error('Todo ID is missing')
     return
   }
 
@@ -56,13 +56,13 @@ const handleDeleteTodo = async (todo: ToDo) => {
 
     if (response.response.ok) {
       store.deleteTodo(todo.id)
-      toast.success('Todo erfolgreich gelöscht!')
+      toast.success('Todo successfully deleted!')
     } else {
-      toast.error('Fehler beim Löschen des Todos')
+      toast.error('Error deleting todo')
     }
   } catch (error) {
     console.error('Error deleting todo:', error)
-    toast.error('Fehler beim Löschen des Todos')
+    toast.error('Error deleting todo')
   }
 }
 

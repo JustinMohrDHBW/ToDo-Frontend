@@ -14,7 +14,7 @@
         @complete-todo="handleCompleteTodo"
       />
       <div v-if="filteredTodos.length === 0" class="empty-state">
-        <p class="empty-message">Super, keine offenen todos!</p>
+        <p class="empty-message">Great, no open todos!</p>
       </div>
     </ItemViewArea>
 
@@ -34,7 +34,7 @@ const store = useTodoStore()
 
 const sortBy = ref<string>('Priority')
 const filterDueToday = ref<boolean>(false)
-const selectedCategoryId = ref<string>('Alle')
+const selectedCategoryId = ref<string>('All')
 
 const activeTodos = computed(() => {
   return store.todos.filter(todo => !todo.completed)
@@ -42,13 +42,14 @@ const activeTodos = computed(() => {
 
 const filteredTodos = computed(() => {
   let filtered = [...activeTodos.value]
-
-  console.log(JSON.stringify(filtered))
   
   // Filter by category
-  if (selectedCategoryId.value !== 'Alle') {
+  if (selectedCategoryId.value !== 'All') {
     filtered = filtered.filter(todo => {
-      return store.getCategoryById(todo.categoryId!.id!)?.name === selectedCategoryId.value
+      if (!todo.categoryId) return false
+      
+      const categoryId = store.getCategoryById(todo.categoryId.id!)
+      return categoryId?.name === selectedCategoryId.value
     })
   }
   

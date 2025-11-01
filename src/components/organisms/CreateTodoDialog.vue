@@ -9,7 +9,7 @@
         />
 
         <div id="default-props">
-            <CheckBoxAtom v-model="isTodoToday" label="Do Today"/>
+            <CheckBoxAtom v-model="isTodoToday" label="Task for Today"/>
             <DropdownAtom
             :items="mappedPriorityArray()"
             v-model="priority"/>
@@ -135,7 +135,7 @@ function validateForm(): boolean {
     }
 
     if(!todoName.value.value.trim()){
-        todoName.value.error = 'Ein Name für das Todo ist erforderlich.';
+        todoName.value.error = 'A name for the todo is required.';
         isValid = false;
         console.log("Todo Name empty")
     }
@@ -144,13 +144,13 @@ function validateForm(): boolean {
         const field = buildingBlockFormulaData.value[block.id!];
         
         if (block.dataType === DataTypes.INTEGER && parseInt(field!.value) < 0) {
-            field!.error = `${block.name} muss größer als 0 sein.`;
+            field!.error = `${block.name} must be greater than 0.`;
             isValid = false;
             console.log(block.name + " not a number")
         }
 
         if (!field!.value.trim()) {
-             field!.error = `${block.name} darf nicht leer sein.`;
+             field!.error = `${block.name} cannot be empty.`;
              isValid = false;
              console.log(block.name + " empty")
         }
@@ -175,7 +175,7 @@ function saveTodo() {
         return; 
     }
 
-    console.log("Formular ist gültig. Speichern...");
+    console.log("Form is valid. Saving...");
 
     const buildingBlockValues: Record<number, string> = {};
     for (const id in buildingBlockFormulaData.value) {

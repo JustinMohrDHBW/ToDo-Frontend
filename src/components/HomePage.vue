@@ -68,7 +68,7 @@ function resetState() {
 
 
 async function saveTodo(todo:ToDoCreationDto) {
-  console.log('Speichere Todo muss gebaut werden');
+  console.log('Saving Todo...');
 
 
   console.log(JSON.stringify(todo))
@@ -79,10 +79,10 @@ async function saveTodo(todo:ToDoCreationDto) {
 
   if (response.response.ok && response.data) {
     store.addTodo(response.data)
-    toast.success('Todo erfolgreich erstellt!')
+    toast.success('Todo successfully created!')
     resetState()
   } else {
-    toast.error('Fehler beim Speichern des Todos')
+    toast.error('Error saving todo')
   }
   
 }
@@ -110,10 +110,10 @@ async function updateTodo(todoId: number, updateData: ToDoCreationDto) {
 
   if (response.response.ok && response.data) {
     store.updateTodo(todoId, response.data)
-    toast.success('Todo erfolgreich aktualisiert!')
+    toast.success('Todo successfully updated!')
     resetState()
   } else {
-    toast.error('Fehler beim Aktualisieren des Todos')
+    toast.error('Error updating todo')
   }
 }
 
@@ -121,14 +121,14 @@ function handleEditTodo(todo: ToDo) {
   const categoryId = todo.categoryId?.id;
 
   if (!categoryId) {
-    toast.error('Keine Kategorie beim ToDo hinterlegt.');
+    toast.error('No category assigned to todo.');
     return; 
   }
 
   const category = store.getCategoryById(categoryId);
 
   if (category === null) {
-    toast.error(`Kategorie nicht gefunden.`);
+    toast.error(`Category not found.`);
     return;
   }
 
@@ -139,7 +139,7 @@ function handleEditTodo(todo: ToDo) {
 
 async function handleCompleteTodo(todo: ToDo) {
   if (!todo.id) {
-    toast.error('Todo-ID fehlt')
+    toast.error('Todo ID is missing')
     return
   }
 
@@ -152,13 +152,13 @@ async function handleCompleteTodo(todo: ToDo) {
 
     if (response.response.ok && response.data) {
       store.updateTodo(todo.id, response.data)
-      toast.success('Todo als erledigt markiert!')
+      toast.success('Todo marked as completed!')
     } else {
-      toast.error('Fehler beim Markieren des Todos')
+      toast.error('Error marking todo as completed')
     }
   } catch (error) {
     console.error('Error completing todo:', error)
-    toast.error('Fehler beim Markieren des Todos')
+    toast.error('Error marking todo as completed')
   }
 }
 
@@ -206,7 +206,7 @@ async function fetchCategories() {
 
 async function saveNewCategory(categoryName: string, buildingBlockIds: Array<number>, callback:Function) {
   if (categoryName.trim().length == 0) {
-    toast.error('Das Eingabefeld darf nicht leer sein.')
+    toast.error('The input field cannot be empty.')
     return
   }
   const response = await addCategory({
@@ -218,7 +218,7 @@ async function saveNewCategory(categoryName: string, buildingBlockIds: Array<num
     )
     callback()
   } else {
-    toast.error('Fehler beim Speichern der Kategorie')
+    toast.error('Error saving category')
   }
 }
 
@@ -233,7 +233,7 @@ async function removeCategory(id: number) {
   if (response.response.ok) {
     store.deleteCategory(id)
   } else {
-    toast.info('Erledige und lösche alle Todos dieser Kategorie.')
+    toast.info('Complete and delete all todos in this category.')
   }
 
 }

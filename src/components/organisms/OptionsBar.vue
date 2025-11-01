@@ -2,19 +2,19 @@
     <div id="options-bar">
         <div id="stack-container">
             <div class="filter-group">
-                <label class="filter-label">Sortieren nach</label>
+                <label class="filter-label">Sort by</label>
                 <DropdownAtom :items="filterMenu" v-model="sortBy" />
             </div>
             <div class="filter-group">
-                <label class="filter-label">Kategorie</label>
+                <label class="filter-label">Category</label>
                 <DropdownAtom :items="categoryFilterItems" v-model="selectedCategoryId" />
             </div>
             <div class="filter-group checkbox-group">
-                <CheckBoxAtom label="Heute zu erledigen" v-model="filterDueToday" />
+                <CheckBoxAtom label="Tasks for Today" v-model="filterDueToday" />
             </div>
         </div>
         <div id="button-container">
-            <ButtonAtom label="neues Tdodo" @click="showDialogCategory"/>
+            <ButtonAtom label="New Todo" @click="showDialogCategory"/>
         </div>
     </div>
 
@@ -33,10 +33,10 @@ const emit = defineEmits(['showDialogCategory'])
 
 const sortBy = defineModel<string>('sortBy', { default: 'Priority' })
 const filterDueToday = defineModel<boolean>('filterDueToday', { default: false })
-const selectedCategoryId = defineModel<string>('selectedCategoryId', { default: 'Alle' })
+const selectedCategoryId = defineModel<string>('selectedCategoryId', { default: 'All' })
 
 const categoryFilterItems = computed(() => {
-  const items: string[] = ['Alle']
+  const items: string[] = ['All']
   store.categories.forEach(category => {
     if (category.name) {
       items.push(category.name)
