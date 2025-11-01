@@ -4,23 +4,22 @@ export type ClientOptions = {
     baseUrl: 'http://localhost:8080' | (string & {});
 };
 
-export type BuildingBlock = {
-    id: number;
-    name: string;
-    dataType: string;
+export type CategoryCreationDto = {
+    name?: string;
+    buildingBlockIds?: Array<number>;
 };
 
-export type CategoryCreationDto = {
-    user_id?: number;
-    name: string;
-    buildingBlockIds: Array<number>;
+export type BuildingBlock = {
+    id?: number;
+    name?: string;
+    dataType?: string;
 };
 
 export type Category = {
-    id: number;
-    name: string;
-    userId?: number;
-    buildingBlocks: Array<BuildingBlock>;
+    id?: number;
+    name?: string;
+    userId?: string;
+    buildingBlocks?: Array<BuildingBlock>;
 };
 
 export type Void = {
@@ -33,6 +32,8 @@ export type LinkUpdateDto = {
 };
 
 export type ToDoUpdateLinkDataDto = {
+    priority?: string;
+    due_Today?: boolean;
     buildingBlockData?: Array<LinkUpdateDto>;
 };
 
@@ -43,15 +44,14 @@ export type ToDoBuildingBlockDataLinkId = {
 
 export type ToDoBuildingBlockDataLink = {
     id?: ToDoBuildingBlockDataLinkId;
-    buildingBlockId?: BuildingBlock;
-    todo?: ToDo;
     dataValue?: string;
 };
 
 export type ToDo = {
     id?: number;
     categoryId?: Category;
-    userId?: number;
+    title?: string;
+    userId?: string;
     createdAt?: string;
     priority?: string;
     dueToday?: boolean;
@@ -71,24 +71,8 @@ export type ToDoCreationDto = {
     completed?: boolean;
     buildingBlockData?: Array<ToDoBuildingBlockDataDto>;
     dueToday?: boolean;
-    user_id?: number;
+    title?: string;
 };
-
-export type GetAllBuildingBlocksData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/todoApp/buildingBlocks';
-};
-
-export type GetAllBuildingBlocksResponses = {
-    /**
-     * OK
-     */
-    200: Array<BuildingBlock>;
-};
-
-export type GetAllBuildingBlocksResponse = GetAllBuildingBlocksResponses[keyof GetAllBuildingBlocksResponses];
 
 export type GetAllCategoriesData = {
     body?: never;
@@ -139,6 +123,22 @@ export type DeleteCategoryResponses = {
 };
 
 export type DeleteCategoryResponse = DeleteCategoryResponses[keyof DeleteCategoryResponses];
+
+export type GetAllBuildingBlocksData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/todoApp/buildingBlocks';
+};
+
+export type GetAllBuildingBlocksResponses = {
+    /**
+     * OK
+     */
+    200: Array<BuildingBlock>;
+};
+
+export type GetAllBuildingBlocksResponse = GetAllBuildingBlocksResponses[keyof GetAllBuildingBlocksResponses];
 
 export type UpdateLinkDataData = {
     body: ToDoUpdateLinkDataDto;

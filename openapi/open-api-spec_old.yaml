@@ -4,8 +4,21 @@ info:
   description: "ToDo_Backend API"
   version: "1.0.0"
 servers:
-  - url: "http://localhost:8080"
+  - url: "http://localhost:5173"
 paths:
+  /todoApp/buildingBlocks:
+    get:
+      summary: "GET todoApp/buildingBlocks"
+      operationId: "getAllBuildingBlocks"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/BuildingBlock"
   /todoApp/categories:
     post:
       summary: "POST todoApp/categories"
@@ -53,19 +66,6 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/Void"
-  /todoApp/buildingBlocks:
-    get:
-      summary: "GET todoApp/buildingBlocks"
-      operationId: "getAllBuildingBlocks"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/BuildingBlock"
   /todoApp/todo/{id}/data:
     put:
       summary: "PUT todoApp/todo/{id}/data"
@@ -175,19 +175,6 @@ paths:
                 $ref: "#/components/schemas/Void"
 components:
   schemas:
-    CategoryCreationDTO:
-      type: "object"
-      properties:
-        name:
-          type: "string"
-          nullable: true
-        buildingBlockIds:
-          type: "array"
-          nullable: true
-          items:
-            type: "integer"
-            format: "int64"
-          uniqueItems: true
     BuildingBlock:
       type: "object"
       properties:
@@ -201,6 +188,23 @@ components:
         dataType:
           type: "string"
           nullable: true
+    CategoryCreationDTO:
+      type: "object"
+      properties:
+        user_id:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        name:
+          type: "string"
+          nullable: true
+        buildingBlockIds:
+          type: "array"
+          nullable: true
+          items:
+            type: "integer"
+            format: "int64"
+          uniqueItems: true
     Category:
       type: "object"
       properties:
@@ -212,8 +216,8 @@ components:
           type: "string"
           nullable: true
         userId:
-          type: "string"
-          format: "uuid"
+          type: "integer"
+          format: "int64"
           nullable: true
         buildingBlocks:
           type: "array"
@@ -259,6 +263,12 @@ components:
         id:
           nullable: true
           $ref: "#/components/schemas/ToDoBuildingBlockDataLinkId"
+        buildingBlockId:
+          nullable: true
+          $ref: "#/components/schemas/BuildingBlock"
+        todo:
+          nullable: true
+          $ref: "#/components/schemas/ToDo"
         dataValue:
           type: "string"
           nullable: true
@@ -272,12 +282,9 @@ components:
         categoryId:
           nullable: true
           $ref: "#/components/schemas/Category"
-        title:
-          type: "string"
-          nullable: true
         userId:
-          type: "string"
-          format: "uuid"
+          type: "integer"
+          format: "int64"
           nullable: true
         createdAt:
           type: "string"
@@ -334,6 +341,7 @@ components:
         dueToday:
           type: "boolean"
           nullable: true
-        title:
-          type: "string"
+        user_id:
+          type: "integer"
+          format: "int64"
           nullable: true

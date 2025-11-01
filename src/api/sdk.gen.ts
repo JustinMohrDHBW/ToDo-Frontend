@@ -2,27 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { 
-    AddCategoryData,
-    AddCategoryResponses,
-    CreateToDoData,
-    CreateToDoResponses,
-    DeleteCategoryData,
-    DeleteCategoryResponses,
-    DeleteToDoData,
-    DeleteToDoResponses,
-    GetAllBuildingBlocksData,
-    GetAllBuildingBlocksResponses,
-    GetAllCategoriesData,
-    GetAllCategoriesResponses,
-    GetAllToDosData,
-    GetAllToDosResponses, 
-    SetCompletedData,
-    SetCompletedResponses,
-    SetDueTodayData,
-    SetDueTodayResponses,
-    UpdateLinkDataData,
-    UpdateLinkDataResponses } from './types.gen';
+import type { AddCategoryData, AddCategoryResponses, CreateToDoData, CreateToDoResponses, DeleteCategoryData, DeleteCategoryResponses, DeleteToDoData, DeleteToDoResponses, GetAllBuildingBlocksData, GetAllBuildingBlocksResponses, GetAllCategoriesData, GetAllCategoriesResponses, GetAllToDosData, GetAllToDosResponses, SetCompletedData, SetCompletedResponses, SetDueTodayData, SetDueTodayResponses, UpdateLinkDataData, UpdateLinkDataResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -36,16 +16,6 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      * used to access values that aren't defined as part of the SDK function.
      */
     meta?: Record<string, unknown>;
-};
-
-/**
- * GET todoApp/buildingBlocks
- */
-export const getAllBuildingBlocks = <ThrowOnError extends boolean = false>(options?: Options<GetAllBuildingBlocksData, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetAllBuildingBlocksResponses, unknown, ThrowOnError>({
-        url: '/todoApp/buildingBlocks',
-        ...options
-    });
 };
 
 /**
@@ -78,6 +48,16 @@ export const addCategory = <ThrowOnError extends boolean = false>(options: Optio
 export const deleteCategory = <ThrowOnError extends boolean = false>(options: Options<DeleteCategoryData, ThrowOnError>) => {
     return (options.client ?? client).delete<DeleteCategoryResponses, unknown, ThrowOnError>({
         url: '/todoApp/categories/{id}',
+        ...options
+    });
+};
+
+/**
+ * GET todoApp/buildingBlocks
+ */
+export const getAllBuildingBlocks = <ThrowOnError extends boolean = false>(options?: Options<GetAllBuildingBlocksData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetAllBuildingBlocksResponses, unknown, ThrowOnError>({
+        url: '/todoApp/buildingBlocks',
         ...options
     });
 };

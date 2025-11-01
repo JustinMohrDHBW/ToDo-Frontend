@@ -70,6 +70,9 @@ function resetState() {
 async function saveTodo(todo:ToDoCreationDto) {
   console.log('Speichere Todo muss gebaut werden');
 
+
+  console.log(JSON.stringify(todo))
+
   const response = await createToDo({
     body: todo
   })
@@ -87,6 +90,9 @@ async function saveTodo(todo:ToDoCreationDto) {
 async function updateTodo(todoId: number, updateData: ToDoCreationDto) {
 
   const updateLinkDataDto = {
+    priority: updateData.priority,
+    dueToday: updateData.dueToday,
+    title: updateData.title,
     buildingBlockData: updateData.buildingBlockData?.map(block => ({
       buildingBlockId: block.buildingBlockId,
       dataValue: block.dataValue
@@ -208,7 +214,7 @@ async function saveNewCategory(categoryName: string, buildingBlockIds: Array<num
   });
   if (response.response.ok && response.data) {
     store.addCategory(
-      toCategoryObject(categoryName, response.data?.buildingBlocks, response.data?.id)
+      toCategoryObject(categoryName, response.data?.buildingBlocks!, response.data?.id!)
     )
     callback()
   } else {
@@ -227,7 +233,7 @@ async function removeCategory(id: number) {
   if (response.response.ok) {
     store.deleteCategory(id)
   } else {
-    toast.error('Fehler beim Löschen der Kategorie')
+    toast.info('Erledige und lösche alle Todos dieser Kategorie.')
   }
 
 }

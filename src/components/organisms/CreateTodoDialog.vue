@@ -19,22 +19,22 @@
 
             <InputFieldAtom 
             v-if="buildingBlock.dataType === DataTypes.TEXT" 
-            v-model="buildingBlockFormulaData[buildingBlock.id]!.value"
-            :error-message="buildingBlockFormulaData[buildingBlock.id]!.error"
+            v-model="buildingBlockFormulaData[buildingBlock.id!]!.value"
+            :error-message="buildingBlockFormulaData[buildingBlock.id!]!.error"
             :label="`${buildingBlock.name}`"
             />
 
             <DatePicker 
             v-if="buildingBlock.dataType === DataTypes.DATE" 
-            v-model="buildingBlockFormulaData[buildingBlock.id]!.value" 
-            :error-message="buildingBlockFormulaData[buildingBlock.id]!.error"
+            v-model="buildingBlockFormulaData[buildingBlock.id!]!.value" 
+            :error-message="buildingBlockFormulaData[buildingBlock.id!]!.error"
             :label="`${buildingBlock.name}`"
             />
 
             <NumberInput 
             v-if="buildingBlock.dataType === DataTypes.INTEGER"
-            v-model="buildingBlockFormulaData[buildingBlock.id]!.value"
-            :error-message="buildingBlockFormulaData[buildingBlock.id]!.error"
+            v-model="buildingBlockFormulaData[buildingBlock.id!]!.value"
+            :error-message="buildingBlockFormulaData[buildingBlock.id!]!.error"
             :label="`${buildingBlock.name}`" 
             placeholder="e. g. 30"
             />
@@ -89,24 +89,24 @@ const isTodoToday = ref<boolean>(false)
 const priority = ref<string>("")
 
 
-const initialData = buildingBlocks.reduce((accumulator, currentBlock) => {
-    accumulator[currentBlock.id] = { value: "", error: "" };
+const initialData = buildingBlocks!.reduce((accumulator, currentBlock) => {
+    accumulator[currentBlock.id!] = { value: "", error: "" };
     return accumulator;
 }, {} as Record<number, FormField>);
 
 const buildingBlockFormulaData = ref<Record<number, FormField>>(initialData)
 
 function initializeFormFromTodo(todo: ToDo) {
-    todoName.value.value = ""
+    todoName.value.value = todo.title ?? ""
     isTodoToday.value = todo.dueToday ?? false
     priority.value = todo.priority || ""
     
     if (todo.buildingBlockData) {
         for (const blockData of todo.buildingBlockData) {
 
-            const id = blockData.buildingBlockId?.id
+            const id = blockData.id?.buildingBlockId
             if (id && blockData.dataValue) {
-                buildingBlockFormulaData.value[id]!.value = blockData.dataValue
+                buildingBlockFormulaData.value[id!]!.value = blockData.dataValue
             }
         }
     }
@@ -140,8 +140,8 @@ function validateForm(): boolean {
         console.log("Todo Name empty")
     }
 
-    for (const block of buildingBlocks) {
-        const field = buildingBlockFormulaData.value[block.id];
+    for (const block of buildingBlocks!) {
+        const field = buildingBlockFormulaData.value[block.id!];
         
         if (block.dataType === DataTypes.INTEGER && parseInt(field!.value) < 0) {
             field!.error = `${block.name} muss größer als 0 sein.`;

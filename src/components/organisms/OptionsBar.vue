@@ -1,9 +1,17 @@
 <template>
     <div id="options-bar">
         <div id="stack-container">
-            <DropdownAtom :items="filterMenu" v-model="sortBy" />
-            <DropdownAtom :items="categoryFilterItems" v-model="selectedCategoryId" />
-            <CheckBoxAtom label="Heute zu erledigen" v-model="filterDueToday" />
+            <div class="filter-group">
+                <label class="filter-label">Sortieren nach</label>
+                <DropdownAtom :items="filterMenu" v-model="sortBy" />
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Kategorie</label>
+                <DropdownAtom :items="categoryFilterItems" v-model="selectedCategoryId" />
+            </div>
+            <div class="filter-group checkbox-group">
+                <CheckBoxAtom label="Heute zu erledigen" v-model="filterDueToday" />
+            </div>
         </div>
         <div id="button-container">
             <ButtonAtom label="neues Tdodo" @click="showDialogCategory"/>
@@ -28,9 +36,11 @@ const filterDueToday = defineModel<boolean>('filterDueToday', { default: false }
 const selectedCategoryId = defineModel<string>('selectedCategoryId', { default: 'Alle' })
 
 const categoryFilterItems = computed(() => {
-  const items = ['Alle']
+  const items: string[] = ['Alle']
   store.categories.forEach(category => {
-    items.push(category.name)
+    if (category.name) {
+      items.push(category.name)
+    }
   })
   return items
 })
@@ -46,9 +56,30 @@ function showDialogCategory(){
 <style scoped>
   #stack-container {
     display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
     flex-direction: column;
-    gap: 15px;
-    width: 200px;
+    gap: 8px;
+    min-width: 150px;
+  }
+
+  .checkbox-group {
+    align-self: flex-end;
+    padding-bottom: 4px;
+  }
+
+  .filter-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   #options-bar{
@@ -56,6 +87,7 @@ function showDialogCategory(){
     padding-inline: 60px;
     padding-block: 30px;
     justify-content: space-between;
+    align-items: center;
   }
 
   #button-container{

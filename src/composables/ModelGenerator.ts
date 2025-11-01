@@ -34,7 +34,7 @@ export const toTodoCreationObject = (
     });
 
     const newTodo: ToDoCreationDto = {
-        // name: name,
+        title: name,
         categoryId: category.id,
         priority: priority,
         dueToday: dueToday,

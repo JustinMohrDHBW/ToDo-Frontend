@@ -1,7 +1,7 @@
 <template>
 
     <div id="item" v-if="todo" @click="handleClick" class="clickable-item">
-        <ItemLabel :label="todo.categoryId?.name || 'Unbekannt'" :width-in-percent="60"/>
+        <ItemLabel :label="getCategoryName()" :width-in-percent="60"/>
         <ItemLabel :label="formatDate(todo.createdAt)" :width-in-percent="10"/>
         <ItemLabel :label="todo.priority || 'MEDIUM'" :width-in-percent="10"/>
         <div>
@@ -41,6 +41,16 @@ const handleDelete = () => {
     if (props.todo) {
         emit('delete-todo', props.todo)
     }
+}
+
+const getCategoryName = () => {
+    if (!props.todo?.categoryId) return 'Unbekannt'
+    
+    if (typeof props.todo.categoryId === 'object' && 'name' in props.todo.categoryId) {
+        return props.todo.categoryId.name || 'Unbekannt'
+    }
+    
+    return 'Unbekannt'
 }
 
 const formatDate = (dateString?: string) => {

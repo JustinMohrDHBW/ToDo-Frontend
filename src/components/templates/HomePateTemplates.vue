@@ -48,7 +48,7 @@ const filteredTodos = computed(() => {
   // Filter by category
   if (selectedCategoryId.value !== 'Alle') {
     filtered = filtered.filter(todo => {
-      return store.getCategoryById(todo.categoryId!.id)?.name === selectedCategoryId.value
+      return store.getCategoryById(todo.categoryId!.id!)?.name === selectedCategoryId.value
     })
   }
   
