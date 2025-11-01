@@ -27,6 +27,10 @@ export const useTodoStore = defineStore('todos', () => {
         console.log(`filtering done`)
     }
 
+    const getCategoryById = (id:number) : Category | null => {
+        return categories.value.find(category => category.id == id) || null
+    }
+
     // Todo operations
     const addTodo = (todo: ToDo) => {
         todos.value.push(todo)
@@ -50,6 +54,7 @@ export const useTodoStore = defineStore('todos', () => {
         areCategoriesLoaded,
         addCategory,
         deleteCategory,
+        getCategoryById,
 
         buildingBlocks,
         areBuldingBlocksLoaded,

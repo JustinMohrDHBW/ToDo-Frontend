@@ -1,6 +1,9 @@
 <template>
 
-  <HomePateTemplates @show-dialog-category="showDialogCategory" />
+  <HomePateTemplates 
+    @show-dialog-category="showDialogCategory"
+    @edit-todo="handleEditTodo"
+    @complete-todo="handleCompleteTodo" />
 
   <CategorySelectionDialog v-if="isDialogCategoryShown"
   :building-blocks="store.buildingBlocks"
@@ -12,10 +15,13 @@
   @delete-category="removeCategory" />
 
 
-  <CreateTodoDialog v-if="isDialogBuildingBlocksShown"
-  :category="selectedCategory"
-  @reset-state="resetState"
-  @save-todo="saveTodo" />
+  <CreateTodoDialog 
+    v-if="isDialogBuildingBlocksShown"
+    :category="selectedCategory"
+    :todo="selectedTodo"
+    @reset-state="resetState"
+    @save-todo="saveTodo"
+    @update-todo="updateTodo" />
 
 </template>
 
@@ -23,7 +29,7 @@
 import { useTodoStore } from '@/stores/todoStore';
 import { onMounted, ref, type Ref } from 'vue';
 import HomePateTemplates from './templates/HomePateTemplates.vue';
-import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, getAllToDos, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
+import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, getAllToDos, updateLinkData, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
 import { toCategoryCreationObject, toCategoryObject } from '@/composables/modelGenerator';
 import CategorySelectionDialog from './organisms/CategorySelectionDialog.vue';
 import CreateTodoDialog from './organisms/CreateTodoDialog.vue';
@@ -42,6 +48,8 @@ const selectedCategory = ref<Category>({
     buildingBlocks: []
 });
 
+const selectedTodo = ref<ToDo | undefined>(undefined)
+
 onMounted(() => {
   fetchCategories()
   fetchBuildingBlocks()
@@ -55,6 +63,7 @@ function showDialogCategory() {
 function resetState() {
   isDialogCategoryShown.value = false
   isDialogBuildingBlocksShown.value = false
+  selectedTodo.value = undefined
 }
 
 
@@ -68,10 +77,64 @@ async function saveTodo(todo:ToDoCreationDto) {
   if (response.response.ok && response.data) {
     store.addTodo(response.data)
     toast.success('Todo erfolgreich erstellt!')
+    resetState()
   } else {
     toast.error('Fehler beim Speichern des Todos')
   }
   
+}
+
+async function updateTodo(todoId: number, updateData: ToDoCreationDto) {
+
+  const updateLinkDataDto = {
+    buildingBlockData: updateData.buildingBlockData?.map(block => ({
+      buildingBlockId: block.buildingBlockId,
+      dataValue: block.dataValue
+    }))
+  }
+
+  console.log(JSON.stringify(updateLinkDataDto))
+
+  const response = await updateLinkData({
+    path: {
+      id: todoId
+    },
+    body: updateLinkDataDto
+  })
+
+  if (response.response.ok && response.data) {
+    store.updateTodo(todoId, response.data)
+    toast.success('Todo erfolgreich aktualisiert!')
+    resetState()
+  } else {
+    toast.error('Fehler beim Aktualisieren des Todos')
+  }
+}
+
+function handleEditTodo(todo: ToDo) {
+  const categoryId = todo.categoryId?.id;
+
+  if (!categoryId) {
+    toast.error('Keine Kategorie beim ToDo hinterlegt.');
+    return; 
+  }
+
+  const category = store.getCategoryById(categoryId);
+
+  if (category === null) {
+    toast.error(`Kategorie nicht gefunden.`);
+    return;
+  }
+
+  selectedCategory.value = category;
+  selectedTodo.value = todo;
+  isDialogBuildingBlocksShown.value = true;
+}
+
+function handleCompleteTodo(todo: ToDo) {
+  // TODO: Implement complete functionality
+  console.log('Complete todo:', todo)
+  toast.info('Complete-Funktion noch nicht implementiert')
 }
 
 // Todo operations

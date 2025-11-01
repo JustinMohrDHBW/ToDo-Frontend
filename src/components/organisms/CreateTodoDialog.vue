@@ -1,6 +1,6 @@
 <template>
 
-    <DialogFrame :info="'for Category ' + props.category.name" @close-dialog="$emit('reset-state')" dialog-title="Create Todo">
+    <DialogFrame :info="'for Category ' + props.category.name" @close-dialog="$emit('reset-state')" :dialog-title="isUpdateMode ? 'Update Todo' : 'Create Todo'">
 
     <template #content>
         <InputFieldAtom place-holder="Todo Name"
@@ -45,7 +45,7 @@
     </template>
 
     <template #action-buttons>
-    <ButtonAtom label="Save" @click="saveTodo"/>
+    <ButtonAtom :label="isUpdateMode ? 'Update' : 'Save'" @click="saveTodo"/>
     <ButtonAtom label="Cancel" @click="$emit('reset-state')"/>
     </template>
 
@@ -61,18 +61,21 @@ import CheckBoxAtom from '../atoms/CheckBoxAtom.vue';
 import ButtonAtom from '../atoms/ButtonAtom.vue';
 import DatePicker from '../atoms/DatePicker.vue';
 import NumberInput from '../atoms/NumberInput.vue';
-import type { Category, ToDoCreationDto } from '@/api';
-import { ref } from 'vue';
+import type { Category, ToDo, ToDoCreationDto } from '@/api';
+import { ref, computed, watch } from 'vue';
 import type { FormField } from '../../composables/models';
 import { DataTypes, priorityArray } from '../../composables/hardLoad';
 import { toTodoCreationObject } from '@/composables/modelGenerator';
 
-const emit = defineEmits(['reset-state', 'save-todo']);
+const emit = defineEmits(['reset-state', 'save-todo', 'update-todo']);
 
 
 const props = defineProps<{
     category: Category
+    todo?: ToDo
 }>();
+
+const isUpdateMode = computed(() => !!props.todo)
 
 const buildingBlocks = props.category.buildingBlocks
 
@@ -92,6 +95,28 @@ const initialData = buildingBlocks.reduce((accumulator, currentBlock) => {
 }, {} as Record<number, FormField>);
 
 const buildingBlockFormulaData = ref<Record<number, FormField>>(initialData)
+
+function initializeFormFromTodo(todo: ToDo) {
+    todoName.value.value = ""
+    isTodoToday.value = todo.dueToday ?? false
+    priority.value = todo.priority || ""
+    
+    if (todo.buildingBlockData) {
+        for (const blockData of todo.buildingBlockData) {
+
+            const id = blockData.buildingBlockId?.id
+            if (id && blockData.dataValue) {
+                buildingBlockFormulaData.value[id]!.value = blockData.dataValue
+            }
+        }
+    }
+}
+
+watch(() => props.todo, (newTodo) => {
+    if (newTodo) {
+        initializeFormFromTodo(newTodo)
+    }
+}, { immediate: true })
 
 
 
@@ -154,14 +179,18 @@ function saveTodo() {
     }
 
     const newTodo: ToDoCreationDto = toTodoCreationObject(
-        todoName.value.value,
-        priority.value,
-        isTodoToday.value,
-        props.category,
-        buildingBlockValues
-    );
+            todoName.value.value,
+            priority.value,
+            isTodoToday.value,
+            props.category,
+            buildingBlockValues
+        );
 
-    emit("save-todo", newTodo);
+    if (isUpdateMode.value && props.todo?.id) {
+        emit("update-todo", props.todo.id, newTodo);
+    } else {
+        emit("save-todo", newTodo);
+    }
 }
 
 </script>
