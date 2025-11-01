@@ -2,8 +2,43 @@
 
 :root {
   --navbar-height: 64px;
+  
+  /* Common border radius */
+  --border-radius-sm: 8px;
+  --border-radius-md: 10px;
+  
+  /* Common padding */
+  --padding-sm: 5px;
+  --padding-md: 10px;
+  --padding-lg: 20px;
+  --padding-xl: 60px;
+  
+  /* Common colors */
+  --bg-gray-light: rgb(235, 235, 235);
+  --bg-gray-light-hover: rgb(220, 220, 220);
+  --bg-gray-medium: rgb(186, 186, 186);
+  --bg-gray-medium-hover: rgb(135, 135, 135);
+  
+  /* Text colors */
+  --text-gray: #6b7280;
+  --text-success: #10b981;
 }
 
 body {
   padding-top: var(--navbar-height);
+}
+
+/* Common utility classes */
+.flex-container {
+  display: flex;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
 }

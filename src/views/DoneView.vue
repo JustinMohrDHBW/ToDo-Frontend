@@ -10,9 +10,11 @@
         @edit-todo="handleEditTodo"
         @delete-todo="handleDeleteTodo"
       />
-      <div v-if="completedTodos.length === 0" class="empty-state">
-        <p>No completed todos available.</p>
-      </div>
+      <State 
+        v-if="completedTodos.length === 0" 
+        variant="bigScreen"
+        message="No completed todos available."
+      />
     </ItemViewArea>
   </div>
 </template>
@@ -26,6 +28,7 @@ import TodoItem from '@/components/molecules/TodoItem.vue'
 import type { ToDo } from '@/api'
 import { deleteToDo, getAllToDos } from '@/api'
 import { useToast } from 'vue-toast-notification'
+import State from '@/components/atoms/State.vue'
 
 const store = useTodoStore()
 const router = useRouter()
@@ -107,15 +110,5 @@ async function fetchTodos() {
   margin: 0 0 24px 0;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: #6b7280;
-}
-
-.empty-state p {
-  font-size: 16px;
-  margin: 0;
-}
 </style>
 

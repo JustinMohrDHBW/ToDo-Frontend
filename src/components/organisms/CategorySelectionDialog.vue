@@ -10,9 +10,11 @@
   />
 
   <div id="buildingBlock-item">
-    <div v-if="!store.areBuldingBlocksLoaded" class="loading-empty-state">
-      <p class="loading-empty-message">Loading building blocks...</p>
-    </div>
+    <State 
+      v-if="!store.areBuldingBlocksLoaded"
+      variant="popup"
+      message="Loading building blocks..."
+    />
     <CheckBoxAtom 
       v-else-if="store.buildingBlocks.length > 0"
       v-for="buildingBlock in store.buildingBlocks" 
@@ -21,15 +23,19 @@
       :select-set="selectedBuildingBlocksSet"
       :label="buildingBlock.name"
     />
-    <div v-else-if="store.areBuldingBlocksLoaded && store.buildingBlocks.length === 0" class="loading-empty-state">
-      <p class="loading-empty-message">No building blocks available</p>
-    </div>
+    <State 
+      v-else-if="store.areBuldingBlocksLoaded && store.buildingBlocks.length === 0"
+      variant="popup"
+      message="No building blocks available"
+    />
   </div>
 
   <div id="category-item">
-    <div v-if="!store.areCategoriesLoaded" class="loading-empty-state">
-      <p class="loading-empty-message">Loading categories...</p>
-    </div>
+    <State 
+      v-if="!store.areCategoriesLoaded"
+      variant="popup"
+      message="Loading categories..."
+    />
     <CategoryItem 
       v-else-if="store.categories.length > 0"
       v-for="category in store.categories" 
@@ -38,9 +44,11 @@
       :categoryName="String(category.name)"
       @selectCategory="$emit('selectCategory', category.id)"
       @deleteCategory="$emit('deleteCategory', category.id)"/>
-    <div v-else-if="store.areCategoriesLoaded && store.categories.length === 0" class="loading-empty-state">
-      <p class="loading-empty-message">No categories available</p>
-    </div>
+    <State 
+      v-else-if="store.areCategoriesLoaded && store.categories.length === 0"
+      variant="popup"
+      message="No categories available"
+    />
   </div>
 </template>
 
@@ -60,6 +68,7 @@ import AddCategoryItem from '../molecules/AddCategoryItem.vue'
 import CategoryItem from '../molecules/CategoryItem.vue'
 import DialogFrame from './DialogFrame.vue'
 import ButtonAtom from '../atoms/ButtonAtom.vue'
+import State from '../atoms/State.vue'
 
 const store = useTodoStore()
 
@@ -111,20 +120,6 @@ function addCategory(categoryName: string) {
   gap: 15px;
   flex-wrap: wrap;
   flex-shrink: 0;
-}
-
-.loading-empty-message {
-  font-size: 14px;
-  font-weight: 500;
-  color: #6b7280;
-  margin: 0;
-}
-
-
-.loading-empty-state {
-  text-align: center;
-  padding: 20px;
-  width: 100%;
 }
 
 </style>

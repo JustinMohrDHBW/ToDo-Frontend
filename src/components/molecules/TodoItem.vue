@@ -97,11 +97,11 @@ const formatDate = (dateString?: string) => {
 
 #item {
     display: flex;
-    background-color: rgb(235, 235, 235);
+    background-color: var(--bg-gray-light);
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    border-radius: 10px;
+    padding: var(--padding-md);
+    border-radius: var(--border-radius-md);
 }
 
 .clickable-item {
@@ -110,7 +110,7 @@ const formatDate = (dateString?: string) => {
 }
 
 .clickable-item:hover {
-    background-color: rgb(220, 220, 220);
+    background-color: var(--bg-gray-light-hover);
 }
 
 .checkbox-container {

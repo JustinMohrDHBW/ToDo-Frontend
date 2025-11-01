@@ -31,16 +31,16 @@ function deleteCategory() {
 
 #item-frame{
     display: flex;
-    background-color: rgb(186, 186, 186);
+    background-color: var(--bg-gray-medium);
     justify-content: space-between;
     align-items: center;
-    border-radius: 10px;
-    padding: 5px;
+    border-radius: var(--border-radius-md);
+    padding: var(--padding-sm);
     font-size: 0.9rem;
 }
 
 #item-frame:hover{
-    background-color: rgb(135, 135, 135);
+    background-color: var(--bg-gray-medium-hover);
 }
 
 </style>

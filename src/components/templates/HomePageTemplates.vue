@@ -14,12 +14,16 @@
         @complete-todo="handleCompleteTodo"
         @toggle-due-today="handleToggleDueToday"
       />
-      <div v-if="store.areTodosLoaded && filteredTodos.length === 0" class="empty-state">
-        <p class="empty-message">Great, no open todos!</p>
-      </div>
-      <div v-else-if="!store.areTodosLoaded" class="loading-state">
-        <p class="loading-message">Loading todos...</p>
-      </div>
+      <State 
+        v-if="store.areTodosLoaded && filteredTodos.length === 0" 
+        variant="bigScreenCongratulations"
+        message="Great, no open todos!"
+      />
+      <State 
+        v-else-if="!store.areTodosLoaded" 
+        variant="bigScreen"
+        message="Loading todos..."
+      />
     </ItemViewArea>
 
 </template>
@@ -33,6 +37,7 @@ import TodoItem from '@/components/molecules/TodoItem.vue';
 import OptionsBar from '../organisms/OptionsBar.vue';
 import type { ToDo } from '@/api';
 import { priorityArray } from '@/composables/hardLoad';
+import State from '../atoms/State.vue';
 
 const store = useTodoStore()
 
@@ -114,28 +119,4 @@ function handleToggleDueToday(todo: ToDo, value: boolean) {
 </script>
 
 <style scoped>
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.empty-message {
-  font-size: 20px;
-  font-weight: 600;
-  color: #10b981;
-  margin: 0;
-}
-
-.loading-state {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.loading-message {
-  font-size: 16px;
-  font-weight: 500;
-  color: #6b7280;
-  margin: 0;
-}
-
 </style>
