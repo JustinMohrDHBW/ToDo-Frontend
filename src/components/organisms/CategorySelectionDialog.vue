@@ -83,6 +83,7 @@ function addCategory(categoryName: string) {
   display: flex;
   flex-direction: column;
   overflow: auto;
+  min-height: 100px;
   gap: 10px;
 }
 
