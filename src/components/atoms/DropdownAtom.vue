@@ -1,20 +1,31 @@
 <template>
-    <div class="dropdown-wrapper" @click="toggleDropdown" @blur="closeDropdown" tabindex="0">
-      <div class="dropdown-selected">
-        {{ model }}
-        <span class="dropdown-arrow" :class="{ open: isOpen }">▼</span>
+    <div  @click="toggleDropdown" @blur="closeDropdown" tabindex="0">
+
+      <label v-if="label" class="dropdown-label">
+          {{ label }}
+      </label>
+
+      <div class="dropdown-container">
+
+
+        <div class="dropdown-selected">
+          {{ model }}
+          <span class="dropdown-arrow" :class="{ open: isOpen }">▼</span>
+        </div>
+        <ul v-if="isOpen" class="dropdown-list">
+          <li 
+            v-for="(item, index) in items" 
+            :key="index" 
+            @click.stop="selectItem(item)"
+            class="dropdown-item"
+          >
+            {{ item }}
+          </li>
+        </ul>
       </div>
-      <ul v-if="isOpen" class="dropdown-list">
-        <li 
-          v-for="(item, index) in items" 
-          :key="index" 
-          @click.stop="selectItem(item)"
-          class="dropdown-item"
-        >
-          {{ item }}
-        </li>
-      </ul>
+
     </div>
+
   </template>
   
   <script setup lang="ts">
@@ -22,6 +33,7 @@
   
   const props = defineProps<{
     items: string[]
+    label?: string
   }>()
 
   const model = defineModel<string>({})
@@ -49,17 +61,27 @@
   </script>
   
   <style scoped>
-  .dropdown-wrapper {
+
+  .dropdown-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    color: #6B7280;
+    font-weight: 500;
+  }
+
+
+  .dropdown-container {
     position: relative;
     cursor: pointer;
-    user-select: none;
     border: 2px solid #2563eb;
     border-radius: 6px;
     background-color: #ffffff;
     transition: border-color 0.2s ease;
+    min-width: 150px;
   }
   
-  .dropdown-wrapper:focus {
+  .dropdown-container:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
   }

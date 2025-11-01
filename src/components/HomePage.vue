@@ -217,7 +217,9 @@ async function saveNewCategory(categoryName: string, buildingBlockIds: Array<num
       toCategoryObject(categoryName, response.data?.buildingBlocks!, response.data?.id!)
     )
     callback()
-  } else {
+  } else if(response.response.status === 409) {
+    toast.info('Category already exists.')
+  }else {
     toast.error('Error saving category')
   }
 }
@@ -232,8 +234,10 @@ async function removeCategory(id: number) {
 
   if (response.response.ok) {
     store.deleteCategory(id)
-  } else {
+  } else if(response.response.status === 500) {
     toast.info('Complete and delete all todos in this category.')
+  }else {
+    toast.error('Error deleting category')
   }
 
 }

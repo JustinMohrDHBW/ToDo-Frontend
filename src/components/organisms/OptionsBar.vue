@@ -1,17 +1,9 @@
 <template>
     <div id="options-bar">
         <div id="stack-container">
-            <div class="filter-group">
-                <label class="filter-label">Sort by</label>
-                <DropdownAtom :items="filterMenu" v-model="sortBy" />
-            </div>
-            <div class="filter-group">
-                <label class="filter-label">Category</label>
-                <DropdownAtom :items="categoryFilterItems" v-model="selectedCategoryId" />
-            </div>
-            <div class="filter-group checkbox-group">
-                <CheckBoxAtom label="Tasks for Today" v-model="filterDueToday" />
-            </div>
+            <DropdownAtom :items="filterMenu" v-model="sortBy" label="Sort by" />
+            <DropdownAtom :items="categoryFilterItems" v-model="selectedCategoryId" label="Category" />
+            <CheckBoxAtom label="Tasks for Today" v-model="filterDueToday" />
         </div>
         <div id="button-container">
             <ButtonAtom label="New Todo" @click="showDialogCategory"/>
