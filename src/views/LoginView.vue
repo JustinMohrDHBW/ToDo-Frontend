@@ -6,7 +6,7 @@
           <p class="login-subtitle">Sign in to your account</p>
         </div>
   
-        <form @submit.prevent="handleSubmit" class="login-form">
+        <form v-if="!showSignup" @submit.prevent="handleSubmit" class="login-form">
           <InputFieldAtom
             v-model="email"
             label="Email"
@@ -27,17 +27,16 @@
             {{ authStore.error }}
           </div>
   
-          <button 
-            type="submit" 
-            class="login-button"
-          >
-            {{ 'Sign In' }}
-          </button>
+          <ButtonAtom 
+          label="Sign In"
+          variant="primary"
+          type="submit" 
+          />
   
           <div class="login-footer">
             <p class="signup-text">
               Don't have an account? 
-              <a @click="showSignup = true" class="signup-link">Sign up</a>
+              <a @click="toggelSignUpIn" class="signup-link">Sign up</a>
             </p>
           </div>
         </form>
@@ -73,18 +72,17 @@
           <div v-if="authStore.error" class="error-alert">
             {{ authStore.error }}
           </div>
-  
-          <button 
-            type="submit" 
-            class="login-button"
-          >
-            {{ 'Sign Up' }}
-          </button>
+
+          <ButtonAtom 
+          label="Sign In"
+          variant="primary"
+          type="submit" 
+          />
   
           <div class="login-footer">
             <p class="signup-text">
               Already have an account? 
-              <a @click="showSignup = false" class="signup-link">Sign in</a>
+              <a @click="toggelSignUpIn" class="signup-link">Sign in</a>
             </p>
           </div>
         </form>
@@ -98,6 +96,7 @@
   import { useAuthStore } from '@/stores/authStore'
   import InputFieldAtom from '@/components/atoms/InputFieldAtom.vue'
   import { useToast } from 'vue-toast-notification'
+import ButtonAtom from '@/components/atoms/ButtonAtom.vue'
   
   const router = useRouter()
   const authStore = useAuthStore()
@@ -116,6 +115,11 @@
     signupPassword?: string
     confirmPassword?: string
   }>({})
+
+  function toggelSignUpIn(){
+    showSignup.value = !showSignup.value;
+    authStore.error = ''
+  }
   
   const validateLoginForm = () => {
     errors.value = {}
@@ -135,7 +139,7 @@
       return false
     }
     
-    if (password.value.length < 6) {
+    if (password.value.length < 6 && showSignup.value === true) {
       errors.value.password = 'Password must be at least 6 characters'
       return false
     }
@@ -267,34 +271,6 @@
     color: #111827;
     margin: 0 0 8px 0;
     text-align: center;
-  }
-  
-  .login-button {
-    width: 100%;
-    padding: 14px 20px;
-    background-color: #2563eb;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
-  
-  .login-button:hover:not(:disabled) {
-    background-color: #1e4ed8;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .login-button:active:not(:disabled) {
-    transform: scale(0.98);
-  }
-  
-  .login-button:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
   }
   
   .login-footer {

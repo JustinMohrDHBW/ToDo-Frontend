@@ -15,9 +15,7 @@
           <div class="user-info">
             <span class="user-email">{{ authStore.user?.email }}</span>
           </div>
-          <button v-if="authStore.isAuthenticated" class="logout-button" @click="handleLogout">
-            {{ 'Logout' }}
-          </button>
+          <ButtonAtom v-if="authStore.isAuthenticated" @click="handleLogout" variant="outline-danger" label="Logout"/>
         </div>
       </div>
     </div>
@@ -28,6 +26,7 @@
 import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import { useToast } from 'vue-toast-notification'
+import ButtonAtom from '../atoms/ButtonAtom.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()

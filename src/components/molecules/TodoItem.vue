@@ -13,7 +13,7 @@
             />
         </div>
         <div>
-            <button v-if="showDeleteButton" @click.stop="handleDelete" class="delete-button">delete</button>
+            <ButtonAtom v-if="showDeleteButton" @click.stop="handleDelete" label="Delete" variant="danger"/>
             <ButtonAtom v-else label="done" @click.stop="handleDone"/>
         </div>
     </div>
@@ -111,27 +111,6 @@ const formatDate = (dateString?: string) => {
 
 .clickable-item:hover {
     background-color: rgb(220, 220, 220);
-}
-
-.delete-button {
-    padding: 10px 20px;
-    background-color: #ef4444;
-    color: white;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-}
-
-.delete-button:hover {
-    background-color: #dc2626;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-}
-
-.delete-button:active {
-    transform: scale(0.96);
 }
 
 .checkbox-container {
