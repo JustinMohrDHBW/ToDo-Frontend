@@ -27,7 +27,7 @@
     </template>
 
     <template #action-buttons>
-      <ButtonAtom label="Cancel" @click="$emit('reset-state')" />
+      <ButtonAtom label="Cancel" variant="secondary" @click="$emit('reset-state')" />
     </template>
 
   </DialogFrame>

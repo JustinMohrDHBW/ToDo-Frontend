@@ -35,7 +35,7 @@
 
         <template #action-buttons>            
             <ButtonAtom :label="dialogMode" @click="saveTodo" />
-            <ButtonAtom label="Cancel" @click="$emit('reset-state')" />
+            <ButtonAtom label="Cancel" variant="secondary" @click="$emit('reset-state')" />
         </template>
 
     </DialogFrame>
