@@ -1,4 +1,4 @@
-import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, getAllToDos, setCompleted, setDueToday, updateLinkData, type BuildingBlock, type Category, type ToDo, type ToDoCreationDto } from "@/api";
+import { addCategory, createToDo, deleteCategory, deleteToDo, getAllBuildingBlocks, getAllCategories, getAllToDos, setCompleted, setDueToday, updateLinkData, type BuildingBlock, type Category, type ToDo, type ToDoCreationDto } from "@/api";
 import { toCategoryCreationObject, toCategoryObject, toLinkDataDtoObject } from "@/composables/modelGenerator";
 import { defineStore } from "pinia";
 import { ref } from "vue";
@@ -151,6 +151,8 @@ export const useTodoStore = defineStore('todos', () => {
         const data = response.data
     
         if (response.response.ok && data) {
+          // data.completed = false // hier ÄNDERN
+          console.log(data)
           updateTodo(todoId, data)
           return { success: true, data: data }
         }
@@ -184,9 +186,33 @@ export const useTodoStore = defineStore('todos', () => {
       }
 
 
+      async function deleteExistingTodo(todoId: number) {
+        try {
+          const response = await deleteToDo({
+            path: { id: todoId }
+          })
+      
+          if (response.response.ok) {
+            deleteLocalTodoById(todoId);
+            return { success: true };
+          }
+
+          throw new Error('Failed to delete categories') 
+
+        } catch (error) {
+          console.error('Error deleting todo:', error);
+          return { success: false };
+        }
+      }
 
 
 
+
+
+
+      function deleteLocalTodoById(id: number) {
+        todos.value = todos.value.filter(t => t.id !== id);
+      }
 
 
     const deleteLocalCategoryById = (id: number) => {
@@ -227,6 +253,7 @@ export const useTodoStore = defineStore('todos', () => {
         updateExistingTodo,
         setTodoCompleted,
         setTodoDueToday,
+        deleteExistingTodo,
 
         getCategoryById
     }

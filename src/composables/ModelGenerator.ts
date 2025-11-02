@@ -57,7 +57,7 @@ export const toLinkDataDtoObject = (
     const updateLinkDataDto:ToDoUpdateLinkDataDto = {
         priority: priority,
         doToday: doToday,
-        // title: updateData.title,
+        // title: updateData.title, // hier ÄNDERN
         buildingBlockData: buildingBlockData.map(block => ({
             buildingBlockId: block.buildingBlockId,
             dataValue: block.dataValue
