@@ -13,6 +13,16 @@ export const useTodoStore = defineStore('todos', () => {
     const areTodosLoaded = ref(false)
     const todos = ref<ToDo[]>([])
 
+    const reset= () => {
+        areCategoriesLoaded.value = false
+        areBuldingBlocksLoaded.value = false
+        areTodosLoaded.value = false
+
+        categories.value = []
+        buildingBlocks.value = []
+        todos.value = []
+    }
+
     // Category operations
     const addCategory = (category: Category) => {
         categories.value.push(category)
@@ -49,6 +59,9 @@ export const useTodoStore = defineStore('todos', () => {
     }
 
     return {
+
+        reset,
+
         categories,
         areCategoriesLoaded,
         addCategory,

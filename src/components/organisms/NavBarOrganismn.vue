@@ -27,9 +27,11 @@ import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import { useToast } from 'vue-toast-notification'
 import ButtonAtom from '../atoms/ButtonAtom.vue'
+import { useTodoStore } from '@/stores/todoStore'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const todoStore = useTodoStore()
 const toast = useToast()
 
 const handleLogout = async () => {
@@ -37,6 +39,7 @@ const handleLogout = async () => {
 
   if (result.success) {
     toast.success('Successfully logged out!')
+    todoStore.reset()
     router.push('/login')
   } else {
     toast.error(result.error || 'Failed to log out')
