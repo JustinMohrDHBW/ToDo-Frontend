@@ -8,27 +8,29 @@
     @select-category="selectCategory" @delete-category="removeCategory" />
 
 
-  <CreateTodoDialog v-if="isDialogBuildingBlocksShown" :category="selectedCategory" :todo="selectedTodo"
-    @reset-state="resetState" @save-todo="saveTodo" @update-todo="updateTodo" />
+  <CreateTodoDialog v-if="isDialogCreateUpdate" :category="selectedCategory" :todo="selectedTodo" :dialog-mode="dialogMode"
+  @reset-state="resetState" @save-todo="saveTodo" @update-todo="updateTodo" />
 
 </template>
 
 <script setup lang="ts">
 import { useTodoStore } from '@/stores/todoStore';
-import { onMounted, ref, type Ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { addCategory, createToDo, deleteCategory, getAllBuildingBlocks, getAllCategories, getAllToDos, updateLinkData, setCompleted, setDueToday, type BuildingBlock, type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api';
 import { toCategoryCreationObject, toCategoryObject } from '@/composables/modelGenerator';
 import { useToast } from 'vue-toast-notification';
 import CreateTodoDialog from '@/components/organisms/CreateTodoDialog.vue';
 import HomePageTemplates from '@/components/templates/HomePageTemplates.vue';
 import CategorySelectionDialog from '@/components/organisms/CategorySelectionDialog.vue';
+import { DialogModes } from '@/composables/hardLoad';
 
 
 const store = useTodoStore()
 const toast = useToast()
 
 const isDialogCategoryShown = ref(false)
-const isDialogBuildingBlocksShown = ref(false)
+const isDialogCreateUpdate = ref(false)
+const dialogMode = ref<DialogModes>()
 
 const selectedCategory = ref<Category>({
   id: 0,
@@ -50,7 +52,7 @@ function showDialogCategory() {
 
 function resetState() {
   isDialogCategoryShown.value = false
-  isDialogBuildingBlocksShown.value = false
+  isDialogCreateUpdate.value = false
   selectedTodo.value = undefined
 }
 
@@ -77,6 +79,8 @@ async function saveTodo(todo: ToDoCreationDto) {
 
 async function updateTodo(todoId: number, updateData: ToDoCreationDto) {
 
+  console.log("update todo")
+
   const updateLinkDataDto = {
     priority: updateData.priority,
     dueToday: updateData.dueToday,
@@ -86,7 +90,6 @@ async function updateTodo(todoId: number, updateData: ToDoCreationDto) {
       dataValue: block.dataValue
     }))
   }
-
   console.log(JSON.stringify(updateLinkDataDto))
 
   const response = await updateLinkData({
@@ -122,7 +125,9 @@ function handleEditTodo(todo: ToDo) {
 
   selectedCategory.value = category;
   selectedTodo.value = todo;
-  isDialogBuildingBlocksShown.value = true;
+  dialogMode.value = DialogModes.UPDATE
+  console.log(dialogMode.value)
+  isDialogCreateUpdate.value = true;
 }
 
 async function handleCompleteTodo(todo: ToDo) {
@@ -257,14 +262,17 @@ async function removeCategory(id: number) {
 
 
 function selectCategory(id: number) {
-  console.log(`select: ${id}`)
+  console.log(`selected id: ${id}`)
   console.log(store.categories)
 
   selectedCategory.value = store.categories.find(category => category.id == id)!
   console.log(selectedCategory.value)
+  console.log("dialogmode change")
 
+  dialogMode.value = DialogModes.CREATE
+  console.log("dialogmode", dialogMode.value)
   isDialogCategoryShown.value = false
-  isDialogBuildingBlocksShown.value = true
+  isDialogCreateUpdate.value = true
 }
 
 

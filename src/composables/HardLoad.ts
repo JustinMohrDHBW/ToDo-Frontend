@@ -9,3 +9,9 @@ export enum DataTypes {
     DATE = "DATE",
     TEXT = "TEXT"
 }
+
+export enum DialogModes {
+    CREATE = "Create",
+    UPDATE = "Update",
+    PUTBACK = "Put Back"
+}

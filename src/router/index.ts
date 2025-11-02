@@ -1,4 +1,3 @@
-import HomePage from '@/components/HomePage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 
@@ -8,7 +7,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue'),
+      component: () => import('../pages/LoginPage.vue'),
       meta: { requiresAuth: false }
     },
     {
@@ -18,13 +17,13 @@ const router = createRouter({
     {
       path: '/todo',
       name: 'home',
-      component: HomePage,
+      component: () => import('../pages/HomePage.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/done',
       name: 'done',
-      component: () => import('../views/DoneView.vue'),
+      component: () => import('../pages/DonePage.vue'),
       meta: { requiresAuth: true }
     },
   ],

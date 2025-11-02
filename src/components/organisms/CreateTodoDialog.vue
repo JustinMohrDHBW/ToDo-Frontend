@@ -1,7 +1,7 @@
 <template>
 
     <DialogFrame :info="'for Category ' + props.category.name" @close-dialog="$emit('reset-state')"
-        :dialog-title="isUpdateMode ? 'Update Todo' : 'Create Todo'">
+        :dialog-title="`${dialogMode} Todo`">
 
         <template #content>
             <InputFieldAtom place-holder="Todo Name" v-model="todoName.value" :error-message="todoName.error" />
@@ -33,8 +33,8 @@
             </div>
         </template>
 
-        <template #action-buttons>
-            <ButtonAtom :label="isUpdateMode ? 'Update' : 'Save'" @click="saveTodo" />
+        <template #action-buttons>            
+            <ButtonAtom :label="dialogMode" @click="saveTodo" />
             <ButtonAtom label="Cancel" @click="$emit('reset-state')" />
         </template>
 
@@ -51,9 +51,9 @@ import ButtonAtom from '../atoms/ButtonAtom.vue';
 import DatePicker from '../atoms/DatePicker.vue';
 import NumberInput from '../atoms/NumberInput.vue';
 import type { Category, ToDo, ToDoCreationDto } from '@/api';
-import { ref, computed, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { type FormField } from '../../composables/models';
-import { DataTypes, priorityArray } from '../../composables/hardLoad';
+import { DataTypes, DialogModes, priorityArray } from '../../composables/hardLoad';
 import { toTodoCreationObject } from '@/composables/modelGenerator';
 
 const emit = defineEmits(['reset-state', 'save-todo', 'update-todo']);
@@ -62,9 +62,12 @@ const emit = defineEmits(['reset-state', 'save-todo', 'update-todo']);
 const props = defineProps<{
     category: Category
     todo?: ToDo
+    dialogMode: any
 }>();
 
-const isUpdateMode = computed(() => !!props.todo)
+console.log(props.dialogMode)
+
+// const isUpdateMode = computed(() => !!props.todo)
 
 const buildingBlocks = props.category.buildingBlocks
 
@@ -179,10 +182,11 @@ function saveTodo() {
         buildingBlockValues
     );
 
-    if (isUpdateMode.value && props.todo?.id) {
-        emit("update-todo", props.todo.id, newTodo);
-    } else {
+    if(props.dialogMode === DialogModes.CREATE) {
         emit("save-todo", newTodo);
+    } 
+    else if (props.dialogMode === DialogModes.UPDATE || props.dialogMode == DialogModes.PUTBACK ) {
+        emit("update-todo", props.todo!.id, newTodo);
     }
 }
 
