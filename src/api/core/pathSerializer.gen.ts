@@ -2,7 +2,7 @@
 
 interface SerializeOptions<T>
   extends SerializePrimitiveOptions,
-  SerializerOptions<T> { }
+    SerializerOptions<T> {}
 
 interface SerializePrimitiveOptions {
   allowReserved?: boolean;

@@ -67,7 +67,7 @@ const props = defineProps({
 const selectedBuildingBlocksSet = ref<Set<number>>(new Set())
 
 function addCategory(categoryName: string) {
-  const buildingBlockIdArray: Array<number> = Array.from(selectedBuildingBlocksSet.value.values())
+  const buildingBlockIdArray: number[] = Array.from(selectedBuildingBlocksSet.value.values())
 
   const callback = () => {
     selectedBuildingBlocksSet.value.clear();

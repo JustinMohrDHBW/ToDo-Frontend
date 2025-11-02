@@ -1,6 +1,6 @@
-import type { BuildingBlock, Category, CategoryCreationDto, ToDo, ToDoBuildingBlockDataDto, ToDoCreationDto } from "@/api"
+import type { BuildingBlock, Category, CategoryCreationDto, LinkUpdateDto, ToDo, ToDoBuildingBlockDataDto, ToDoCreationDto, ToDoUpdateLinkDataDto } from "@/api"
 
-export const toCategoryCreationObject = (name: string, buildingBlockIds: Array<number>): CategoryCreationDto => {
+export const toCategoryCreationObject = (name: string, buildingBlockIds: number[]): CategoryCreationDto => {
 
     return {
         name: name,
@@ -8,7 +8,7 @@ export const toCategoryCreationObject = (name: string, buildingBlockIds: Array<n
     }
 }
 
-export const toCategoryObject = (name: string, buildingBlocks: Array<BuildingBlock>, id: number): Category => {
+export const toCategoryObject = (name: string, buildingBlocks: BuildingBlock[], id: number): Category => {
 
     return {
         id: id,
@@ -43,4 +43,27 @@ export const toTodoCreationObject = (
     };
 
     return newTodo;
+}
+
+
+
+export const toLinkDataDtoObject = (
+    title:string,
+    priority:string,
+    doToday:boolean,
+    buildingBlockData:LinkUpdateDto[]
+):ToDoUpdateLinkDataDto => {
+
+    const updateLinkDataDto:ToDoUpdateLinkDataDto = {
+        priority: priority,
+        doToday: doToday,
+        // title: updateData.title,
+        buildingBlockData: buildingBlockData.map(block => ({
+            buildingBlockId: block.buildingBlockId,
+            dataValue: block.dataValue
+        }))
+    }
+
+    return updateLinkDataDto
+
 }

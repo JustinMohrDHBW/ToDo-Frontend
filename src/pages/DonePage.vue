@@ -27,8 +27,12 @@ import CreateTodoDialog from '@/components/organisms/CreateTodoDialog.vue'
 import { DialogModes } from '@/composables/hardLoad'
 
 const store = useTodoStore()
-const router = useRouter()
 const toast = useToast()
+
+
+onMounted(() => {
+  initialData()
+})
 
 
 const isPutBackDialog = ref(false)
@@ -43,6 +47,21 @@ const selectedTodo = ref<ToDo | undefined>(undefined)
 const completedTodos = computed(() => {
   return store.todos.filter(todo => todo.completed === true)
 })
+
+
+
+// Load
+async function initialData(){
+  try {
+    await Promise.all([
+      store.loadCategories(),
+      store.loadBuildingBlocks(),
+      store.loadTodos()
+    ])
+  }catch {
+    toast.error('Could not load data. Please try again later.')
+  }
+}
 
 
 function resetState() {
@@ -151,7 +170,7 @@ async function fetchTodos() {
   const response = await getAllToDos()
 
   if (response.data) {
-    const todos: Array<ToDo> = response.data
+    const todos: ToDo[] = response.data
     for (const todo of todos) {
       if (!store.todos.find(t => t.id === todo.id)) {
         store.todos.push(todo)

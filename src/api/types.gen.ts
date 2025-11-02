@@ -4,15 +4,15 @@ export type ClientOptions = {
     baseUrl: 'http://localhost:8080' | (string & {});
 };
 
-export type CategoryCreationDto = {
-    name?: string;
-    buildingBlockIds?: Array<number>;
-};
-
 export type BuildingBlock = {
     id?: number;
     name?: string;
     dataType?: string;
+};
+
+export type CategoryCreationDto = {
+    name?: string;
+    buildingBlockIds?: Array<number>;
 };
 
 export type Category = {
@@ -33,7 +33,7 @@ export type LinkUpdateDto = {
 
 export type ToDoUpdateLinkDataDto = {
     priority?: string;
-    due_Today?: boolean;
+    doToday?: boolean;
     buildingBlockData?: Array<LinkUpdateDto>;
 };
 
@@ -73,6 +73,22 @@ export type ToDoCreationDto = {
     dueToday?: boolean;
     title?: string;
 };
+
+export type GetAllBuildingBlocksData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/todoApp/buildingBlocks';
+};
+
+export type GetAllBuildingBlocksResponses = {
+    /**
+     * OK
+     */
+    200: Array<BuildingBlock>;
+};
+
+export type GetAllBuildingBlocksResponse = GetAllBuildingBlocksResponses[keyof GetAllBuildingBlocksResponses];
 
 export type GetAllCategoriesData = {
     body?: never;
@@ -123,22 +139,6 @@ export type DeleteCategoryResponses = {
 };
 
 export type DeleteCategoryResponse = DeleteCategoryResponses[keyof DeleteCategoryResponses];
-
-export type GetAllBuildingBlocksData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/todoApp/buildingBlocks';
-};
-
-export type GetAllBuildingBlocksResponses = {
-    /**
-     * OK
-     */
-    200: Array<BuildingBlock>;
-};
-
-export type GetAllBuildingBlocksResponse = GetAllBuildingBlocksResponses[keyof GetAllBuildingBlocksResponses];
 
 export type UpdateLinkDataData = {
     body: ToDoUpdateLinkDataDto;
@@ -193,6 +193,24 @@ export type SetDueTodayResponses = {
 };
 
 export type SetDueTodayResponse = SetDueTodayResponses[keyof SetDueTodayResponses];
+
+export type SetNotCompletedData = {
+    body?: never;
+    path: {
+        id: number;
+    };
+    query?: never;
+    url: '/todoApp/todo/{id}/notComplete';
+};
+
+export type SetNotCompletedResponses = {
+    /**
+     * OK
+     */
+    200: ToDo;
+};
+
+export type SetNotCompletedResponse = SetNotCompletedResponses[keyof SetNotCompletedResponses];
 
 export type GetAllToDosData = {
     body?: never;

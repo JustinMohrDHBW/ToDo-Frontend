@@ -111,7 +111,7 @@ watch(() => props.todo, (newTodo) => {
 }, { immediate: true })
 
 
-function mappedPriorityArray(): Array<string> {
+function mappedPriorityArray(): string[] {
     return priorityArray.map(item => item.name);
 }
 

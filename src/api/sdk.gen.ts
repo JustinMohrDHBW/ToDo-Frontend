@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddCategoryData, AddCategoryResponses, CreateToDoData, CreateToDoResponses, DeleteCategoryData, DeleteCategoryResponses, DeleteToDoData, DeleteToDoResponses, GetAllBuildingBlocksData, GetAllBuildingBlocksResponses, GetAllCategoriesData, GetAllCategoriesResponses, GetAllToDosData, GetAllToDosResponses, SetCompletedData, SetCompletedResponses, SetDueTodayData, SetDueTodayResponses, UpdateLinkDataData, UpdateLinkDataResponses } from './types.gen';
+import type { AddCategoryData, AddCategoryResponses, CreateToDoData, CreateToDoResponses, DeleteCategoryData, DeleteCategoryResponses, DeleteToDoData, DeleteToDoResponses, GetAllBuildingBlocksData, GetAllBuildingBlocksResponses, GetAllCategoriesData, GetAllCategoriesResponses, GetAllToDosData, GetAllToDosResponses, SetCompletedData, SetCompletedResponses, SetDueTodayData, SetDueTodayResponses, SetNotCompletedData, SetNotCompletedResponses, UpdateLinkDataData, UpdateLinkDataResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -16,6 +16,16 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      * used to access values that aren't defined as part of the SDK function.
      */
     meta?: Record<string, unknown>;
+};
+
+/**
+ * GET todoApp/buildingBlocks
+ */
+export const getAllBuildingBlocks = <ThrowOnError extends boolean = false>(options?: Options<GetAllBuildingBlocksData, ThrowOnError>) => {
+    return (options?.client ?? client).get<GetAllBuildingBlocksResponses, unknown, ThrowOnError>({
+        url: '/todoApp/buildingBlocks',
+        ...options
+    });
 };
 
 /**
@@ -53,16 +63,6 @@ export const deleteCategory = <ThrowOnError extends boolean = false>(options: Op
 };
 
 /**
- * GET todoApp/buildingBlocks
- */
-export const getAllBuildingBlocks = <ThrowOnError extends boolean = false>(options?: Options<GetAllBuildingBlocksData, ThrowOnError>) => {
-    return (options?.client ?? client).get<GetAllBuildingBlocksResponses, unknown, ThrowOnError>({
-        url: '/todoApp/buildingBlocks',
-        ...options
-    });
-};
-
-/**
  * PUT todoApp/todo/{id}/data
  */
 export const updateLinkData = <ThrowOnError extends boolean = false>(options: Options<UpdateLinkDataData, ThrowOnError>) => {
@@ -92,6 +92,16 @@ export const setCompleted = <ThrowOnError extends boolean = false>(options: Opti
 export const setDueToday = <ThrowOnError extends boolean = false>(options: Options<SetDueTodayData, ThrowOnError>) => {
     return (options.client ?? client).patch<SetDueTodayResponses, unknown, ThrowOnError>({
         url: '/todoApp/todo/{id}/due-today',
+        ...options
+    });
+};
+
+/**
+ * PATCH todoApp/todo/{id}/notComplete
+ */
+export const setNotCompleted = <ThrowOnError extends boolean = false>(options: Options<SetNotCompletedData, ThrowOnError>) => {
+    return (options.client ?? client).patch<SetNotCompletedResponses, unknown, ThrowOnError>({
+        url: '/todoApp/todo/{id}/notComplete',
         ...options
     });
 };
