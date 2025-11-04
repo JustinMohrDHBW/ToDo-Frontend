@@ -138,7 +138,7 @@ async function handleToggleDueToday(todo: ToDo, value: boolean) {
     return
   }
 
-  const result = await store.setTodoDueToday(todo.id)
+  const result = await store.setTodoDueToday(todo.id, value)
   
   if (result.success) {
     const message = result.data?.dueToday ? 'Todo marked for today!' : 'Todo unmarked for today!'

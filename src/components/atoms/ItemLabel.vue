@@ -18,5 +18,6 @@ p {
     overflow-wrap: anywhere;
     margin: 0;
     color: #333333;
+    text-align: center;
 }
 </style>

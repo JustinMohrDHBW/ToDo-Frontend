@@ -3,7 +3,8 @@
     <div id="item" v-if="todo" @click="handleClick" class="clickable-item">
         <ItemLabel :label="getTodoName()" :width-in-percent="35" />
         <ItemLabel :label="getCategoryName()" :width-in-percent="25" />
-        <ItemLabel :label="formatDate(todo.createdAt)" :width-in-percent="20" />
+        <!-- <ItemLabel :label="formatDate(todo.createdAt)" :width-in-percent="20" /> -->
+        <ItemLabel :label="formatDate( findBuildingblockById(todo.buildingBlockData, buildingBlockDeadlineId) )" :width-in-percent="20" />
         <ItemLabel :label="todo.priority || 'UNKNOWN'" :width-in-percent="10" />
         <div class="checkbox-container" @click.stop>
             <CheckBoxAtom :model-value="todo.dueToday || false" @update:model-value="handleDueTodayToggle"
@@ -19,11 +20,12 @@
 
 
 <script setup lang="ts">
-import type { ToDo } from '@/api'
+import type { ToDo, ToDoBuildingBlockDataLink } from '@/api'
 import ButtonAtom from '../atoms/ButtonAtom.vue';
 import ItemLabel from '../atoms/ItemLabel.vue';
 import CheckBoxAtom from '../atoms/CheckBoxAtom.vue';
 import { useTodoStore } from '@/stores/todoStore';
+import { buildingBlockDeadlineId } from '@/composables/hardLoad';
 
 const store = useTodoStore()
 
@@ -58,6 +60,20 @@ const handleDueTodayToggle = (value: boolean) => {
     }
 }
 
+function findBuildingblockById(buildingBlock:ToDoBuildingBlockDataLink[] | undefined, id:number): string {
+
+    if(buildingBlock === undefined){
+        return ""
+    }
+
+    const value =  buildingBlock.find(
+        (block) => block.id?.buildingBlockId === id
+    )?.dataValue || ""
+
+    console.log(value)
+    return value
+}
+
 const getTodoName = () => {
     if (props.todo?.title) {
         return props.todo.title
@@ -76,7 +92,9 @@ const getCategoryName = () => {
 }
 
 const formatDate = (dateString?: string) => {
-    if (!dateString) return 'Not set'
+    if (!dateString){
+        return 'Not set'
+    }
 
     try {
         const date = new Date(dateString)
@@ -105,8 +123,8 @@ const formatDate = (dateString?: string) => {
     transition: background-color 0.2s ease;
 }
 
-.clickable-item:hover {
-    background-color: var(--bg-gray-light-hover);
+#item.clickable-item:hover {
+    background-color: var(--bg-gray-light-hover); 
 }
 
 .checkbox-container {

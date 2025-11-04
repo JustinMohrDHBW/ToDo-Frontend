@@ -151,7 +151,6 @@ export const useTodoStore = defineStore('todos', () => {
         const data = response.data
     
         if (response.response.ok && data) {
-          // data.completed = false // hier ÄNDERN
           console.log(data)
           updateTodo(todoId, data)
           return { success: true, data: data }
@@ -173,9 +172,9 @@ export const useTodoStore = defineStore('todos', () => {
       }
 
 
-      async function setTodoDueToday(todoId: number) {
+      async function setTodoDueToday(todoId: number, value: boolean) {
 
-        const response = await setDueToday({ path: { id: todoId } });
+        const response = await setDueToday({ path: { id: todoId }, body: value });
         const data = response.data
 
         if (response.response.ok && data) {

@@ -48,7 +48,7 @@ export const toTodoCreationObject = (
 
 
 export const toLinkDataDtoObject = (
-    title:string,
+    name:string,
     priority:string,
     doToday:boolean,
     buildingBlockData:LinkUpdateDto[]
@@ -57,7 +57,7 @@ export const toLinkDataDtoObject = (
     const updateLinkDataDto:ToDoUpdateLinkDataDto = {
         priority: priority,
         doToday: doToday,
-        // title: updateData.title, // hier ÄNDERN
+        title: name,
         buildingBlockData: buildingBlockData.map(block => ({
             buildingBlockId: block.buildingBlockId,
             dataValue: block.dataValue

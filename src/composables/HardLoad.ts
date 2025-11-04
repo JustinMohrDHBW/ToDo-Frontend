@@ -15,3 +15,5 @@ export enum DialogModes {
     UPDATE = "Update",
     PUTBACK = "Put Back"
 }
+
+export const buildingBlockDeadlineId = 2

@@ -32,6 +32,7 @@ export type LinkUpdateDto = {
 };
 
 export type ToDoUpdateLinkDataDto = {
+    title?: string;
     priority?: string;
     doToday?: boolean;
     buildingBlockData?: Array<LinkUpdateDto>;
@@ -177,7 +178,7 @@ export type SetCompletedResponses = {
 export type SetCompletedResponse = SetCompletedResponses[keyof SetCompletedResponses];
 
 export type SetDueTodayData = {
-    body?: never;
+    body: boolean;
     path: {
         id: number;
     };

@@ -92,7 +92,11 @@ export const setCompleted = <ThrowOnError extends boolean = false>(options: Opti
 export const setDueToday = <ThrowOnError extends boolean = false>(options: Options<SetDueTodayData, ThrowOnError>) => {
     return (options.client ?? client).patch<SetDueTodayResponses, unknown, ThrowOnError>({
         url: '/todoApp/todo/{id}/due-today',
-        ...options
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
     });
 };
 
