@@ -1,21 +1,28 @@
 <template>
-
     <div id="item" v-if="todo" @click="handleClick" class="clickable-item">
-        <ItemLabel :label="getTodoName()" :width-in-percent="35" />
-        <ItemLabel :label="getCategoryName()" :width-in-percent="25" />
-        <!-- <ItemLabel :label="formatDate(todo.createdAt)" :width-in-percent="20" /> -->
-        <ItemLabel :label="formatDate( findBuildingblockById(todo.buildingBlockData, buildingBlockDeadlineId) )" :width-in-percent="20" />
-        <ItemLabel :label="todo.priority || 'UNKNOWN'" :width-in-percent="10" />
-        <div class="checkbox-container" @click.stop>
+        
+        <ItemLabel :label="getTodoName()" :weight="1.5" />
+        <ItemLabel :label="getCategoryName()" :weight="1.5" />
+        <ItemLabel 
+            :label="formatDate( findBuildingblockById(todo.buildingBlockData, buildingBlockDeadlineId) )" 
+            :weight="1" 
+            style="text-align: center;"
+        />
+        <ItemLabel 
+            style="text-align: center;"
+            :label="todo.priority || 'UNKNOWN'"
+            :weight="1" />
+
+        <div class="col-flex-equal checkbox-container" @click.stop> 
             <CheckBoxAtom :model-value="todo.dueToday || false" @update:model-value="handleDueTodayToggle"
                 label="Today" />
         </div>
-        <div>
+
+        <div class="col-flex-equal">
             <ButtonAtom v-if="showDeleteButton" @click.stop="handleDelete" label="Delete" variant="danger" />
             <ButtonAtom v-else label="done" @click.stop="handleDone" />
         </div>
     </div>
-
 </template>
 
 
@@ -60,13 +67,13 @@ const handleDueTodayToggle = (value: boolean) => {
     }
 }
 
-function findBuildingblockById(buildingBlock:ToDoBuildingBlockDataLink[] | undefined, id:number): string {
+function findBuildingblockById(buildingBlock: ToDoBuildingBlockDataLink[] | undefined, id: number): string {
 
-    if(buildingBlock === undefined){
+    if (buildingBlock === undefined) {
         return ""
     }
 
-    const value =  buildingBlock.find(
+    const value = buildingBlock.find(
         (block) => block.id?.buildingBlockId === id
     )?.dataValue || ""
 
@@ -92,7 +99,7 @@ const getCategoryName = () => {
 }
 
 const formatDate = (dateString?: string) => {
-    if (!dateString){
+    if (!dateString) {
         return 'Not set'
     }
 
@@ -116,6 +123,8 @@ const formatDate = (dateString?: string) => {
     align-items: center;
     padding: var(--padding-md);
     border-radius: var(--border-radius-md);
+    min-width: 0; 
+    gap: 20px;
 }
 
 .clickable-item {
@@ -124,15 +133,27 @@ const formatDate = (dateString?: string) => {
 }
 
 #item.clickable-item:hover {
-    background-color: var(--bg-gray-light-hover); 
+    background-color: var(--bg-gray-light-hover);
+}
+
+.col-flex-equal {
+    flex-grow: 1;
+    flex-basis: 0;
+    flex-shrink: 0;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .checkbox-container {
     display: flex;
     align-items: center;
-    padding: 0 10px;
-    padding-left: 100px;
-    padding-right: 100px;
-    justify-content: center
+    justify-content: center;
+    padding: 0;
+    padding-left: 0; 
+    padding-right: 0;
 }
 </style>

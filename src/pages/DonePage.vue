@@ -1,6 +1,9 @@
 <template>
   <div class="done-page">
     <h1 class="page-title">Completed Todos</h1>
+
+    <ItemFrameHeader/>
+
     <ItemViewArea>
       <TodoItem v-for="todo in completedTodos" :key="todo.id" :todo="todo" :show-delete-button="true"
         @edit-todo="showTodoDialog" @delete-todo="deleteTodo" />
@@ -24,6 +27,7 @@ import { useToast } from 'vue-toast-notification'
 import State from '@/components/atoms/State.vue'
 import CreateTodoDialog from '@/components/organisms/CreateTodoDialog.vue'
 import { DialogModes } from '@/composables/hardLoad'
+import ItemFrameHeader from '@/components/molecules/ItemFrameHeader.vue'
 
 const store = useTodoStore()
 const toast = useToast()

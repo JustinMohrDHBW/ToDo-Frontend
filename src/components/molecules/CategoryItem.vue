@@ -1,7 +1,7 @@
 <template>
 
     <div id="item-frame" @click.self="selectItem">
-        <p>{{ categoryName }}</p>
+        <p id="label">{{ categoryName }}</p>
         <ButtonAtom label="X" @click="deleteCategory" />
     </div>
 
@@ -36,9 +36,19 @@ function deleteCategory() {
     border-radius: var(--border-radius-md);
     padding: var(--padding-sm);
     font-size: 0.9rem;
+    gap: 15px;
 }
 
 #item-frame:hover {
+    max-width: 100%;
     background-color: var(--bg-gray-medium-hover);
+    cursor: pointer;
 }
+
+#label{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 </style>

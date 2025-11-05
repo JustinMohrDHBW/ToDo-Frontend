@@ -1,13 +1,16 @@
 <template>
-  <OptionsBar @showDialogCategory="switchDialogShowState" v-model:sortBy="sortBy"
-    v-model:filterDueToday="filterDueToday" v-model:selectedCategoryId="selectedCategoryId" />
-  <ItemViewArea>
-    <TodoItem v-for="todo in filteredTodos" :key="todo.id" :todo="todo" @edit-todo="handleEditTodo"
-      @complete-todo="handleCompleteTodo" @toggle-due-today="handleToggleDueToday" />
-    <State v-if="store.areTodosLoaded && filteredTodos.length === 0" variant="bigScreenCongratulations"
-      message="Great, no open todos!" />
-    <State v-else-if="!store.areTodosLoaded" variant="bigScreen" message="Loading todos..." />
-  </ItemViewArea>
+    <OptionsBar @showDialogCategory="switchDialogShowState" v-model:sortBy="sortBy"
+      v-model:filterDueToday="filterDueToday" v-model:selectedCategoryId="selectedCategoryId" />
+
+    <ItemFrameHeader />
+
+    <ItemViewArea>
+      <TodoItem v-for="todo in filteredTodos" :key="todo.id" :todo="todo" @edit-todo="handleEditTodo"
+        @complete-todo="handleCompleteTodo" @toggle-due-today="handleToggleDueToday" />
+      <State v-if="store.areTodosLoaded && filteredTodos.length === 0" variant="bigScreenCongratulations"
+        message="Great, no open todos!" />
+      <State v-else-if="!store.areTodosLoaded" variant="bigScreen" message="Loading todos..." />
+    </ItemViewArea>
 
 </template>
 
@@ -21,6 +24,7 @@ import OptionsBar from '../organisms/OptionsBar.vue';
 import type { ToDo } from '@/api';
 import { priorityArray } from '@/composables/hardLoad';
 import State from '../atoms/State.vue';
+import ItemFrameHeader from '../molecules/ItemFrameHeader.vue';
 
 const store = useTodoStore()
 
@@ -101,4 +105,5 @@ function handleToggleDueToday(todo: ToDo, value: boolean) {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
