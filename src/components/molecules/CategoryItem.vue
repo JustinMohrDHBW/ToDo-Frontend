@@ -51,4 +51,8 @@ function deleteCategory() {
     text-overflow: ellipsis;
 }
 
+p{
+    pointer-events: none;
+}
+
 </style>

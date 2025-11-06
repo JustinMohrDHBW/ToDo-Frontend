@@ -1,7 +1,7 @@
 <template>
     <div id="item" v-if="todo" @click="handleClick" class="clickable-item">
         
-        <ItemLabel :label="getTodoName()" :weight="1.5" />
+        <ItemLabel @click.stop :label="getTodoName()" :weight="1.5" />
         <ItemLabel :label="getCategoryName()" :weight="1.5" />
         <ItemLabel 
             :label="formatDate( findBuildingblockById(todo.buildingBlockData, buildingBlockDeadlineId) )" 
@@ -13,9 +13,9 @@
             :label="todo.priority || 'UNKNOWN'"
             :weight="1" />
 
-        <div class="col-flex-equal checkbox-container" @click.stop> 
+        <div class="col-flex-equal checkbox-container"> 
             <CheckBoxAtom :model-value="todo.dueToday || false" @update:model-value="handleDueTodayToggle"
-                label="Today" />
+                label="Today" @click.stop/>
         </div>
 
         <div style="flex-grow: 1.3;" class="col-flex-equal">

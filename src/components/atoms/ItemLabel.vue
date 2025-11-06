@@ -24,6 +24,7 @@ const weight = props.weight ?? 1
     display: flex; 
     align-items: center;
     width: 100%;
+    pointer-events: none;
 }
 
 p {
