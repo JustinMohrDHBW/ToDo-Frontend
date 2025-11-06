@@ -6,7 +6,7 @@
       <CheckBoxAtom label="Tasks for Today" v-model="filterDueToday" />
     </div>
     <div id="button-container">
-      <ButtonAtom label="New Todo" @click="showDialogCategory" />
+      <ButtonAtom style="width: 100px;" label="New Todo" @click="showDialogCategory" />
     </div>
   </div>
 
@@ -80,10 +80,46 @@ function showDialogCategory() {
   padding-block: 30px;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
 }
 
 #button-container {
   display: flex;
   align-items: center;
+}
+
+/*
+ * Ab einer Bildschirmbreite von 800px (oder weniger) 
+ * wird dieses Layout aktiv.
+ * Passe den Wert (800px) ggf. an.
+*/
+@media (max-width: 800px) {
+  #options-bar {
+    /* Stapelt Filter-Container und Button-Container vertikal */
+    flex-direction: column;
+    
+    /* Richtet beides linksbündig aus */
+    align-items: flex-start; 
+    
+    /* Reduziert den seitlichen Abstand für mobile Geräte */
+    padding-inline: 20px;
+    
+    /* Fügt einen Abstand zwischen den gestapelten Blöcken hinzu */
+    gap: 24px; 
+  }
+
+  #button-container {
+    /* Sorgt dafür, dass der Button die volle Breite einnimmt */
+    width: 100%; 
+  }
+  
+  /* Diese Regel ist nötig, damit der <ButtonAtom> 
+     im Container auch die volle Breite nutzt.
+     Du musst evtl. tiefer selektieren, wenn der Button
+     noch ein Wrapper-div hat.
+  */
+  #button-container > :deep(button) {
+    width: 100%;
+  }
 }
 </style>

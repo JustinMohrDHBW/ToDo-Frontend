@@ -18,9 +18,9 @@
                 label="Today" @click.stop/>
         </div>
 
-        <div style="flex-grow: 1.3;" class="col-flex-equal">
-            <ButtonAtom  style="width: 50%;" :label="(showDeleteButton)? 'undo':'✔️'" @click.stop="(showDeleteButton) ? handleUndo() : handleDone()" />
-            <ButtonAtom style="width: 50%;" v-if="showDeleteButton" @click.stop="handleDelete" label="🗑️" variant="danger" />
+        <div style="flex-grow: 1;" class="col-flex-equal">
+            <ButtonAtom style="width: 50%; max-width: 50px;" :label="(showDeleteButton)? 'Undo':'Done'" @click.stop="(showDeleteButton) ? handleUndo() : handleDone()" :icon="(showDeleteButton)? 'undo' : 'check'" />
+            <ButtonAtom style="width: 50%; max-width: 50px;" v-if="showDeleteButton" @click.stop="handleDelete" label="Delete" variant="danger" icon="trash" />
         </div>
     </div>
 </template>
@@ -145,7 +145,7 @@ const formatDate = (dateString?: string) => {
 .col-flex-equal {
     flex-grow: 1;
     flex-basis: 0;
-    flex-shrink: 0;
+    flex-shrink: 1;
     min-width: 0;
     display: flex;
     justify-content: center;

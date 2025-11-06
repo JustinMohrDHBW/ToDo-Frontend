@@ -6,7 +6,7 @@
         <ItemLabel class="col-item" :label="'Due Date'" :weight="1"/>
         <ItemLabel class="col-item" :label="'Priority'" :weight="1"/>
         <ItemLabel class="col-item" label="Today" :weight="1"/>
-        <ItemLabel class="col-item" label="Action" :weight="1.3"/>
+        <ItemLabel class="col-item" label="Action" :weight="1"/>
     </div>
   </div>
 </template>

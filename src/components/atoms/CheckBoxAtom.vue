@@ -1,8 +1,8 @@
 <template>
-  <label class="checkbox-wrapper">
+  <div class="checkbox-wrapper">
     <input type="checkbox" v-model="isChecked" />
     <span class="checkbox-label">{{ label }}</span>
-  </label>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -94,7 +94,6 @@ const isChecked = computed({
 .checkbox-label {
   font-size: 14px;
   color: #1f2937;
-  /* dunkles Grau für Business-Optik */
   font-weight: 500;
   white-space: nowrap;
 }

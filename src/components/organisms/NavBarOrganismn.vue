@@ -49,7 +49,7 @@ const handleLogout = async () => {
 
 <style scoped>
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -166,19 +166,5 @@ const handleLogout = async () => {
   background-color: #2563eb;
   border-color: #2563eb;
   color: #fff;
-}
-
-@media (max-width: 768px) {
-  .navbar-inner {
-    flex-direction: column;
-    min-height: auto;
-    gap: 12px;
-    padding: 12px;
-  }
-
-  .navbar-center {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
 }
 </style>

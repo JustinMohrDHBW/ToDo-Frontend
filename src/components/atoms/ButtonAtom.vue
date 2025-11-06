@@ -1,6 +1,7 @@
 <template>
   <button :class="buttonClass" :disabled="props.disabled">
-    {{ label }}
+    <i v-if="icon" :class="`pi pi-${icon}`"></i>
+    <div v-else>{{ label }}</div>
   </button>
 </template>
 
@@ -19,6 +20,10 @@ const props = defineProps({
   variant: {
     type: String as () => 'primary' | 'secondary' | 'danger' | 'outline-danger',
     default: 'primary'
+  },
+  icon: {
+    type: String,
+    deafault: false
   }
 });
 
@@ -30,14 +35,18 @@ const buttonClass = computed(() => [
 
 <style scoped>
 .btn {
-  padding: 10px 20px;
+  padding: 10px 10px;
   font-weight: 600;
   border: none;
   border-radius: 8px;
+  min-width: 0px;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn:active {
