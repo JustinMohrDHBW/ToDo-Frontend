@@ -1,8 +1,8 @@
 <template>
     <div class="done-page">
       <h1 class="page-title">Completed Todos</h1>
-  
-      <ItemViewArea/>
+
+      <ItemFrameHeader/>
   
       <ItemViewArea>
         <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" :show-delete-button="true"
@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import ItemViewArea from '../atoms/ItemViewArea.vue';
 import State from '../atoms/State.vue';
+import ItemFrameHeader from '../molecules/ItemFrameHeader.vue';
 import TodoItem from '../molecules/TodoItem.vue';
 import type { ToDo } from '@/api';
 
@@ -32,8 +33,6 @@ defineEmits(['edit-todo', 'delete-todo', 'uncomplete-todo'])
 
 <style scoped>
 .done-page {
-  padding: 24px;
-  max-width: 1400px;
   margin: 0 auto;
 }
 

@@ -19,8 +19,8 @@
         </div>
 
         <div style="flex-grow: 1.3;" class="col-flex-equal">
-            <ButtonAtom  style="width: 50%;" :label="(showDeleteButton)? 'undo':'done'" @click.stop="(showDeleteButton) ? handleUndo() : handleDone()" />
-            <ButtonAtom style="width: 50%;" v-if="showDeleteButton" @click.stop="handleDelete" label="Delete" variant="danger" />
+            <ButtonAtom  style="width: 50%;" :label="(showDeleteButton)? 'undo':'✔️'" @click.stop="(showDeleteButton) ? handleUndo() : handleDone()" />
+            <ButtonAtom style="width: 50%;" v-if="showDeleteButton" @click.stop="handleDelete" label="🗑️" variant="danger" />
         </div>
     </div>
 </template>
