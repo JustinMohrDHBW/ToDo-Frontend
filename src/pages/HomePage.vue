@@ -19,7 +19,7 @@ import { onMounted, ref } from 'vue'
 import { type Category, type CreateToDoData, type ToDo, type ToDoCreationDto } from '@/api'
 import { useToast } from 'vue-toast-notification'
 import CreateTodoDialog from '@/components/organisms/CreateTodoDialog.vue'
-import HomePageTemplates from '@/components/templates/HomePageTemplates.vue'
+import HomePageTemplates from '@/components/templates/HomePageTemplate.vue'
 import CategorySelectionDialog from '@/components/organisms/CategorySelectionDialog.vue'
 import { DialogModes } from '@/composables/hardLoad'
 

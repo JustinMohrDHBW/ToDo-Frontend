@@ -1,15 +1,11 @@
 <template>
-  <div class="done-page">
-    <h1 class="page-title">Completed Todos</h1>
 
-    <ItemFrameHeader/>
-
-    <ItemViewArea>
-      <TodoItem v-for="todo in completedTodos" :key="todo.id" :todo="todo" :show-delete-button="true"
-        @edit-todo="showTodoDialog" @delete-todo="deleteTodo" @uncomplete-todo="handleUndoTodo"/>
-      <State v-if="completedTodos.length === 0" variant="bigScreen" message="No completed todos available." />
-    </ItemViewArea>
-  </div>
+<DonePageTemplate
+    :todos="completedTodos"
+    @edit-todo="showTodoDialog"
+    @delete-todo="deleteTodo"
+    @uncomplete-todo="handleUndoTodo"
+  />
 
   <CreateTodoDialog v-if="isPutBackDialog" :category="selectedCategory" :todo="selectedTodo" :dialog-mode="DialogModes.PUTBACK"
   @reset-state="resetState" @save-todo="{}" @update-todo="putBackTodo" />
@@ -19,14 +15,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useTodoStore } from '@/stores/todoStore'
-import ItemViewArea from '@/components/atoms/ItemViewArea.vue'
-import TodoItem from '@/components/molecules/TodoItem.vue'
 import type { Category, ToDo, ToDoCreationDto } from '@/api'
 import { useToast } from 'vue-toast-notification'
-import State from '@/components/atoms/State.vue'
 import CreateTodoDialog from '@/components/organisms/CreateTodoDialog.vue'
 import { DialogModes } from '@/composables/hardLoad'
-import ItemFrameHeader from '@/components/molecules/ItemFrameHeader.vue'
+import DonePageTemplate from '@/components/templates/DonePageTemplate.vue'
 
 const store = useTodoStore()
 const toast = useToast()
@@ -150,18 +143,3 @@ if (result.success) {
 
 
 </script>
-
-<style scoped>
-.done-page {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.page-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #111827;
-  margin: 0 0 24px 0;
-}
-</style>
