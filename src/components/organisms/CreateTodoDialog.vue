@@ -67,8 +67,6 @@ const props = defineProps<{
 
 console.log(props.dialogMode)
 
-// const isUpdateMode = computed(() => !!props.todo)
-
 const buildingBlocks = props.category.buildingBlocks
 
 
@@ -135,21 +133,46 @@ function validateForm(): boolean {
     for (const block of buildingBlocks!) {
         const field = buildingBlockFormulaData.value[block.id!];
 
-        if (block.dataType === DataTypes.INTEGER && parseInt(field!.value) < 0) {
-            field!.error = `${block.name} must be greater than 0.`;
-            isValid = false;
-            console.log(block.name + " not a number")
-        }
-
-        if (!field!.value.trim()) {
-            field!.error = `${block.name} cannot be empty.`;
+        if (field && !field.value.trim()) {
+            field!.error = `Cannot be empty.`;
             isValid = false;
             console.log(block.name + " empty")
+            continue
+        }
+
+        if (block.dataType === DataTypes.DATE && field) {
+            if(!isDateTodayOrFuture(field.value)){
+                field!.error = `Date must be today or a future date.`;
+                isValid = false
+                continue
+            }
+        }
+
+        if (block.dataType === DataTypes.INTEGER && parseInt(field!.value) < 0) {
+            field!.error = `Must be greater than 0.`;
+            isValid = false;
+            console.log(block.name + " not a number")
         }
 
     }
 
     return isValid
+}
+
+
+function isDateTodayOrFuture(dateValue: string): boolean {
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const inputDate = new Date(dateValue);
+
+    if (isNaN(inputDate.getTime())) {
+        return false;
+    }
+    inputDate.setHours(0, 0, 0, 0);
+
+    return inputDate >= today;
 }
 
 
