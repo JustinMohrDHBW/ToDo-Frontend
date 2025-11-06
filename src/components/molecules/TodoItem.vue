@@ -4,11 +4,13 @@
         <ItemLabel @click.stop :label="getTodoName()" :weight="1.5" />
         <ItemLabel :label="getCategoryName()" :weight="1.5" />
         <ItemLabel 
+            class="deadline"
             :label="formatDate( findBuildingblockById(todo.buildingBlockData, buildingBlockDeadlineId) )" 
             :weight="1" 
             style="text-align: center;"
         />
-        <ItemLabel 
+        <ItemLabel
+            class="priority"
             style="text-align: center;"
             :label="todo.priority || 'UNKNOWN'"
             :weight="1" />
@@ -162,5 +164,12 @@ const formatDate = (dateString?: string) => {
     padding: 0;
     padding-left: 0; 
     padding-right: 0;
+}
+
+@media (max-width: 850px) {
+  :deep(.priority),
+  :deep(.deadline) {
+    display: none !important; 
+  }
 }
 </style>

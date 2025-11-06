@@ -3,8 +3,8 @@
     <div id="item">
         <ItemLabel class="col-item" :label="'Todo'" :weight="1.5"/>
         <ItemLabel class="col-item" :label="'Category'" :weight="1.5"/>
-        <ItemLabel class="col-item" :label="'Due Date'" :weight="1"/>
-        <ItemLabel class="col-item" :label="'Priority'" :weight="1"/>
+        <ItemLabel class="col-item deadline" :label="'Due Date'" :weight="1"/>
+        <ItemLabel class="col-item priority" :label="'Priority'" :weight="1"/>
         <ItemLabel class="col-item" label="Today" :weight="1"/>
         <ItemLabel class="col-item" label="Action" :weight="1"/>
     </div>
@@ -42,6 +42,13 @@ import ItemLabel from '../atoms/ItemLabel.vue';
 
 #outer-div{
   padding-inline: 10%;
+}
+
+@media (max-width: 850px) {
+  :deep(.priority),
+  :deep(.deadline) {
+    display: none !important; 
+  }
 }
 
 
