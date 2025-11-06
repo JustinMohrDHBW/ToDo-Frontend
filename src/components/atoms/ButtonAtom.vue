@@ -37,6 +37,7 @@ const buttonClass = computed(() => [
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  text-align: center;
 }
 
 .btn:active {

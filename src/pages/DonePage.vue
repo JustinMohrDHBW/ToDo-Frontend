@@ -6,7 +6,7 @@
 
     <ItemViewArea>
       <TodoItem v-for="todo in completedTodos" :key="todo.id" :todo="todo" :show-delete-button="true"
-        @edit-todo="showTodoDialog" @delete-todo="deleteTodo" />
+        @edit-todo="showTodoDialog" @delete-todo="deleteTodo" @uncomplete-todo="handleUndoTodo"/>
       <State v-if="completedTodos.length === 0" variant="bigScreen" message="No completed todos available." />
     </ItemViewArea>
   </div>
@@ -19,7 +19,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useTodoStore } from '@/stores/todoStore'
-import { useRouter } from 'vue-router'
 import ItemViewArea from '@/components/atoms/ItemViewArea.vue'
 import TodoItem from '@/components/molecules/TodoItem.vue'
 import type { Category, ToDo, ToDoCreationDto } from '@/api'
@@ -130,6 +129,23 @@ async function deleteTodo(todo: ToDo) {
     toast.error('Error deleting todo');
   }
 
+}
+
+
+async function handleUndoTodo(todo: ToDo) {
+
+if (!todo.id) {
+  toast.error('No category assigned to todo.')
+  return
+}
+
+const result = await store.setTodoCompleted(todo.id, false)
+
+if (result.success) {
+  toast.success('Todo marked as uncompleted!')
+} else {
+  toast.error('Error marking todo as uncompleted')
+}
 }
 
 

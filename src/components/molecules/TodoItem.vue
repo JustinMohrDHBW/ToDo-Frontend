@@ -18,9 +18,9 @@
                 label="Today" />
         </div>
 
-        <div class="col-flex-equal">
-            <ButtonAtom v-if="showDeleteButton" @click.stop="handleDelete" label="Delete" variant="danger" />
-            <ButtonAtom v-else label="done" @click.stop="handleDone" />
+        <div style="flex-grow: 1.3;" class="col-flex-equal">
+            <ButtonAtom style="width: 50%;" v-if="showDeleteButton" @click.stop="handleDelete" label="Delete" variant="danger" />
+            <ButtonAtom  style="width: 50%;" :label="(showDeleteButton)? 'undo':'done'" @click.stop="(showDeleteButton) ? handleUndo() : handleDone()" />
         </div>
     </div>
 </template>
@@ -41,7 +41,7 @@ const props = defineProps<{
     showDeleteButton?: boolean
 }>()
 
-const emit = defineEmits(['edit-todo', 'complete-todo', 'delete-todo', 'toggle-due-today'])
+const emit = defineEmits(['edit-todo', 'complete-todo', 'delete-todo', 'toggle-due-today', 'uncomplete-todo'])
 
 const handleClick = () => {
     if (props.todo) {
@@ -52,6 +52,12 @@ const handleClick = () => {
 const handleDone = () => {
     if (props.todo) {
         emit('complete-todo', props.todo)
+    }
+}
+
+const handleUndo = () => {
+    if (props.todo) {
+        emit('uncomplete-todo', props.todo)
     }
 }
 
@@ -146,6 +152,7 @@ const formatDate = (dateString?: string) => {
     align-items: center; 
     overflow: hidden;
     text-overflow: ellipsis;
+    gap: 10px;
 }
 
 .checkbox-container {

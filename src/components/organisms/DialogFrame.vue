@@ -61,7 +61,8 @@ function closeDialog() {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #dialog-content {
@@ -72,5 +73,10 @@ function closeDialog() {
 #button-div {
     display: flex;
     justify-content: space-evenly;
+}
+
+p{
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 </style>

@@ -16,6 +16,7 @@ const props = defineProps({
 
 <style scoped>
 #dialog-header {
+    max-width: 100%;
     padding: 20px 24px;
     background: #ffffff;
     border-bottom: 1px solid #e5e7eb;
@@ -28,5 +29,7 @@ const props = defineProps({
     font-weight: 600;
     color: #1f2937;
     letter-spacing: -0.01em;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 </style>

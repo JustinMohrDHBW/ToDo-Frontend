@@ -122,7 +122,7 @@ async function handleCompleteTodo(todo: ToDo) {
     return
   }
   
-  const result = await store.setTodoCompleted(todo.id)
+  const result = await store.setTodoCompleted(todo.id, true)
 
   if (result.success) {
     toast.success('Todo marked as completed!')

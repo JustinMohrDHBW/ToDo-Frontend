@@ -1,4 +1,4 @@
-import { addCategory, createToDo, deleteCategory, deleteToDo, getAllBuildingBlocks, getAllCategories, getAllToDos, setCompleted, setDueToday, updateLinkData, type BuildingBlock, type Category, type ToDo, type ToDoCreationDto } from "@/api";
+import { addCategory, createToDo, deleteCategory, deleteToDo, getAllBuildingBlocks, getAllCategories, getAllToDos, setCompleted, setDueToday, setNotCompleted, updateLinkData, type BuildingBlock, type Category, type ToDo, type ToDoCreationDto } from "@/api";
 import { toCategoryCreationObject, toCategoryObject, toLinkDataDtoObject } from "@/composables/modelGenerator";
 import { defineStore } from "pinia";
 import { ref } from "vue";
@@ -159,9 +159,14 @@ export const useTodoStore = defineStore('todos', () => {
       }
 
 
-      async function setTodoCompleted(todoId: number) {
+      async function setTodoCompleted(todoId: number, isCompleted:boolean) {
 
-        const response = await setCompleted({ path: { id: todoId } })
+        let response;
+        if(isCompleted){
+          response = await setCompleted({ path: { id: todoId } })
+        }else {
+          response = await setNotCompleted({ path: { id: todoId } })
+        }
         const data = response.data
 
         if (response.response.ok && data) {
